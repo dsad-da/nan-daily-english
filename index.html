@@ -66,6 +66,16 @@
                 <div class="daily-word-example" id="dw-example"></div>
             </div>
 
+            <!-- 复习提醒 -->
+            <div class="review-reminder" id="review-reminder" style="display:none;">
+                <div class="review-reminder-icon">&#x1F504;</div>
+                <div class="review-reminder-content">
+                    <div class="review-reminder-title">待复习</div>
+                    <div class="review-reminder-text" id="review-reminder-text"></div>
+                </div>
+                <button class="btn btn-sm btn-primary" onclick="App.openReview()">去复习</button>
+            </div>
+
             <!-- 学习小贴士 -->
             <div class="section-title">
                 <span>&#x1F4A1; 学习小贴士</span>
@@ -114,6 +124,13 @@
                 <button class="filter-tab" data-filter="fav" onclick="App.filterSentences('fav')">&#x2764; 收藏</button>
             </div>
 
+            <!-- 搜索框 -->
+            <div class="search-box">
+                <span class="search-icon">&#x1F50D;</span>
+                <input type="text" class="search-input" id="sentence-search" placeholder="搜索句子、关键词..." oninput="App.searchSentences(this.value)">
+                <button class="search-clear" id="sentence-search-clear" onclick="App.clearSentenceSearch()" style="display:none;">&times;</button>
+            </div>
+
             <div id="sentence-list"></div>
         </div>
 
@@ -128,6 +145,13 @@
                 <button class="filter-tab" data-filter="考研" onclick="App.filterArticles('考研')">考研</button>
                 <button class="filter-tab" data-filter="雅思" onclick="App.filterArticles('雅思')">雅思</button>
                 <button class="filter-tab" data-filter="托福" onclick="App.filterArticles('托福')">托福</button>
+            </div>
+
+            <!-- 搜索框 -->
+            <div class="search-box">
+                <span class="search-icon">&#x1F50D;</span>
+                <input type="text" class="search-input" id="article-search" placeholder="搜索文章标题、内容..." oninput="App.searchArticles(this.value)">
+                <button class="search-clear" id="article-search-clear" onclick="App.clearArticleSearch()" style="display:none;">&times;</button>
             </div>
 
             <div id="article-list"></div>
@@ -178,10 +202,59 @@
                     </div>
                     <span class="settings-item-arrow">&#x203A;</span>
                 </div>
+                <div class="settings-item" onclick="App.openReport()">
+                    <div class="settings-item-left">
+                        <span class="settings-item-icon">&#x1F4CA;</span>
+                        <span class="settings-item-text">学习报告</span>
+                    </div>
+                    <span class="settings-item-arrow">&#x203A;</span>
+                </div>
                 <div class="settings-item" onclick="App.openVocabulary()">
                     <div class="settings-item-left">
                         <span class="settings-item-icon">&#x1F4DA;</span>
                         <span class="settings-item-text">生词本</span>
+                    </div>
+                    <span class="settings-item-arrow">&#x203A;</span>
+                </div>
+                <div class="settings-item" onclick="App.openMistakes()">
+                    <div class="settings-item-left">
+                        <span class="settings-item-icon">&#x1F4DA;</span>
+                        <span class="settings-item-text">错题本</span>
+                    </div>
+                    <span class="settings-item-arrow">&#x203A;</span>
+                </div>
+                <div class="settings-item" onclick="App.openQuiz()">
+                    <div class="settings-item-left">
+                        <span class="settings-item-icon">&#x1F3AF;</span>
+                        <span class="settings-item-text">词汇测验</span>
+                    </div>
+                    <span class="settings-item-arrow">&#x203A;</span>
+                </div>
+                <div class="settings-item" onclick="App.openDictation()">
+                    <div class="settings-item-left">
+                        <span class="settings-item-icon">&#x1F3A4;</span>
+                        <span class="settings-item-text">听写模式</span>
+                    </div>
+                    <span class="settings-item-arrow">&#x203A;</span>
+                </div>
+                <div class="settings-item" onclick="App.openCloze()">
+                    <div class="settings-item-left">
+                        <span class="settings-item-icon">&#x270D;&#xFE0F;</span>
+                        <span class="settings-item-text">填空练习</span>
+                    </div>
+                    <span class="settings-item-arrow">&#x203A;</span>
+                </div>
+                <div class="settings-item" onclick="App.openGrammarList()">
+                    <div class="settings-item-left">
+                        <span class="settings-item-icon">&#x1F4D6;</span>
+                        <span class="settings-item-text">语法专题</span>
+                    </div>
+                    <span class="settings-item-arrow">&#x203A;</span>
+                </div>
+                <div class="settings-item" onclick="App.openWritingList()">
+                    <div class="settings-item-left">
+                        <span class="settings-item-icon">&#x270F;&#xFE0F;</span>
+                        <span class="settings-item-text">写作模板</span>
                     </div>
                     <span class="settings-item-arrow">&#x203A;</span>
                 </div>
@@ -245,6 +318,9 @@
         <!-- ═══ 文章详情弹窗 ═══ -->
         <div class="modal-overlay" id="article-modal">
             <div class="modal-content">
+                <div class="reading-progress-bar">
+                    <div class="reading-progress-fill" id="reading-progress-fill"></div>
+                </div>
                 <div class="modal-handle"></div>
                 <div class="modal-header">
                     <h2 id="article-modal-title">文章精读</h2>
@@ -287,6 +363,90 @@
                     <button class="modal-close" onclick="App.closeModal('settings-modal')">&times;</button>
                 </div>
                 <div class="modal-body" id="settings-modal-body"></div>
+            </div>
+        </div>
+
+        <!-- ═══ 学习报告弹窗 ═══ -->
+        <div class="modal-overlay" id="report-modal">
+            <div class="modal-content">
+                <div class="modal-handle"></div>
+                <div class="modal-header">
+                    <h2>&#x1F4CA; 学习报告</h2>
+                    <button class="modal-close" onclick="App.closeModal('report-modal')">&times;</button>
+                </div>
+                <div class="modal-body" id="report-modal-body"></div>
+            </div>
+        </div>
+
+        <!-- ═══ 语法专题弹窗 ═══ -->
+        <div class="modal-overlay" id="grammar-modal">
+            <div class="modal-content">
+                <div class="modal-handle"></div>
+                <div class="modal-header">
+                    <h2 id="grammar-modal-title">语法专题</h2>
+                    <button class="modal-close" onclick="App.closeModal('grammar-modal')">&times;</button>
+                </div>
+                <div class="modal-body" id="grammar-modal-body"></div>
+            </div>
+        </div>
+
+        <!-- ═══ 写作模板弹窗 ═══ -->
+        <div class="modal-overlay" id="writing-modal">
+            <div class="modal-content">
+                <div class="modal-handle"></div>
+                <div class="modal-header">
+                    <h2 id="writing-modal-title">写作模板</h2>
+                    <button class="modal-close" onclick="App.closeModal('writing-modal')">&times;</button>
+                </div>
+                <div class="modal-body" id="writing-modal-body"></div>
+            </div>
+        </div>
+
+        <!-- ═══ 错题本弹窗 ═══ -->
+        <div class="modal-overlay" id="mistakes-modal">
+            <div class="modal-content">
+                <div class="modal-handle"></div>
+                <div class="modal-header">
+                    <h2>&#x1F4DA; 错题本</h2>
+                    <button class="modal-close" onclick="App.closeModal('mistakes-modal')">&times;</button>
+                </div>
+                <div class="modal-body" id="mistakes-modal-body"></div>
+            </div>
+        </div>
+
+        <!-- ═══ 填空练习弹窗 ═══ -->
+        <div class="modal-overlay" id="cloze-modal">
+            <div class="modal-content">
+                <div class="modal-handle"></div>
+                <div class="modal-header">
+                    <h2>&#x270D;&#xFE0F; 填空练习</h2>
+                    <button class="modal-close" onclick="App.closeModal('cloze-modal')">&times;</button>
+                </div>
+                <div class="modal-body" id="cloze-modal-body"></div>
+            </div>
+        </div>
+
+        <!-- ═══ 听写模式弹窗 ═══ -->
+        <div class="modal-overlay" id="dictation-modal">
+            <div class="modal-content">
+                <div class="modal-handle"></div>
+                <div class="modal-header">
+                    <h2>&#x1F3A4; 听写模式</h2>
+                    <button class="modal-close" onclick="App.closeModal('dictation-modal')">&times;</button>
+                </div>
+                <div class="modal-body" id="dictation-modal-body"></div>
+            </div>
+        </div>
+
+        <!-- ═══ 词汇测验弹窗 ═══ -->
+        <div class="modal-overlay" id="quiz-modal">
+            <div class="modal-content">
+                <div class="modal-handle"></div>
+                <div class="modal-header">
+                    <h2>&#x1F3AF; 词汇测验</h2>
+                    <button class="modal-close" onclick="App.closeModal('quiz-modal')">&times;</button>
+                </div>
+                <div class="modal-body" id="quiz-modal-body"></div>
             </div>
         </div>
 

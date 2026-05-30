@@ -10,8 +10,23 @@ const App = (() => {
     // ── 初始化 ──
 
     function init() {
+        applyTheme();
         updateGreeting();
         loadHomePage();
+    }
+
+    function applyTheme() {
+        const settings = Storage.getSettings();
+        document.documentElement.setAttribute('data-theme', settings.theme || 'light');
+    }
+
+    function toggleTheme() {
+        const settings = Storage.getSettings();
+        const newTheme = settings.theme === 'dark' ? 'light' : 'dark';
+        Storage.updateSettings({ theme: newTheme });
+        document.documentElement.setAttribute('data-theme', newTheme);
+        showToast(newTheme === 'dark' ? '已切换暗色模式' : '已切换亮色模式');
+        openSettings();
     }
 
     function updateGreeting() {
@@ -75,6 +90,8 @@ const App = (() => {
         loadDailySentence();
         // 每日一词
         loadDailyWord();
+        // 复习提醒
+        loadReviewReminder();
         // 学习小贴士
         loadStudyTip();
     }
@@ -122,6 +139,219 @@ const App = (() => {
         document.getElementById('study-tip-text').textContent = STUDY_TIPS[idx];
     }
 
+    function loadReviewReminder() {
+        const dueReviews = Storage.getDueReviews();
+        const el = document.getElementById('review-reminder');
+        if (dueReviews.length > 0) {
+            el.style.display = 'flex';
+            document.getElementById('review-reminder-text').textContent = '有 ' + dueReviews.length + ' 个句子需要复习';
+        } else {
+            el.style.display = 'none';
+        }
+    }
+
+    function openReview() {
+        const dueReviews = Storage.getDueReviews();
+        if (dueReviews.length === 0) {
+            showToast('暂无待复习内容');
+            return;
+        }
+        const firstId = dueReviews[0].id;
+        Storage.markReviewDone(firstId);
+        openSentenceDetail(firstId);
+        loadReviewReminder();
+    }
+
+    // ── 语法专题 ──
+
+    function openGrammarList() {
+        if (typeof GRAMMAR_TOPICS === 'undefined') {
+            showToast('语法专题数据加载中...');
+            return;
+        }
+        let html = '';
+        GRAMMAR_TOPICS.forEach(t => {
+            html += '<div class="grammar-topic-card" onclick="App.openGrammarDetail(' + t.id + ')">' +
+                '<div class="grammar-topic-icon">' + t.icon + '</div>' +
+                '<div class="grammar-topic-info">' +
+                '<div class="grammar-topic-title">' + escapeHtml(t.title) + '</div>' +
+                '<div class="grammar-topic-summary">' + escapeHtml(t.summary) + '</div>' +
+                '</div>' +
+                '<span class="settings-item-arrow">&#x203A;</span>' +
+                '</div>';
+        });
+        document.getElementById('grammar-modal-body').innerHTML = html;
+        document.getElementById('grammar-modal-title').textContent = '语法专题';
+        openModal('grammar-modal');
+    }
+
+    function openGrammarDetail(id) {
+        const topic = GRAMMAR_TOPICS.find(t => t.id === id);
+        if (!topic) return;
+        let html = '<div class="grammar-detail-header">' +
+            '<div class="grammar-detail-icon">' + topic.icon + '</div>' +
+            '<h2>' + escapeHtml(topic.title) + '</h2>' +
+            '<p>' + escapeHtml(topic.summary) + '</p>' +
+            '</div>';
+        topic.points.forEach((p, idx) => {
+            html += '<div class="grammar-point-card">' +
+                '<div class="grammar-point-rule">' + escapeHtml(p.rule) + '</div>' +
+                '<div class="grammar-point-structure"><strong>结构：</strong>' + escapeHtml(p.structure) + '</div>' +
+                '<div class="grammar-point-example"><strong>例句：</strong>' + escapeHtml(p.example) + '</div>' +
+                '<div class="grammar-point-translation">' + escapeHtml(p.translation) + '</div>' +
+                (p.note ? '<div class="grammar-point-note">&#x1F4CC; ' + escapeHtml(p.note) + '</div>' : '') +
+                '</div>';
+        });
+        if (topic.relatedSentences && topic.relatedSentences.length > 0) {
+            html += '<div style="margin-top:20px;"><h3>相关句子练习</h3>';
+            topic.relatedSentences.forEach(sid => {
+                const s = SENTENCES.find(x => x.id === sid);
+                if (s) {
+                    html += '<div class="sentence-card" onclick="App.closeThenOpen(\'grammar-modal\');App.openSentenceDetail(' + s.id + ')" style="margin-top:8px;">' +
+                        '<div class="sentence-card-text" style="font-size:0.875rem;">' + escapeHtml(s.sentence.substring(0, 80)) + '...</div>' +
+                        '<div class="sentence-card-cn" style="font-size:0.8125rem;">' + escapeHtml(s.translation.substring(0, 50)) + '...</div>' +
+                        '</div>';
+                }
+            });
+            html += '</div>';
+        }
+        document.getElementById('grammar-modal-body').innerHTML = html;
+        document.getElementById('grammar-modal-title').textContent = topic.title;
+    }
+
+    // ── 写作模板 ──
+
+    function openWritingList() {
+        if (typeof WRITING_TEMPLATES === 'undefined') {
+            showToast('写作模板数据加载中...');
+            return;
+        }
+        let html = '';
+        WRITING_TEMPLATES.forEach(t => {
+            html += '<div class="writing-template-card" onclick="App.openWritingDetail(' + t.id + ')">' +
+                '<div class="writing-template-title">' + escapeHtml(t.title) + '</div>' +
+                '<div class="writing-template-level"><span class="tag tag-level">' + t.level + '</span></div>' +
+                '<span class="settings-item-arrow">&#x203A;</span>' +
+                '</div>';
+        });
+        document.getElementById('writing-modal-body').innerHTML = html;
+        document.getElementById('writing-modal-title').textContent = '写作模板';
+        openModal('writing-modal');
+    }
+
+    function openWritingDetail(id) {
+        const template = WRITING_TEMPLATES.find(t => t.id === id);
+        if (!template) return;
+        let html = '<div class="writing-detail-header">' +
+            '<h2>' + escapeHtml(template.title) + '</h2>' +
+            '<span class="tag tag-level">' + template.level + '</span>' +
+            '</div>';
+        html += '<h3 style="margin:20px 0 12px;">文章结构</h3>';
+        template.structure.forEach((s, idx) => {
+            html += '<div class="writing-structure-item">' +
+                '<div class="writing-structure-part">' + escapeHtml(s.part) + '</div>' +
+                '<div class="writing-structure-content">' + escapeHtml(s.content) + '</div>' +
+                '</div>';
+        });
+        html += '<h3 style="margin:20px 0 12px;">高分短语</h3>';
+        html += '<div class="writing-phrases">';
+        template.keyPhrases.forEach(phrase => {
+            html += '<span class="writing-phrase">' + escapeHtml(phrase) + '</span>';
+        });
+        html += '</div>';
+        html += '<h3 style="margin:20px 0 12px;">范文示例</h3>';
+        html += '<div class="writing-sample">' + escapeHtml(template.sampleEssay) + '</div>';
+        html += '<div style="margin-top:16px;text-align:center;">' +
+            '<button class="btn btn-primary" onclick="App.speak(\'' + escapeJs(template.sampleEssay) + '\')">&#x1F50A; 朗读范文</button>' +
+            '</div>';
+        document.getElementById('writing-modal-body').innerHTML = html;
+        document.getElementById('writing-modal-title').textContent = template.title;
+    }
+
+    // ── 学习报告 ──
+
+    function openReport() {
+        const stats = Storage.getStats();
+        const vocabCount = Storage.getVocabCount();
+        const streak = Storage.getStreak();
+        const calendarData = Storage.getCalendarData();
+        const mistakesCount = Storage.getMistakeCount();
+
+        // 计算近7天学习数据
+        const last7Days = [];
+        const today = new Date();
+        for (let i = 6; i >= 0; i--) {
+            const d = new Date(today);
+            d.setDate(d.getDate() - i);
+            const dateStr = d.toISOString().slice(0, 10);
+            const dayData = calendarData[dateStr] || { sentences: 0, articles: 0 };
+            last7Days.push({
+                date: d.toLocaleDateString('zh-CN', { weekday: 'short' }),
+                count: dayData.sentences + dayData.articles
+            });
+        }
+        const maxCount = Math.max(...last7Days.map(d => d.count), 1);
+
+        let html = '';
+
+        // 总览卡片
+        html += '<div class="report-overview">' +
+            '<div class="report-stat">' +
+            '<div class="report-stat-value">' + stats.totalSentences + '</div>' +
+            '<div class="report-stat-label">已学句子</div>' +
+            '</div>' +
+            '<div class="report-stat">' +
+            '<div class="report-stat-value">' + stats.totalArticles + '</div>' +
+            '<div class="report-stat-label">已读文章</div>' +
+            '</div>' +
+            '<div class="report-stat">' +
+            '<div class="report-stat-value">' + vocabCount.total + '</div>' +
+            '<div class="report-stat-label">生词积累</div>' +
+            '</div>' +
+            '<div class="report-stat">' +
+            '<div class="report-stat-value">' + streak + '</div>' +
+            '<div class="report-stat-label">连续天数</div>' +
+            '</div>' +
+            '</div>';
+
+        // 近7天柱状图
+        html += '<h3 style="margin:24px 0 12px;">近7天学习量</h3>';
+        html += '<div class="report-chart">';
+        last7Days.forEach(d => {
+            const height = Math.round(d.count / maxCount * 100);
+            html += '<div class="report-bar-group">' +
+                '<div class="report-bar" style="height:' + Math.max(height, 4) + '%;">' +
+                (d.count > 0 ? '<span class="report-bar-value">' + d.count + '</span>' : '') +
+                '</div>' +
+                '<div class="report-bar-label">' + d.date + '</div>' +
+                '</div>';
+        });
+        html += '</div>';
+
+        // 学习建议
+        html += '<h3 style="margin:24px 0 12px;">学习建议</h3>';
+        html += '<div class="report-tips">';
+        if (stats.totalSentences < 10) {
+            html += '<div class="report-tip">&#x1F4A1; 刚刚开始学习，每天坚持学2-3个句子，养成习惯最重要！</div>';
+        } else if (stats.totalSentences < 30) {
+            html += '<div class="report-tip">&#x1F4A1; 已经有不错的基础了！可以开始尝试听写和填空练习。</div>';
+        } else if (stats.totalSentences < 50) {
+            html += '<div class="report-tip">&#x1F4A1; 学习进展很好！建议定期使用错题本复习薄弱环节。</div>';
+        } else {
+            html += '<div class="report-tip">&#x1F4A1; 太棒了！可以挑战更高难度的句子和写作模板了。</div>';
+        }
+        if (vocabCount.total > 0 && vocabCount.mastered < vocabCount.total * 0.5) {
+            html += '<div class="report-tip">&#x1F4DA; 生词本有 ' + vocabCount.learning + ' 个词待掌握，建议每天复习5-10个。</div>';
+        }
+        if (mistakesCount > 0) {
+            html += '<div class="report-tip">&#x2757; 错题本有 ' + mistakesCount + ' 道题，抽时间回顾一下吧。</div>';
+        }
+        html += '</div>';
+
+        document.getElementById('report-modal-body').innerHTML = html;
+        openModal('report-modal');
+    }
+
     function checkIn() {
         const count = Storage.checkIn();
         document.getElementById('streak-count').textContent = count;
@@ -129,6 +359,47 @@ const App = (() => {
         btn.textContent = '已打卡';
         btn.classList.add('checked');
         showToast('&#x1F389; 打卡成功！连续 ' + count + ' 天');
+        showFireworks();
+    }
+
+    function showFireworks() {
+        const container = document.createElement('div');
+        container.className = 'firework-container';
+        document.body.appendChild(container);
+
+        const colors = ['#C04851', '#D4A853', '#5B8C6F', '#2B5B8A', '#7B4A7D', '#E8C97A'];
+        const emojis = ['&#x2B50;', '&#x1F389;', '&#x1F388;', '&#x2728;', '&#x1F4AB;'];
+
+        // 创建粒子
+        for (let i = 0; i < 30; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'firework-particle';
+            const angle = (Math.random() * 360) * Math.PI / 180;
+            const distance = 60 + Math.random() * 100;
+            const tx = Math.cos(angle) * distance;
+            const ty = Math.sin(angle) * distance;
+            particle.style.cssText =
+                'left:' + (50 + Math.random() * 20 - 10) + '%;' +
+                'top:' + (40 + Math.random() * 20 - 10) + '%;' +
+                'background:' + colors[Math.floor(Math.random() * colors.length)] + ';' +
+                '--tx:' + tx + 'px;--ty:' + ty + 'px;' +
+                'animation-delay:' + (Math.random() * 0.3) + 's;';
+            container.appendChild(particle);
+        }
+
+        // 创建表情
+        for (let i = 0; i < 8; i++) {
+            const sparkle = document.createElement('div');
+            sparkle.className = 'firework-sparkle';
+            sparkle.innerHTML = emojis[Math.floor(Math.random() * emojis.length)];
+            sparkle.style.cssText =
+                'left:' + (20 + Math.random() * 60) + '%;' +
+                'top:' + (30 + Math.random() * 30) + '%;' +
+                'animation-delay:' + (Math.random() * 0.5) + 's;';
+            container.appendChild(sparkle);
+        }
+
+        setTimeout(() => container.remove(), 2000);
     }
 
     // ── 长难句列表 ──
@@ -195,12 +466,481 @@ const App = (() => {
         showToast(isFav ? '已收藏' : '已取消收藏');
     }
 
+    // ── 搜索功能 ──
+
+    function searchSentences(keyword) {
+        const clearBtn = document.getElementById('sentence-search-clear');
+        if (clearBtn) clearBtn.style.display = keyword ? 'flex' : 'none';
+        if (!keyword.trim()) {
+            filterSentences(currentFilter);
+            return;
+        }
+        const kw = keyword.toLowerCase().trim();
+        let list = SENTENCES;
+        if (currentFilter === 'fav') {
+            const favIds = Storage.getFavoriteSentences();
+            list = SENTENCES.filter(s => favIds.includes(s.id));
+        } else if (currentFilter !== 'all') {
+            list = SENTENCES.filter(s => s.level === currentFilter);
+        }
+        list = list.filter(s =>
+            s.sentence.toLowerCase().includes(kw) ||
+            s.translation.toLowerCase().includes(kw) ||
+            (s.source && s.source.toLowerCase().includes(kw)) ||
+            (s.tags && s.tags.some(t => t.toLowerCase().includes(kw)))
+        );
+        renderSentenceList(list);
+    }
+
+    function clearSentenceSearch() {
+        document.getElementById('sentence-search').value = '';
+        document.getElementById('sentence-search-clear').style.display = 'none';
+        filterSentences(currentFilter);
+    }
+
+    function searchArticles(keyword) {
+        const clearBtn = document.getElementById('article-search-clear');
+        if (clearBtn) clearBtn.style.display = keyword ? 'flex' : 'none';
+        if (!keyword.trim()) {
+            filterArticles(currentArticleFilter);
+            return;
+        }
+        const kw = keyword.toLowerCase().trim();
+        let list = ARTICLES;
+        if (currentArticleFilter !== 'all') {
+            list = ARTICLES.filter(a => a.level === currentArticleFilter);
+        }
+        list = list.filter(a =>
+            a.title.toLowerCase().includes(kw) ||
+            a.summary.toLowerCase().includes(kw) ||
+            (a.source && a.source.toLowerCase().includes(kw)) ||
+            a.paragraphs.some(p => p.en.toLowerCase().includes(kw) || p.cn.toLowerCase().includes(kw))
+        );
+        renderArticleList(list);
+    }
+
+    function clearArticleSearch() {
+        document.getElementById('article-search').value = '';
+        document.getElementById('article-search-clear').style.display = 'none';
+        filterArticles(currentArticleFilter);
+    }
+
+    // ── 词汇测验 ──
+
+    let quizState = { questions: [], current: 0, score: 0, total: 0 };
+
+    function openQuiz() {
+        const vocab = Storage.getVocabulary();
+        if (vocab.length < 4) {
+            showToast('生词本至少需要4个词才能开始测验');
+            return;
+        }
+        generateQuizQuestions(vocab);
+        quizState.current = 0;
+        quizState.score = 0;
+        renderQuizQuestion();
+        openModal('quiz-modal');
+    }
+
+    function generateQuizQuestions(vocab) {
+        const shuffled = [...vocab].sort(() => Math.random() - 0.5);
+        const count = Math.min(10, shuffled.length);
+        quizState.total = count;
+        quizState.questions = shuffled.slice(0, count).map(w => {
+            const wrongAnswers = vocab
+                .filter(v => v.word !== w.word)
+                .sort(() => Math.random() - 0.5)
+                .slice(0, 3)
+                .map(v => v.definition);
+            const options = [w.definition, ...wrongAnswers].sort(() => Math.random() - 0.5);
+            const correctIdx = options.indexOf(w.definition);
+            return { word: w.word, options, correct: correctIdx };
+        });
+    }
+
+    function renderQuizQuestion() {
+        const q = quizState.questions[quizState.current];
+        if (!q) {
+            renderQuizResult();
+            return;
+        }
+        const progress = ((quizState.current) / quizState.total * 100).toFixed(0);
+        let html = '<div class="quiz-progress-bar"><div class="quiz-progress-fill" style="width:' + progress + '%"></div></div>';
+        html += '<div class="quiz-score">第 ' + (quizState.current + 1) + ' / ' + quizState.total + ' 题</div>';
+        html += '<div class="quiz-word-display">' + escapeHtml(q.word) + '</div>';
+        html += '<div class="quiz-hint">选择正确的释义：</div>';
+        const labels = ['A', 'B', 'C', 'D'];
+        q.options.forEach((opt, idx) => {
+            html += '<div class="quiz-option" onclick="App.answerQuiz(' + idx + ')">' +
+                '<span class="quiz-option-label">' + labels[idx] + '.</span>' +
+                '<span>' + escapeHtml(opt) + '</span></div>';
+        });
+        html += '<div id="quiz-feedback"></div>';
+        document.getElementById('quiz-modal-body').innerHTML = html;
+    }
+
+    function answerQuiz(idx) {
+        const q = quizState.questions[quizState.current];
+        const options = document.querySelectorAll('#quiz-modal-body .quiz-option');
+        const labels = ['A', 'B', 'C', 'D'];
+        options.forEach(el => el.style.pointerEvents = 'none');
+        if (idx === q.correct) {
+            quizState.score++;
+            options[idx].classList.add('correct');
+            document.getElementById('quiz-feedback').innerHTML = '<div class="quiz-result correct">&#x2705; 正确！</div>';
+        } else {
+            options[idx].classList.add('wrong');
+            options[q.correct].classList.add('correct');
+            document.getElementById('quiz-feedback').innerHTML = '<div class="quiz-result wrong">&#x274C; 错误！正确答案是 ' + labels[q.correct] + '</div>';
+        }
+        setTimeout(() => {
+            quizState.current++;
+            renderQuizQuestion();
+        }, 1200);
+    }
+
+    function renderQuizResult() {
+        const percent = Math.round(quizState.score / quizState.total * 100);
+        let emoji = '&#x1F389;';
+        let msg = '太棒了！';
+        if (percent < 60) { emoji = '&#x1F4AA;'; msg = '继续加油！'; }
+        else if (percent < 80) { emoji = '&#x1F44D;'; msg = '不错！'; }
+        let html = '<div class="quiz-result-screen">' +
+            '<div class="quiz-result-emoji">' + emoji + '</div>' +
+            '<div class="quiz-result-msg">' + msg + '</div>' +
+            '<div class="quiz-result-score">' + quizState.score + ' / ' + quizState.total + '</div>' +
+            '<div class="quiz-result-percent">正确率 ' + percent + '%</div>' +
+            '<button class="btn btn-primary" onclick="App.openQuiz()" style="margin-top:20px;">再来一轮</button>' +
+            '</div>';
+        document.getElementById('quiz-modal-body').innerHTML = html;
+    }
+
+    // ── 听写模式 ──
+
+    let dictationState = { sentences: [], current: 0, score: 0, total: 0 };
+
+    function openDictation() {
+        const learned = Storage.getStats().totalSentences;
+        if (learned < 3) {
+            showToast('至少需要学习3个句子才能开始听写');
+            return;
+        }
+        const learnedIds = [];
+        for (let i = 0; i < SENTENCES.length; i++) {
+            if (Storage.hasLearnedSentence(SENTENCES[i].id)) learnedIds.push(SENTENCES[i]);
+        }
+        const shuffled = learnedIds.sort(() => Math.random() - 0.5);
+        dictationState.sentences = shuffled.slice(0, Math.min(5, shuffled.length));
+        dictationState.current = 0;
+        dictationState.score = 0;
+        dictationState.total = dictationState.sentences.length;
+        renderDictationQuestion();
+        openModal('dictation-modal');
+    }
+
+    function renderDictationQuestion() {
+        if (dictationState.current >= dictationState.total) {
+            renderDictationResult();
+            return;
+        }
+        const s = dictationState.sentences[dictationState.current];
+        const progress = (dictationState.current / dictationState.total * 100).toFixed(0);
+        let html = '<div class="quiz-progress-bar"><div class="quiz-progress-fill" style="width:' + progress + '%"></div></div>';
+        html += '<div class="quiz-score">第 ' + (dictationState.current + 1) + ' / ' + dictationState.total + ' 题</div>';
+        html += '<div style="text-align:center;margin-bottom:16px;">' +
+            '<button class="btn btn-primary" onclick="App.playDictationAudio()">&#x1F50A; 播放句子</button>' +
+            '</div>';
+        html += '<div style="margin-bottom:12px;font-size:0.875rem;color:var(--text-muted);">请听录音，输入你听到的句子：</div>';
+        html += '<textarea id="dictation-input" class="dictation-input" rows="4" placeholder="在这里输入..."></textarea>';
+        html += '<div id="dictation-hint" style="margin-top:8px;font-size:0.8125rem;color:var(--text-muted);">提示：点击上方按钮可重复播放</div>';
+        html += '<div style="margin-top:16px;text-align:center;">' +
+            '<button class="btn btn-primary" onclick="App.checkDictation()">提交答案</button>' +
+            '</div>';
+        html += '<div id="dictation-result"></div>';
+        document.getElementById('dictation-modal-body').innerHTML = html;
+    }
+
+    function playDictationAudio() {
+        const s = dictationState.sentences[dictationState.current];
+        speak(s.sentence);
+    }
+
+    function checkDictation() {
+        const s = dictationState.sentences[dictationState.current];
+        const input = document.getElementById('dictation-input').value.trim();
+        if (!input) {
+            showToast('请输入你听到的句子');
+            return;
+        }
+        const correct = s.sentence.toLowerCase().replace(/[.,!?;:'"]/g, '').trim();
+        const user = input.toLowerCase().replace(/[.,!?;:'"]/g, '').trim();
+        const similarity = calculateSimilarity(user, correct);
+        const isCorrect = similarity > 0.8;
+        if (isCorrect) dictationState.score++;
+
+        let html = '<div style="margin-top:16px;">';
+        html += '<div class="dictation-compare">';
+        html += '<div class="dictation-label">正确答案：</div>';
+        html += '<div class="dictation-correct">' + escapeHtml(s.sentence) + '</div>';
+        html += '<div class="dictation-label" style="margin-top:12px;">你的答案：</div>';
+        html += '<div class="dictation-user">' + highlightDiff(input, s.sentence) + '</div>';
+        html += '</div>';
+        html += '<div style="text-align:center;margin-top:16px;">';
+        if (isCorrect) {
+            html += '<div class="quiz-result correct">&#x2705; 正确！相似度 ' + Math.round(similarity * 100) + '%</div>';
+        } else {
+            html += '<div class="quiz-result wrong">&#x274C; 需要改进！相似度 ' + Math.round(similarity * 100) + '%</div>';
+        }
+        html += '<button class="btn btn-primary" style="margin-top:12px;" onclick="App.nextDictation()">下一题</button>';
+        html += '</div></div>';
+        document.getElementById('dictation-result').innerHTML = html;
+        document.getElementById('dictation-input').disabled = true;
+    }
+
+    function nextDictation() {
+        dictationState.current++;
+        renderDictationQuestion();
+    }
+
+    function highlightDiff(user, correct) {
+        const userWords = user.split(/\s+/);
+        const correctWords = correct.toLowerCase().replace(/[.,!?;:'"]/g, '').split(/\s+/);
+        let result = [];
+        for (let i = 0; i < correctWords.length; i++) {
+            if (i < userWords.length && userWords[i] === correctWords[i]) {
+                result.push('<span style="color:var(--success);">' + escapeHtml(correctWords[i]) + '</span>');
+            } else {
+                result.push('<span style="color:var(--danger);text-decoration:underline;">' + escapeHtml(correctWords[i]) + '</span>');
+            }
+        }
+        return result.join(' ');
+    }
+
+    function calculateSimilarity(s1, s2) {
+        const longer = s1.length > s2.length ? s1 : s2;
+        const shorter = s1.length > s2.length ? s2 : s1;
+        if (longer.length === 0) return 1.0;
+        const costs = [];
+        for (let i = 0; i <= shorter.length; i++) {
+            let lastValue = i;
+            for (let j = 0; j <= longer.length; j++) {
+                if (i === 0) costs[j] = j;
+                else if (j > 0) {
+                    let newValue = costs[j - 1];
+                    if (shorter[i - 1] !== longer[j - 1]) newValue = Math.min(newValue, lastValue, costs[j]) + 1;
+                    costs[j - 1] = lastValue;
+                    lastValue = newValue;
+                }
+            }
+            if (i > 0) costs[longer.length] = lastValue;
+        }
+        return (longer.length - costs[longer.length]) / longer.length;
+    }
+
+    function renderDictationResult() {
+        const percent = Math.round(dictationState.score / dictationState.total * 100);
+        let emoji = '&#x1F389;';
+        let msg = '听写完成！';
+        if (percent < 60) { emoji = '&#x1F4AA;'; msg = '多听多练！'; }
+        else if (percent < 80) { emoji = '&#x1F44D;'; msg = '不错！'; }
+        let html = '<div class="quiz-result-screen">' +
+            '<div class="quiz-result-emoji">' + emoji + '</div>' +
+            '<div class="quiz-result-msg">' + msg + '</div>' +
+            '<div class="quiz-result-score">' + dictationState.score + ' / ' + dictationState.total + '</div>' +
+            '<div class="quiz-result-percent">正确率 ' + percent + '%</div>' +
+            '<button class="btn btn-primary" onclick="App.openDictation()" style="margin-top:20px;">再来一轮</button>' +
+            '</div>';
+        document.getElementById('dictation-modal-body').innerHTML = html;
+    }
+
+    // ── 填空练习 ──
+
+    let clozeState = { questions: [], current: 0, score: 0, total: 0 };
+
+    function openCloze() {
+        const learned = Storage.getStats().totalSentences;
+        if (learned < 3) {
+            showToast('至少需要学习3个句子才能开始填空练习');
+            return;
+        }
+        const learnedIds = [];
+        for (let i = 0; i < SENTENCES.length; i++) {
+            if (Storage.hasLearnedSentence(SENTENCES[i].id)) learnedIds.push(SENTENCES[i]);
+        }
+        const shuffled = learnedIds.sort(() => Math.random() - 0.5);
+        const selected = shuffled.slice(0, Math.min(5, shuffled.length));
+        clozeState.questions = selected.map(s => generateClozeQuestion(s));
+        clozeState.current = 0;
+        clozeState.score = 0;
+        clozeState.total = clozeState.questions.length;
+        renderClozeQuestion();
+        openModal('cloze-modal');
+    }
+
+    function generateClozeQuestion(sentence) {
+        const words = sentence.sentence.split(/\s+/);
+        const keywords = [];
+        if (sentence.grammar && sentence.grammar.keywords) {
+            sentence.grammar.keywords.forEach(kw => {
+                const word = typeof kw === 'string' ? kw : kw.word;
+                keywords.push(word.toLowerCase());
+            });
+        }
+        const blankIndices = [];
+        words.forEach((w, idx) => {
+            const clean = w.toLowerCase().replace(/[^a-z]/g, '');
+            if (keywords.includes(clean) && clean.length > 3) blankIndices.push(idx);
+        });
+        if (blankIndices.length === 0) {
+            const mid = Math.floor(words.length / 2);
+            blankIndices.push(mid);
+        }
+        const blankIdx = blankIndices[Math.floor(Math.random() * blankIndices.length)];
+        const correctWord = words[blankIdx].replace(/[^a-zA-Z'-]/g, '');
+        const otherWords = words.filter((w, i) => i !== blankIdx && w.replace(/[^a-zA-Z'-]/g, '').length > 3);
+        const distractors = otherWords.sort(() => Math.random() - 0.5).slice(0, 3);
+        const options = [correctWord, ...distractors.map(w => w.replace(/[^a-zA-Z'-]/g, ''))].sort(() => Math.random() - 0.5);
+        return {
+            sentence: sentence.sentence,
+            translation: sentence.translation,
+            blankIndex: blankIdx,
+            correctWord,
+            options,
+            words
+        };
+    }
+
+    function renderClozeQuestion() {
+        if (clozeState.current >= clozeState.total) {
+            renderClozeResult();
+            return;
+        }
+        const q = clozeState.questions[clozeState.current];
+        const progress = (clozeState.current / clozeState.total * 100).toFixed(0);
+        let html = '<div class="quiz-progress-bar"><div class="quiz-progress-fill" style="width:' + progress + '%"></div></div>';
+        html += '<div class="quiz-score">第 ' + (clozeState.current + 1) + ' / ' + clozeState.total + ' 题</div>';
+        html += '<div class="cloze-sentence">';
+        q.words.forEach((w, idx) => {
+            if (idx === q.blankIndex) {
+                html += '<span class="cloze-blank" id="cloze-blank">____</span> ';
+            } else {
+                html += escapeHtml(w) + ' ';
+            }
+        });
+        html += '</div>';
+        html += '<div class="cloze-translation">' + escapeHtml(q.translation) + '</div>';
+        html += '<div class="cloze-hint">选择正确的单词填入空白处：</div>';
+        html += '<div class="cloze-options">';
+        q.options.forEach((opt, idx) => {
+            html += '<button class="cloze-option-btn" onclick="App.selectClozeOption(this,\'' + escapeJs(opt) + '\',\'' + escapeJs(q.correctWord) + '\')">' + escapeHtml(opt) + '</button>';
+        });
+        html += '</div>';
+        html += '<div id="cloze-feedback"></div>';
+        document.getElementById('cloze-modal-body').innerHTML = html;
+    }
+
+    function selectClozeOption(btn, selected, correct) {
+        const options = document.querySelectorAll('.cloze-option-btn');
+        options.forEach(el => el.disabled = true);
+        const blank = document.getElementById('cloze-blank');
+        if (selected.toLowerCase() === correct.toLowerCase()) {
+            clozeState.score++;
+            blank.innerHTML = escapeHtml(correct);
+            blank.style.color = 'var(--success)';
+            blank.style.borderBottomColor = 'var(--success)';
+            btn.style.background = 'var(--success)';
+            btn.style.color = 'white';
+            document.getElementById('cloze-feedback').innerHTML = '<div class="quiz-result correct" style="margin-top:12px;">&#x2705; 正确！</div>';
+        } else {
+            blank.innerHTML = escapeHtml(correct);
+            blank.style.color = 'var(--danger)';
+            blank.style.borderBottomColor = 'var(--danger)';
+            btn.style.background = 'var(--danger)';
+            btn.style.color = 'white';
+            options.forEach(el => {
+                if (el.textContent === correct) {
+                    el.style.background = 'var(--success)';
+                    el.style.color = 'white';
+                }
+            });
+            document.getElementById('cloze-feedback').innerHTML = '<div class="quiz-result wrong" style="margin-top:12px;">&#x274C; 正确答案是 ' + escapeHtml(correct) + '</div>';
+        }
+        setTimeout(() => {
+            clozeState.current++;
+            renderClozeQuestion();
+        }, 1500);
+    }
+
+    function renderClozeResult() {
+        const percent = Math.round(clozeState.score / clozeState.total * 100);
+        let emoji = '&#x1F389;';
+        let msg = '填空完成！';
+        if (percent < 60) { emoji = '&#x1F4AA;'; msg = '继续加油！'; }
+        else if (percent < 80) { emoji = '&#x1F44D;'; msg = '不错！'; }
+        let html = '<div class="quiz-result-screen">' +
+            '<div class="quiz-result-emoji">' + emoji + '</div>' +
+            '<div class="quiz-result-msg">' + msg + '</div>' +
+            '<div class="quiz-result-score">' + clozeState.score + ' / ' + clozeState.total + '</div>' +
+            '<div class="quiz-result-percent">正确率 ' + percent + '%</div>' +
+            '<button class="btn btn-primary" onclick="App.openCloze()" style="margin-top:20px;">再来一轮</button>' +
+            '</div>';
+        document.getElementById('cloze-modal-body').innerHTML = html;
+    }
+
+    // ── 错题本 ──
+
+    function openMistakes() {
+        const mistakes = Storage.getMistakes();
+        let html = '';
+        if (mistakes.length === 0) {
+            html = '<div class="empty-state">' +
+                '<div class="empty-state-icon">&#x2705;</div>' +
+                '<div class="empty-state-text">暂无错题<br>继续保持！</div>' +
+                '</div>';
+        } else {
+            html += '<div style="margin-bottom:16px;display:flex;justify-content:space-between;align-items:center;">' +
+                '<span style="font-size:0.875rem;color:var(--text-muted);">共 ' + mistakes.length + ' 道错题</span>' +
+                '<button class="btn btn-sm btn-outline" onclick="App.clearAllMistakes()" style="color:var(--danger);border-color:var(--danger);">清空</button>' +
+                '</div>';
+            mistakes.forEach((m, idx) => {
+                const typeLabel = m.type === 'quiz' ? '&#x1F3AF; 词汇' : m.type === 'dictation' ? '&#x1F3A4; 听写' : '&#x270D;&#xFE0F; 填空';
+                html += '<div class="mistake-card">' +
+                    '<div class="mistake-type">' + typeLabel + '</div>' +
+                    '<div class="mistake-question">' + escapeHtml(m.question) + '</div>' +
+                    '<div class="mistake-answers">' +
+                    '<div class="mistake-your-answer">&#x274C; 你的答案：' + escapeHtml(m.answer) + '</div>' +
+                    '<div class="mistake-correct-answer">&#x2705; 正确答案：' + escapeHtml(m.correctAnswer) + '</div>' +
+                    '</div>' +
+                    '<div class="mistake-meta">错误 ' + m.count + ' 次 · ' + m.addedDate + '</div>' +
+                    '<button class="btn btn-sm btn-ghost" onclick="App.removeMistake(' + idx + ')" style="color:var(--text-muted);margin-top:8px;">&#x1F5D1; 移除</button>' +
+                    '</div>';
+            });
+        }
+        document.getElementById('mistakes-modal-body').innerHTML = html;
+        openModal('mistakes-modal');
+    }
+
+    function removeMistake(idx) {
+        Storage.removeMistake(idx);
+        openMistakes();
+        showToast('已移除');
+    }
+
+    function clearAllMistakes() {
+        if (confirm('确定清空所有错题吗？')) {
+            Storage.clearMistakes();
+            openMistakes();
+            showToast('错题已清空');
+        }
+    }
+
     // ── 句子详情 ──
 
     function openSentenceDetail(id) {
         const s = SENTENCES.find(x => x.id === id);
         if (!s) return;
         Storage.recordSentence(id);
+        Storage.scheduleReview(id);
 
         const g = s.grammar;
         let html = '';
@@ -558,7 +1298,10 @@ const App = (() => {
         } else {
             html += '<div style="margin-bottom:16px;display:flex;justify-content:space-between;align-items:center;">' +
                 '<span style="font-size:0.875rem;color:var(--text-muted);">共 ' + vocab.length + ' 个词</span>' +
-                '<button class="btn btn-sm btn-outline" onclick="App.speakVocabAll()">&#x1F50A; 朗读全部</button>' +
+                '<div style="display:flex;gap:8px;">' +
+                '<button class="btn btn-sm btn-outline" onclick="App.closeThenOpen(\'vocab-modal\');App.openQuiz()">&#x1F3AF; 测验</button>' +
+                '<button class="btn btn-sm btn-outline" onclick="App.speakVocabAll()">&#x1F50A; 朗读</button>' +
+                '</div>' +
                 '</div>';
             vocab.forEach(w => {
                 const isMastered = w.mastered;
@@ -632,6 +1375,16 @@ const App = (() => {
             '<span style="position:absolute;cursor:pointer;inset:0;background:' + (settings.autoPlayAudio ? 'var(--primary)' : '#ccc') + ';border-radius:14px;transition:0.3s;"></span>' +
             '<span style="position:absolute;content:\'\';height:22px;width:22px;left:' + (settings.autoPlayAudio ? '22px' : '3px') + ';bottom:3px;background:white;border-radius:50%;transition:0.3s;"></span>' +
             '</label>' +
+            '</div>';
+
+        // 暗色模式
+        const isDark = settings.theme === 'dark';
+        html += '<div class="settings-item" onclick="App.toggleTheme()">' +
+            '<div class="settings-item-left">' +
+            '<span class="settings-item-icon">' + (isDark ? '&#x1F319;' : '&#x2600;&#xFE0F;') + '</span>' +
+            '<span class="settings-item-text">暗色模式</span>' +
+            '</div>' +
+            '<span style="font-size:0.8125rem;color:var(--text-muted);">' + (isDark ? '已开启' : '已关闭') + '</span>' +
             '</div>';
 
         // 清除数据
@@ -773,6 +1526,21 @@ const App = (() => {
         }
     });
 
+    // 阅读进度条
+    const articleModal = document.getElementById('article-modal');
+    if (articleModal) {
+        const modalContent = articleModal.querySelector('.modal-content');
+        if (modalContent) {
+            modalContent.addEventListener('scroll', () => {
+                const scrollTop = modalContent.scrollTop;
+                const scrollHeight = modalContent.scrollHeight - modalContent.clientHeight;
+                const progress = scrollHeight > 0 ? (scrollTop / scrollHeight * 100).toFixed(1) : 0;
+                const fill = document.getElementById('reading-progress-fill');
+                if (fill) fill.style.width = progress + '%';
+            });
+        }
+    }
+
     // ── 工具函数 ──
 
     function escapeHtml(str) {
@@ -818,6 +1586,28 @@ const App = (() => {
         openSettings,
         updateFontSize,
         updateAutoPlay,
+        toggleTheme,
+        searchSentences,
+        clearSentenceSearch,
+        searchArticles,
+        clearArticleSearch,
+        openQuiz,
+        answerQuiz,
+        openDictation,
+        playDictationAudio,
+        checkDictation,
+        nextDictation,
+        openCloze,
+        selectClozeOption,
+        openMistakes,
+        removeMistake,
+        clearAllMistakes,
+        openReview,
+        openGrammarList,
+        openGrammarDetail,
+        openWritingList,
+        openWritingDetail,
+        openReport,
         clearAllData,
         speak,
         openModal,

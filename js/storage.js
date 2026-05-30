@@ -16,6 +16,8 @@ const Storage = (() => {
         DAILY_WORD: 'nan_daily_word',
         DAILY_WORD_DATE: 'nan_daily_word_date',
         ARTICLE_PROGRESS: 'nan_article_progress',
+        MISTAKES: 'nan_mistakes',
+        REVIEW_SCHEDULE: 'nan_review_schedule',
     };
 
     // ── 工具函数 ──
@@ -256,6 +258,96 @@ const Storage = (() => {
         return id;
     }
 
+    // ── 错题本 ──
+
+    function _getMistakes() {
+        return _get(KEYS.MISTAKES, []);
+    }
+
+    function addMistake(type, question, answer, correctAnswer) {
+        const mistakes = _getMistakes();
+        const existing = mistakes.find(m => m.question === question && m.type === type);
+        if (existing) {
+            existing.count = (existing.count || 1) + 1;
+            existing.lastSeen = _today();
+        } else {
+            mistakes.push({
+                type, question, answer, correctAnswer,
+                addedDate: _today(),
+                lastSeen: _today(),
+                count: 1,
+                reviewed: false,
+            });
+        }
+        _set(KEYS.MISTAKES, mistakes);
+    }
+
+    function getMistakes() {
+        return _getMistakes();
+    }
+
+    function removeMistake(index) {
+        const mistakes = _getMistakes();
+        mistakes.splice(index, 1);
+        _set(KEYS.MISTAKES, mistakes);
+    }
+
+    function clearMistakes() {
+        _set(KEYS.MISTAKES, []);
+    }
+
+    function getMistakeCount() {
+        return _getMistakes().length;
+    }
+
+    // ── 艾宾浩斯复习 ──
+
+    function _getReviewSchedule() {
+        return _get(KEYS.REVIEW_SCHEDULE, {});
+    }
+
+    function scheduleReview(sentenceId) {
+        const schedule = _getReviewSchedule();
+        const today = new Date();
+        const intervals = [1, 2, 4, 7, 15]; // 艾宾浩斯间隔（天）
+        schedule[sentenceId] = {
+            addedDate: _today(),
+            reviews: intervals.map(days => {
+                const d = new Date(today);
+                d.setDate(d.getDate() + days);
+                return d.toISOString().slice(0, 10);
+            }),
+            completed: [],
+        };
+        _set(KEYS.REVIEW_SCHEDULE, schedule);
+    }
+
+    function getDueReviews() {
+        const schedule = _getReviewSchedule();
+        const today = _today();
+        const due = [];
+        for (const id in schedule) {
+            const s = schedule[id];
+            const pendingReviews = s.reviews.filter(r => r <= today && !s.completed.includes(r));
+            if (pendingReviews.length > 0) {
+                due.push({ id: parseInt(id), pendingCount: pendingReviews.length });
+            }
+        }
+        return due;
+    }
+
+    function markReviewDone(sentenceId) {
+        const schedule = _getReviewSchedule();
+        const today = _today();
+        if (schedule[sentenceId]) {
+            const nextReview = schedule[sentenceId].reviews.find(r => r <= today && !schedule[sentenceId].completed.includes(r));
+            if (nextReview) {
+                schedule[sentenceId].completed.push(nextReview);
+                _set(KEYS.REVIEW_SCHEDULE, schedule);
+            }
+        }
+    }
+
     // ── 每日一词 ──
 
     function getDailyWord(allWordCount) {
@@ -323,6 +415,16 @@ const Storage = (() => {
         // 每日推荐
         getDailySentence,
         getDailyWord,
+        // 错题本
+        addMistake,
+        getMistakes,
+        removeMistake,
+        clearMistakes,
+        getMistakeCount,
+        // 艾宾浩斯复习
+        scheduleReview,
+        getDueReviews,
+        markReviewDone,
         // 设置
         getSettings,
         updateSettings,

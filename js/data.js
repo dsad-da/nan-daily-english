@@ -1736,6 +1736,217 @@ const DAILY_WORDS = [
   { word: "nuance", phonetic: "/ˈnjuːɑːns/", meaning: "n. 细微差别", example: "Understanding cultural nuances is essential for effective communication." }
 ];
 
+// ===== 语法专题 =====
+const GRAMMAR_TOPICS = [
+  {
+    id: 1,
+    title: "虚拟语气",
+    icon: "&#x1F4AD;",
+    summary: "表达假设、愿望、建议等非真实情况",
+    points: [
+      {
+        rule: "if 引导的虚拟条件句",
+        structure: "If + 主语 + 过去式/过去完成式, 主语 + would/could/might + 动词原形/have done",
+        example: "If I were you, I would study harder.",
+        translation: "如果我是你，我会更努力学习。",
+        note: "与现在事实相反用过去式，与过去事实相反用过去完成式"
+      },
+      {
+        rule: "wish 后的虚拟语气",
+        structure: "wish + 主语 + 过去式/过去完成式/could do",
+        example: "I wish I had studied English earlier.",
+        translation: "我希望我早点学英语就好了。",
+        note: "对现在用过去式，对过去用过去完成式"
+      },
+      {
+        rule: "suggest/recommend 等词后的虚拟",
+        structure: "suggest/recommend/insist + that + 主语 + (should) + 动词原形",
+        example: "The doctor suggested that he (should) take a rest.",
+        translation: "医生建议他休息一下。",
+        note: "should 可省略，常见于美式英语"
+      }
+    ],
+    relatedSentences: [34, 51]
+  },
+  {
+    id: 2,
+    title: "倒装句",
+    icon: "&#x1F504;",
+    summary: "将谓语动词提到主语之前的特殊句式",
+    points: [
+      {
+        rule: "否定词位于句首的倒装",
+        structure: "否定词 + 助动词/be动词 + 主语 + 动词",
+        example: "Not until midnight did he finish his homework.",
+        translation: "直到半夜他才完成作业。",
+        note: "常见否定词：never, seldom, hardly, not until, not only"
+      },
+      {
+        rule: "Only + 状语位于句首",
+        structure: "Only + 状语 + 助动词/be动词 + 主语 + 动词",
+        example: "Only then did I realize my mistake.",
+        translation: "直到那时我才意识到我的错误。",
+        note: "only 后必须是状语才倒装"
+      },
+      {
+        rule: "So/Such... that 句型的倒装",
+        structure: "So + adj./adv. / Such + n. + 助动词 + 主语 + that...",
+        example: "So beautiful was the sunset that everyone stopped to watch.",
+        translation: "日落太美了，每个人都停下来观看。",
+        note: "强调程度之深"
+      }
+    ],
+    relatedSentences: [8, 54]
+  },
+  {
+    id: 3,
+    title: "定语从句",
+    icon: "&#x1F4DD;",
+    summary: "修饰名词或代词的从句",
+    points: [
+      {
+        rule: "关系代词的选择",
+        structure: "who/whom/whose/which/that",
+        example: "The book that/which I bought yesterday is very interesting.",
+        translation: "我昨天买的那本书很有趣。",
+        note: "先行词是人用who/that，物用which/that"
+      },
+      {
+        rule: "非限制性定语从句",
+        structure: "主句, which/who/whose...",
+        example: "He passed the exam, which made his parents proud.",
+        translation: "他通过了考试，这让他父母很骄傲。",
+        note: "用逗号隔开，不能用that"
+      },
+      {
+        rule: "介词 + 关系代词",
+        structure: "介词 + which/whom",
+        example: "The house in which I grew up has been demolished.",
+        translation: "我长大的那栋房子已被拆除。",
+        note: "介词前置更正式"
+      }
+    ],
+    relatedSentences: [1, 6, 10]
+  },
+  {
+    id: 4,
+    title: "非谓语动词",
+    icon: "&#x1F4D6;",
+    summary: "不定式、动名词、分词的用法",
+    points: [
+      {
+        rule: "不定式作主语",
+        structure: "To + 动词原形 + is + ...",
+        example: "To learn a foreign language requires patience.",
+        translation: "学习一门外语需要耐心。",
+        note: "常用 It is... to do 形式主语句型"
+      },
+      {
+        rule: "现在分词与过去分词",
+        structure: "doing (主动/进行) / done (被动/完成)",
+        example: "The excited students cheered loudly. / The boring lecture put everyone to sleep.",
+        translation: "兴奋的学生们大声欢呼。/ 无聊的讲座让每个人都睡着了。",
+        note: "-ing 修饰事物特征，-ed 修饰人感受"
+      },
+      {
+        rule: "独立主格结构",
+        structure: "名词/代词 + 分词/形容词/介词短语",
+        example: "Weather permitting, we will go on a picnic.",
+        translation: "如果天气允许，我们将去野餐。",
+        note: "逻辑主语与句子主语不一致时使用"
+      }
+    ],
+    relatedSentences: [11, 27, 37]
+  },
+  {
+    id: 5,
+    title: "名词性从句",
+    icon: "&#x1F4E6;",
+    summary: "主语从句、宾语从句、表语从句、同位语从句",
+    points: [
+      {
+        rule: "主语从句",
+        structure: "What/That/Whether... + 谓语 + ...",
+        example: "What he said surprised everyone.",
+        translation: "他说的话让每个人都很惊讶。",
+        note: "what 引导时在从句中作成分，that 不作成分"
+      },
+      {
+        rule: "同位语从句 vs 定语从句",
+        structure: "n. + that + 完整句子 (同位语) / n. + that + 不完整句子 (定语)",
+        example: "The fact that he passed the exam surprised us. (同位语)",
+        translation: "他通过考试的事实让我们惊讶。",
+        note: "同位语从句解释名词内容，定语从句修饰限定名词"
+      },
+      {
+        rule: "whether 与 if 的区别",
+        structure: "whether 可用于主语从句、表语从句、介词后；if 只能引导宾语从句",
+        example: "Whether he will come is still unknown.",
+        translation: "他是否会来仍未知。",
+        note: "主语从句只能用 whether"
+      }
+    ],
+    relatedSentences: [2, 4, 9]
+  }
+];
+
+// ===== 写作模板 =====
+const WRITING_TEMPLATES = [
+  {
+    id: 1,
+    title: "雅思大作文 - 观点讨论类",
+    level: "雅思",
+    structure: [
+      { part: "开头段", content: "It is often argued that... While I agree that..., I believe that..." },
+      { part: "主体段1", content: "On the one hand, there are several reasons why... Firstly,... Secondly,... For example,..." },
+      { part: "主体段2", content: "On the other hand, I believe that... This is because... Furthermore,..." },
+      { part: "结尾段", content: "In conclusion, while... I firmly believe that..." }
+    ],
+    keyPhrases: ["It is often argued that", "On the one hand", "On the other hand", "Furthermore", "In conclusion"],
+    sampleEssay: "It is often argued that technology has made our lives easier. While I agree that technology has brought many benefits, I believe that it has also created new challenges."
+  },
+  {
+    id: 2,
+    title: "考研英语 - 图表作文",
+    level: "考研",
+    structure: [
+      { part: "描述图表", content: "As is clearly shown in the chart/graph/table, ... increased/decreased significantly from... to..." },
+      { part: "分析原因", content: "There are several reasons accounting for this phenomenon. First and foremost,... In addition,... Last but not least,..." },
+      { part: "提出建议", content: "In view of the above analysis, it is imperative that... Only in this way can we..." },
+      { part: "总结", content: "Taking all these factors into consideration, we may safely conclude that..." }
+    ],
+    keyPhrases: ["As is clearly shown in", "First and foremost", "In addition", "Last but not least", "Taking all these factors into consideration"],
+    sampleEssay: "As is clearly shown in the chart, the number of people using smartphones has increased dramatically over the past decade."
+  },
+  {
+    id: 3,
+    title: "四级/六级 - 议论文",
+    level: "四级",
+    structure: [
+      { part: "引出话题", content: "Nowadays, there is a growing concern about... Some people believe that..., while others argue that..." },
+      { part: "正方观点", content: "Those who support this view point out that... For instance,..." },
+      { part: "反方观点", content: "However, others hold the opposite opinion. They argue that... A good example is..." },
+      { part: "我的看法", content: "From my perspective, I am inclined to agree with... because..." }
+    ],
+    keyPhrases: ["Nowadays", "Some people believe that", "while others argue that", "From my perspective", "I am inclined to agree with"],
+    sampleEssay: "Nowadays, there is a growing concern about environmental pollution. Some people believe that individual actions can make a difference, while others argue that only government policies can solve this problem."
+  },
+  {
+    id: 4,
+    title: "托福独立写作",
+    level: "托福",
+    structure: [
+      { part: "开头", content: "In today's society, the issue of... has attracted widespread attention. In my opinion,..." },
+      { part: "理由1", content: "To begin with,... This is because... For example,..." },
+      { part: "理由2", content: "Moreover,... As a result,... A case in point is..." },
+      { part: "让步段", content: "Admittedly, some may argue that... However, I still believe that..." },
+      { part: "结尾", content: "In conclusion, for the reasons mentioned above, I strongly believe that..." }
+    ],
+    keyPhrases: ["In today's society", "To begin with", "Moreover", "Admittedly", "A case in point is", "In conclusion"],
+    sampleEssay: "In today's society, the issue of whether children should start learning foreign languages at an early age has attracted widespread attention."
+  }
+];
+
 // ===== 学习小贴士 =====
 const STUDY_TIPS = [
   "每天坚持阅读英文原版材料15分钟，词汇量会在不知不觉中飞速增长。",
@@ -1757,5 +1968,5 @@ const STUDY_TIPS = [
 
 // 导出数据
 if (typeof module !== 'undefined' && module.exports) {
-  module.exports = { SENTENCES, ARTICLES, DAILY_WORDS, STUDY_TIPS };
+  module.exports = { SENTENCES, ARTICLES, DAILY_WORDS, STUDY_TIPS, GRAMMAR_TOPICS, WRITING_TEMPLATES };
 }
