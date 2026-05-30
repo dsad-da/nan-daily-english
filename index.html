@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="theme-color" content="#FBF8F4">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:;">
     <title>NAN每日一句 - 英语长难句学习</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/enhanced.css">
@@ -128,7 +129,7 @@
             <!-- 搜索框 -->
             <div class="search-box">
                 <span class="search-icon">&#x1F50D;</span>
-                <input type="text" class="search-input" id="sentence-search" placeholder="搜索句子、关键词..." oninput="App.searchSentences(this.value)">
+                <input type="text" class="search-input" id="sentence-search" placeholder="搜索句子、关键词..." maxlength="100" oninput="App.searchSentences(this.value)">
                 <button class="search-clear" id="sentence-search-clear" onclick="App.clearSentenceSearch()" style="display:none;">&times;</button>
             </div>
 
@@ -151,7 +152,7 @@
             <!-- 搜索框 -->
             <div class="search-box">
                 <span class="search-icon">&#x1F50D;</span>
-                <input type="text" class="search-input" id="article-search" placeholder="搜索文章标题、内容..." oninput="App.searchArticles(this.value)">
+                <input type="text" class="search-input" id="article-search" placeholder="搜索文章标题、内容..." maxlength="100" oninput="App.searchArticles(this.value)">
                 <button class="search-clear" id="article-search-clear" onclick="App.clearArticleSearch()" style="display:none;">&times;</button>
             </div>
 

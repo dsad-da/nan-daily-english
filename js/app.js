@@ -882,7 +882,7 @@ const App = (() => {
         const btn = document.getElementById('btn-checkin');
         btn.textContent = '已打卡';
         btn.classList.add('checked');
-        showToast('&#x1F389; 打卡成功！连续 ' + count + ' 天');
+        showToast('🎉 打卡成功！连续 ' + count + ' 天');
         showFireworks();
     }
 
@@ -1946,7 +1946,15 @@ const App = (() => {
 
     function clearAllData() {
         if (confirm('确定要清除所有学习数据吗？此操作不可恢复。')) {
-            localStorage.clear();
+            // 只清除本应用的数据，不影响其他存储
+            const appKeys = [
+                'nan_streak', 'nan_learning_history', 'nan_favorites',
+                'nan_vocabulary', 'nan_settings', 'nan_last_visit',
+                'nan_daily_sentence', 'nan_daily_date', 'nan_daily_word',
+                'nan_daily_word_date', 'nan_article_progress', 'nan_mistakes',
+                'nan_review_schedule', 'nan_challenge_date'
+            ];
+            appKeys.forEach(key => localStorage.removeItem(key));
             showToast('数据已清除');
             closeModal('settings-modal');
             loadHomePage();
@@ -2070,12 +2078,19 @@ const App = (() => {
 
     function escapeHtml(str) {
         if (!str) return '';
-        return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+        return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
     }
 
     function escapeJs(str) {
         if (!str) return '';
-        return str.replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/"/g, '\\"');
+        return str
+            .replace(/\\/g, '\\\\')
+            .replace(/'/g, "\\'")
+            .replace(/"/g, '\\"')
+            .replace(/\n/g, '\\n')
+            .replace(/\r/g, '\\r')
+            .replace(/\t/g, '\\t')
+            .replace(/`/g, '\\`');
     }
 
     function escapeAttr(str) {
