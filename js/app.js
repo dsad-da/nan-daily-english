@@ -268,6 +268,169 @@ const App = (() => {
         document.getElementById('writing-modal-title').textContent = template.title;
     }
 
+    // ── 分享卡片 ──
+
+    function generateShareCard(sentenceId) {
+        const s = SENTENCES.find(x => x.id === sentenceId);
+        if (!s) return;
+
+        const canvas = document.createElement('canvas');
+        canvas.width = 750;
+        canvas.height = 1000;
+        const ctx = canvas.getContext('2d');
+
+        // 背景渐变
+        const gradient = ctx.createLinearGradient(0, 0, 750, 1000);
+        gradient.addColorStop(0, '#9B3B3B');
+        gradient.addColorStop(0.4, '#C04851');
+        gradient.addColorStop(1, '#D4A853');
+        ctx.fillStyle = gradient;
+        ctx.fillRect(0, 0, 750, 1000);
+
+        // 装饰圆
+        ctx.globalAlpha = 0.08;
+        ctx.fillStyle = '#fff';
+        ctx.beginPath();
+        ctx.arc(650, 150, 200, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.beginPath();
+        ctx.arc(100, 850, 150, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.globalAlpha = 1;
+
+        // 品牌标识
+        ctx.fillStyle = 'rgba(255,255,255,0.7)';
+        ctx.font = '16px sans-serif';
+        ctx.fillText('NAN每日一句', 40, 50);
+
+        // 引号装饰
+        ctx.fillStyle = 'rgba(255,255,255,0.15)';
+        ctx.font = '200px Georgia, serif';
+        ctx.fillText('"', 520, 200);
+
+        // 英文句子 - 自动换行
+        ctx.fillStyle = '#fff';
+        ctx.font = 'bold 28px sans-serif';
+        const lines = wrapText(ctx, s.sentence, 670, 32);
+        let y = 180;
+        lines.forEach(line => {
+            ctx.fillText(line, 40, y);
+            y += 42;
+        });
+
+        // 分隔线
+        y += 20;
+        ctx.strokeStyle = 'rgba(255,255,255,0.3)';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(40, y);
+        ctx.lineTo(200, y);
+        ctx.stroke();
+        y += 30;
+
+        // 中文翻译
+        ctx.fillStyle = 'rgba(255,255,255,0.9)';
+        ctx.font = '22px sans-serif';
+        const cnLines = wrapText(ctx, s.translation, 670, 28);
+        cnLines.forEach(line => {
+            ctx.fillText(line, 40, y);
+            y += 34;
+        });
+
+        // 底部信息
+        ctx.fillStyle = 'rgba(255,255,255,0.6)';
+        ctx.font = '16px sans-serif';
+        ctx.fillText(s.source + ' · ' + s.level, 40, 920);
+
+        ctx.fillStyle = 'rgba(255,255,255,0.5)';
+        ctx.font = '14px sans-serif';
+        ctx.fillText('长按识别，一起学英语', 40, 960);
+
+        // 转为图片
+        const dataUrl = canvas.toDataURL('image/png');
+        let html = '<div style="text-align:center;">';
+        html += '<img src="' + dataUrl + '" style="max-width:100%;border-radius:12px;box-shadow:var(--shadow-lg);" />';
+        html += '<p style="margin-top:12px;font-size:0.875rem;color:var(--text-muted);">长按图片保存，分享到朋友圈</p>';
+        html += '</div>';
+        document.getElementById('share-modal-body').innerHTML = html;
+        openModal('share-modal');
+    }
+
+    function wrapText(ctx, text, maxWidth, fontSize) {
+        const words = text.split('');
+        const lines = [];
+        let currentLine = '';
+        for (let i = 0; i < words.length; i++) {
+            const testLine = currentLine + words[i];
+            const metrics = ctx.measureText(testLine);
+            if (metrics.width > maxWidth && currentLine !== '') {
+                lines.push(currentLine);
+                currentLine = words[i];
+            } else {
+                currentLine = testLine;
+            }
+        }
+        if (currentLine) lines.push(currentLine);
+        return lines;
+    }
+
+    // ── 成就系统 ──
+
+    const ACHIEVEMENTS = [
+        { id: 'first_sentence', icon: '&#x1F331;', title: '初学者', desc: '学习第1个句子', check: () => Storage.getStats().totalSentences >= 1 },
+        { id: 'ten_sentences', icon: '&#x1F33F;', title: '小有成就', desc: '学习10个句子', check: () => Storage.getStats().totalSentences >= 10 },
+        { id: 'fifty_sentences', icon: '&#x1F33E;', title: '句海拾贝', desc: '学习50个句子', check: () => Storage.getStats().totalSentences >= 50 },
+        { id: 'first_article', icon: '&#x1F4F0;', title: '外刊入门', desc: '阅读第1篇文章', check: () => Storage.getStats().totalArticles >= 1 },
+        { id: 'ten_articles', icon: '&#x1F4DA;', title: '博览群书', desc: '阅读10篇文章', check: () => Storage.getStats().totalArticles >= 10 },
+        { id: 'streak_7', icon: '&#x1F525;', title: '坚持不懈', desc: '连续打卡7天', check: () => Storage.getStreak() >= 7 },
+        { id: 'streak_30', icon: '&#x1F31F;', title: '月度之星', desc: '连续打卡30天', check: () => Storage.getStreak() >= 30 },
+        { id: 'vocab_50', icon: '&#x1F4D6;', title: '词汇达人', desc: '积累50个生词', check: () => Storage.getVocabCount().total >= 50 },
+        { id: 'quiz_master', icon: '&#x1F3AF;', title: '测验高手', desc: '完成5次词汇测验', check: () => (Storage._get ? 0 : 0) >= 5 },
+        { id: 'no_mistakes', icon: '&#x2705;', title: '零失误', desc: '错题本为空', check: () => Storage.getMistakeCount() === 0 && Storage.getStats().totalSentences >= 5 },
+    ];
+
+    function openAchievements() {
+        let unlocked = 0;
+        let html = '<div class="achievement-grid">';
+        ACHIEVEMENTS.forEach(a => {
+            const isUnlocked = a.check();
+            if (isUnlocked) unlocked++;
+            html += '<div class="achievement-card ' + (isUnlocked ? 'unlocked' : 'locked') + '">' +
+                '<div class="achievement-icon">' + a.icon + '</div>' +
+                '<div class="achievement-title">' + escapeHtml(a.title) + '</div>' +
+                '<div class="achievement-desc">' + escapeHtml(a.desc) + '</div>' +
+                (isUnlocked ? '<div class="achievement-badge">&#x2705;</div>' : '<div class="achievement-badge">&#x1F512;</div>') +
+                '</div>';
+        });
+        html += '</div>';
+        html = '<div class="achievement-summary">已解锁 ' + unlocked + ' / ' + ACHIEVEMENTS.length + ' 个成就</div>' + html;
+        document.getElementById('achievement-modal-body').innerHTML = html;
+        openModal('achievement-modal');
+    }
+
+    // ── 数据备份 ──
+
+    function exportData() {
+        const data = {
+            streak: localStorage.getItem('nan_streak'),
+            learning_history: localStorage.getItem('nan_learning_history'),
+            favorites: localStorage.getItem('nan_favorites'),
+            vocabulary: localStorage.getItem('nan_vocabulary'),
+            settings: localStorage.getItem('nan_settings'),
+            review_schedule: localStorage.getItem('nan_review_schedule'),
+            mistakes: localStorage.getItem('nan_mistakes'),
+            exportDate: new Date().toISOString(),
+        };
+        const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'NAN每日一句_备份_' + new Date().toISOString().slice(0, 10) + '.json';
+        a.click();
+        URL.revokeObjectURL(url);
+        showToast('数据已导出');
+    }
+
     // ── 学习报告 ──
 
     function openReport() {
@@ -951,9 +1114,10 @@ const App = (() => {
         // 翻译
         html += '<div class="detail-translation">' + escapeHtml(s.translation) + '</div>';
 
-        // 朗读按钮
-        html += '<div style="margin-bottom:20px;">' +
+        // 朗读和分享按钮
+        html += '<div style="margin-bottom:20px;display:flex;gap:8px;">' +
             '<button class="audio-btn" onclick="App.speak(\'' + escapeJs(s.sentence) + '\')">&#x1F50A; 朗读句子</button>' +
+            '<button class="audio-btn" onclick="App.generateShareCard(' + s.id + ')" style="background:var(--accent);">&#x1F4F7; 生成卡片</button>' +
             '</div>';
 
         // 主干
@@ -1608,6 +1772,9 @@ const App = (() => {
         openWritingList,
         openWritingDetail,
         openReport,
+        generateShareCard,
+        openAchievements,
+        exportData,
         clearAllData,
         speak,
         openModal,

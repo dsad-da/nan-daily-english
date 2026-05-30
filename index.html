@@ -209,6 +209,20 @@
                     </div>
                     <span class="settings-item-arrow">&#x203A;</span>
                 </div>
+                <div class="settings-item" onclick="App.openAchievements()">
+                    <div class="settings-item-left">
+                        <span class="settings-item-icon">&#x1F3C6;</span>
+                        <span class="settings-item-text">我的成就</span>
+                    </div>
+                    <span class="settings-item-arrow">&#x203A;</span>
+                </div>
+                <div class="settings-item" onclick="App.exportData()">
+                    <div class="settings-item-left">
+                        <span class="settings-item-icon">&#x1F4E6;</span>
+                        <span class="settings-item-text">数据备份</span>
+                    </div>
+                    <span class="settings-item-arrow">&#x203A;</span>
+                </div>
                 <div class="settings-item" onclick="App.openVocabulary()">
                     <div class="settings-item-left">
                         <span class="settings-item-icon">&#x1F4DA;</span>
@@ -363,6 +377,30 @@
                     <button class="modal-close" onclick="App.closeModal('settings-modal')">&times;</button>
                 </div>
                 <div class="modal-body" id="settings-modal-body"></div>
+            </div>
+        </div>
+
+        <!-- ═══ 分享卡片弹窗 ═══ -->
+        <div class="modal-overlay" id="share-modal">
+            <div class="modal-content">
+                <div class="modal-handle"></div>
+                <div class="modal-header">
+                    <h2>&#x1F4F7; 生成分享卡片</h2>
+                    <button class="modal-close" onclick="App.closeModal('share-modal')">&times;</button>
+                </div>
+                <div class="modal-body" id="share-modal-body"></div>
+            </div>
+        </div>
+
+        <!-- ═══ 成就系统弹窗 ═══ -->
+        <div class="modal-overlay" id="achievement-modal">
+            <div class="modal-content">
+                <div class="modal-handle"></div>
+                <div class="modal-header">
+                    <h2>&#x1F3C6; 我的成就</h2>
+                    <button class="modal-close" onclick="App.closeModal('achievement-modal')">&times;</button>
+                </div>
+                <div class="modal-body" id="achievement-modal-body"></div>
             </div>
         </div>
 

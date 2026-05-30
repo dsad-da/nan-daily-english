@@ -2413,3 +2413,84 @@ p { line-height: 1.7; }
     box-shadow: var(--shadow);
     border-left: 3px solid var(--accent);
 }
+
+/* ── 成就系统 ── */
+.achievement-summary {
+    text-align: center;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--primary);
+    margin-bottom: var(--space-lg);
+}
+
+.achievement-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-md);
+}
+
+.achievement-card {
+    background: var(--bg-card);
+    border-radius: var(--radius);
+    padding: var(--space-md);
+    text-align: center;
+    box-shadow: var(--shadow);
+    position: relative;
+    transition: transform var(--duration) var(--ease);
+}
+
+.achievement-card:active {
+    transform: scale(0.96);
+}
+
+.achievement-card.unlocked {
+    border: 2px solid var(--accent);
+}
+
+.achievement-card.locked {
+    opacity: 0.6;
+}
+
+.achievement-icon {
+    font-size: 2rem;
+    margin-bottom: var(--space-sm);
+}
+
+.achievement-title {
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+}
+
+.achievement-desc {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+.achievement-badge {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    font-size: 1rem;
+}
+
+/* ── 音频按钮增强 ── */
+.audio-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-sm);
+    background: var(--primary);
+    color: white;
+    padding: 10px 16px;
+    border-radius: var(--radius-full);
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: all var(--duration) var(--ease);
+    cursor: pointer;
+    border: none;
+}
+
+.audio-btn:active {
+    transform: scale(0.96);
+}
