@@ -268,6 +268,367 @@ const App = (() => {
         document.getElementById('writing-modal-title').textContent = template.title;
     }
 
+    // ── 拼写练习 ──
+
+    let spellingState = { words: [], current: 0, score: 0, total: 0 };
+
+    function openSpelling() {
+        const vocab = Storage.getVocabulary();
+        if (vocab.length < 5) {
+            showToast('生词本至少需要5个词才能开始拼写练习');
+            return;
+        }
+        const shuffled = [...vocab].sort(() => Math.random() - 0.5);
+        spellingState.words = shuffled.slice(0, Math.min(10, shuffled.length));
+        spellingState.current = 0;
+        spellingState.score = 0;
+        spellingState.total = spellingState.words.length;
+        renderSpellingQuestion();
+        openModal('spelling-modal');
+    }
+
+    function renderSpellingQuestion() {
+        if (spellingState.current >= spellingState.total) {
+            renderSpellingResult();
+            return;
+        }
+        const w = spellingState.words[spellingState.current];
+        const progress = (spellingState.current / spellingState.total * 100).toFixed(0);
+        const hint = w.word[0] + '_ '.repeat(w.word.length - 1);
+
+        let html = '<div class="quiz-progress-bar"><div class="quiz-progress-fill" style="width:' + progress + '%"></div></div>';
+        html += '<div class="quiz-score">第 ' + (spellingState.current + 1) + ' / ' + spellingState.total + ' 题</div>';
+        html += '<div class="spelling-meaning">' + escapeHtml(w.definition) + '</div>';
+        html += '<div class="spelling-hint">提示：首字母是 <strong>' + w.word[0].toUpperCase() + '</strong>，共 ' + w.word.length + ' 个字母</div>';
+        html += '<div class="spelling-letter-hint">' + hint.toUpperCase() + '</div>';
+        html += '<div style="margin:20px 0;">';
+        html += '<input type="text" class="spelling-input" id="spelling-input" placeholder="输入英文单词..." autocomplete="off" autocapitalize="none">';
+        html += '</div>';
+        html += '<div style="text-align:center;">';
+        html += '<button class="btn btn-primary" onclick="App.checkSpelling()">提交</button>';
+        html += '<button class="btn btn-ghost" onclick="App.skipSpelling()" style="margin-left:8px;">跳过</button>';
+        html += '</div>';
+        html += '<div id="spelling-feedback"></div>';
+
+        document.getElementById('spelling-modal-body').innerHTML = html;
+        setTimeout(() => {
+            const input = document.getElementById('spelling-input');
+            if (input) input.focus();
+        }, 100);
+    }
+
+    function checkSpelling() {
+        const w = spellingState.words[spellingState.current];
+        const input = document.getElementById('spelling-input');
+        const userAnswer = input.value.trim().toLowerCase();
+        const correctAnswer = w.word.toLowerCase();
+
+        if (!userAnswer) {
+            showToast('请输入单词');
+            return;
+        }
+
+        const isCorrect = userAnswer === correctAnswer;
+        if (isCorrect) spellingState.score++;
+
+        input.disabled = true;
+        let feedbackHtml = '';
+        if (isCorrect) {
+            feedbackHtml = '<div class="quiz-result correct" style="margin-top:16px;">&#x2705; 正确！</div>';
+        } else {
+            feedbackHtml = '<div class="quiz-result wrong" style="margin-top:16px;">&#x274C; 正确答案：' + escapeHtml(w.word) + '</div>';
+            // 高亮显示差异
+            feedbackHtml += '<div class="spelling-compare">';
+            feedbackHtml += '<div>你的输入：<span style="color:var(--danger);">' + escapeHtml(userAnswer) + '</span></div>';
+            feedbackHtml += '<div>正确拼写：<span style="color:var(--success);">' + escapeHtml(correctAnswer) + '</span></div>';
+            feedbackHtml += '</div>';
+        }
+        feedbackHtml += '<div style="text-align:center;margin-top:12px;"><button class="btn btn-primary" onclick="App.nextSpelling()">下一题</button></div>';
+        document.getElementById('spelling-feedback').innerHTML = feedbackHtml;
+    }
+
+    function skipSpelling() {
+        const w = spellingState.words[spellingState.current];
+        let feedbackHtml = '<div class="quiz-result wrong" style="margin-top:16px;">&#x23ED;&#xFE0F; 跳过，正确答案：' + escapeHtml(w.word) + '</div>';
+        feedbackHtml += '<div style="text-align:center;margin-top:12px;"><button class="btn btn-primary" onclick="App.nextSpelling()">下一题</button></div>';
+        document.getElementById('spelling-feedback').innerHTML = feedbackHtml;
+        document.getElementById('spelling-input').disabled = true;
+    }
+
+    function nextSpelling() {
+        spellingState.current++;
+        renderSpellingQuestion();
+    }
+
+    function renderSpellingResult() {
+        const percent = Math.round(spellingState.score / spellingState.total * 100);
+        let emoji = '&#x1F389;';
+        let msg = '拼写完成！';
+        if (percent < 60) { emoji = '&#x1F4AA;'; msg = '继续加油！'; }
+        else if (percent < 80) { emoji = '&#x1F44D;'; msg = '不错！'; }
+        let html = '<div class="quiz-result-screen">' +
+            '<div class="quiz-result-emoji">' + emoji + '</div>' +
+            '<div class="quiz-result-msg">' + msg + '</div>' +
+            '<div class="quiz-result-score">' + spellingState.score + ' / ' + spellingState.total + '</div>' +
+            '<div class="quiz-result-percent">正确率 ' + percent + '%</div>' +
+            '<button class="btn btn-primary" onclick="App.openSpelling()" style="margin-top:20px;">再来一轮</button>' +
+            '</div>';
+        document.getElementById('spelling-modal-body').innerHTML = html;
+    }
+
+    // ── 每日挑战 ──
+
+    let challengeState = { questions: [], current: 0, score: 0, total: 5, timeLeft: 0, timer: null };
+
+    function openChallenge() {
+        // 检查今天是否已完成挑战
+        const today = new Date().toISOString().slice(0, 10);
+        const challengeDate = localStorage.getItem('nan_challenge_date');
+        if (challengeDate === today) {
+            showToast('今天的挑战已完成，明天再来！');
+            return;
+        }
+
+        // 生成混合题目（词汇测验 + 填空 + 拼写）
+        const vocab = Storage.getVocabulary();
+        if (vocab.length < 4) {
+            showToast('生词本至少需要4个词才能开始挑战');
+            return;
+        }
+
+        const questions = [];
+        const shuffled = [...vocab].sort(() => Math.random() - 0.5);
+
+        // 2道词汇测验题
+        for (let i = 0; i < 2 && i < shuffled.length; i++) {
+            const w = shuffled[i];
+            const wrongAnswers = vocab.filter(v => v.word !== w.word)
+                .sort(() => Math.random() - 0.5)
+                .slice(0, 3)
+                .map(v => v.definition);
+            const options = [w.definition, ...wrongAnswers].sort(() => Math.random() - 0.5);
+            questions.push({
+                type: 'quiz',
+                word: w.word,
+                options,
+                correct: options.indexOf(w.definition)
+            });
+        }
+
+        // 2道填空题
+        const learned = [];
+        for (let i = 0; i < SENTENCES.length; i++) {
+            if (Storage.hasLearnedSentence(SENTENCES[i].id)) learned.push(SENTENCES[i]);
+        }
+        if (learned.length >= 2) {
+            const sentShuffled = learned.sort(() => Math.random() - 0.5);
+            for (let i = 0; i < 2 && i < sentShuffled.length; i++) {
+                const s = sentShuffled[i];
+                const words = s.sentence.split(/\s+/);
+                const blankIdx = Math.floor(words.length / 2);
+                const correctWord = words[blankIdx].replace(/[^a-zA-Z'-]/g, '');
+                const otherWords = words.filter((w, idx) => idx !== blankIdx && w.replace(/[^a-zA-Z'-]/g, '').length > 3);
+                const distractors = otherWords.sort(() => Math.random() - 0.5).slice(0, 3);
+                const options = [correctWord, ...distractors.map(w => w.replace(/[^a-zA-Z'-]/g, ''))].sort(() => Math.random() - 0.5);
+                questions.push({
+                    type: 'cloze',
+                    sentence: s.sentence,
+                    blankIndex: blankIdx,
+                    words,
+                    options,
+                    correct: options.indexOf(correctWord)
+                });
+            }
+        }
+
+        // 1道拼写题
+        if (shuffled.length > 2) {
+            questions.push({
+                type: 'spelling',
+                word: shuffled[2].word,
+                meaning: shuffled[2].definition
+            });
+        }
+
+        challengeState.questions = questions;
+        challengeState.current = 0;
+        challengeState.score = 0;
+        challengeState.total = questions.length;
+        challengeState.timeLeft = 120; // 2分钟
+        renderChallengeQuestion();
+        startChallengeTimer();
+        openModal('challenge-modal');
+    }
+
+    function startChallengeTimer() {
+        if (challengeState.timer) clearInterval(challengeState.timer);
+        challengeState.timer = setInterval(() => {
+            challengeState.timeLeft--;
+            const timerEl = document.getElementById('challenge-timer');
+            if (timerEl) {
+                const min = Math.floor(challengeState.timeLeft / 60);
+                const sec = challengeState.timeLeft % 60;
+                timerEl.textContent = min + ':' + (sec < 10 ? '0' : '') + sec;
+                if (challengeState.timeLeft <= 30) {
+                    timerEl.style.color = 'var(--danger)';
+                }
+            }
+            if (challengeState.timeLeft <= 0) {
+                clearInterval(challengeState.timer);
+                renderChallengeResult();
+            }
+        }, 1000);
+    }
+
+    function renderChallengeQuestion() {
+        if (challengeState.current >= challengeState.total) {
+            clearInterval(challengeState.timer);
+            renderChallengeResult();
+            return;
+        }
+        const q = challengeState.questions[challengeState.current];
+        const progress = (challengeState.current / challengeState.total * 100).toFixed(0);
+
+        let html = '<div class="challenge-header">';
+        html += '<div class="challenge-timer" id="challenge-timer">2:00</div>';
+        html += '<div class="challenge-progress-text">' + (challengeState.current + 1) + '/' + challengeState.total + '</div>';
+        html += '</div>';
+        html += '<div class="quiz-progress-bar"><div class="quiz-progress-fill" style="width:' + progress + '%"></div></div>';
+
+        if (q.type === 'quiz') {
+            html += '<div class="challenge-type">&#x1F3AF; 词汇选择</div>';
+            html += '<div class="quiz-word-display">' + escapeHtml(q.word) + '</div>';
+            html += '<div class="quiz-hint">选择正确的释义：</div>';
+            const labels = ['A', 'B', 'C', 'D'];
+            q.options.forEach((opt, idx) => {
+                html += '<div class="quiz-option" onclick="App.answerChallenge(' + idx + ')">' +
+                    '<span class="quiz-option-label">' + labels[idx] + '.</span>' +
+                    '<span>' + escapeHtml(opt) + '</span></div>';
+            });
+        } else if (q.type === 'cloze') {
+            html += '<div class="challenge-type">&#x270D;&#xFE0F; 填空</div>';
+            html += '<div class="cloze-sentence">';
+            q.words.forEach((w, idx) => {
+                if (idx === q.blankIndex) {
+                    html += '<span class="cloze-blank" id="cloze-blank">____</span> ';
+                } else {
+                    html += escapeHtml(w) + ' ';
+                }
+            });
+            html += '</div>';
+            html += '<div class="cloze-options">';
+            q.options.forEach((opt, idx) => {
+                html += '<button class="cloze-option-btn" onclick="App.answerChallenge(' + idx + ')">' + escapeHtml(opt) + '</button>';
+            });
+            html += '</div>';
+        } else if (q.type === 'spelling') {
+            html += '<div class="challenge-type">&#x1F4DD; 拼写</div>';
+            html += '<div class="spelling-meaning">' + escapeHtml(q.meaning) + '</div>';
+            html += '<div class="spelling-hint">首字母：<strong>' + q.word[0].toUpperCase() + '</strong>，共 ' + q.word.length + ' 个字母</div>';
+            html += '<input type="text" class="spelling-input" id="challenge-spelling-input" placeholder="输入英文单词..." autocomplete="off" autocapitalize="none">';
+            html += '<div style="text-align:center;margin-top:12px;">';
+            html += '<button class="btn btn-primary" onclick="App.answerChallengeSpelling()">提交</button>';
+            html += '</div>';
+        }
+
+        html += '<div id="challenge-feedback"></div>';
+        document.getElementById('challenge-modal-body').innerHTML = html;
+
+        if (q.type === 'spelling') {
+            setTimeout(() => {
+                const input = document.getElementById('challenge-spelling-input');
+                if (input) input.focus();
+            }, 100);
+        }
+    }
+
+    function answerChallenge(idx) {
+        const q = challengeState.questions[challengeState.current];
+        const options = document.querySelectorAll('#challenge-modal-body .quiz-option, #challenge-modal-body .cloze-option-btn');
+        options.forEach(el => el.style.pointerEvents = 'none');
+
+        if (idx === q.correct) {
+            challengeState.score++;
+            if (options[idx]) {
+                options[idx].classList.add('correct');
+                if (options[idx].tagName === 'BUTTON') {
+                    options[idx].style.background = 'var(--success)';
+                    options[idx].style.color = 'white';
+                }
+            }
+            document.getElementById('challenge-feedback').innerHTML = '<div class="quiz-result correct" style="margin-top:12px;">&#x2705; 正确！</div>';
+        } else {
+            if (options[idx]) {
+                options[idx].classList.add('wrong');
+                if (options[idx].tagName === 'BUTTON') {
+                    options[idx].style.background = 'var(--danger)';
+                    options[idx].style.color = 'white';
+                }
+            }
+            if (options[q.correct]) {
+                options[q.correct].classList.add('correct');
+                if (options[q.correct].tagName === 'BUTTON') {
+                    options[q.correct].style.background = 'var(--success)';
+                    options[q.correct].style.color = 'white';
+                }
+            }
+            document.getElementById('challenge-feedback').innerHTML = '<div class="quiz-result wrong" style="margin-top:12px;">&#x274C; 错误！</div>';
+        }
+
+        setTimeout(() => {
+            challengeState.current++;
+            renderChallengeQuestion();
+        }, 1000);
+    }
+
+    function answerChallengeSpelling() {
+        const q = challengeState.questions[challengeState.current];
+        const input = document.getElementById('challenge-spelling-input');
+        const userAnswer = input.value.trim().toLowerCase();
+
+        if (!userAnswer) {
+            showToast('请输入单词');
+            return;
+        }
+
+        input.disabled = true;
+        if (userAnswer === q.word.toLowerCase()) {
+            challengeState.score++;
+            document.getElementById('challenge-feedback').innerHTML = '<div class="quiz-result correct" style="margin-top:12px;">&#x2705; 正确！</div>';
+        } else {
+            document.getElementById('challenge-feedback').innerHTML = '<div class="quiz-result wrong" style="margin-top:12px;">&#x274C; 正确答案：' + escapeHtml(q.word) + '</div>';
+        }
+
+        setTimeout(() => {
+            challengeState.current++;
+            renderChallengeQuestion();
+        }, 1500);
+    }
+
+    function renderChallengeResult() {
+        if (challengeState.timer) clearInterval(challengeState.timer);
+        const today = new Date().toISOString().slice(0, 10);
+        localStorage.setItem('nan_challenge_date', today);
+
+        const percent = Math.round(challengeState.score / challengeState.total * 100);
+        let emoji = '&#x1F389;';
+        let msg = '挑战完成！';
+        if (percent < 60) { emoji = '&#x1F4AA;'; msg = '明天继续加油！'; }
+        else if (percent < 100) { emoji = '&#x1F44D;'; msg = '表现不错！'; }
+        else { emoji = '&#x1F31F;'; msg = '完美通关！'; }
+
+        let html = '<div class="quiz-result-screen">';
+        html += '<div class="quiz-result-emoji">' + emoji + '</div>';
+        html += '<div class="quiz-result-msg">' + msg + '</div>';
+        html += '<div class="quiz-result-score">' + challengeState.score + ' / ' + challengeState.total + '</div>';
+        html += '<div class="quiz-result-percent">得分 ' + percent + '%</div>';
+        if (percent === 100) {
+            html += '<div style="margin-top:12px;font-size:1.5rem;">&#x1F3C6; &#x2B50; &#x1F389;</div>';
+        }
+        html += '</div>';
+        document.getElementById('challenge-modal-body').innerHTML = html;
+    }
+
     // ── 分享卡片 ──
 
     function generateShareCard(sentenceId) {
@@ -1767,6 +2128,13 @@ const App = (() => {
         removeMistake,
         clearAllMistakes,
         openReview,
+        openSpelling,
+        checkSpelling,
+        skipSpelling,
+        nextSpelling,
+        openChallenge,
+        answerChallenge,
+        answerChallengeSpelling,
         openGrammarList,
         openGrammarDetail,
         openWritingList,

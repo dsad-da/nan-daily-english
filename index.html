@@ -259,6 +259,20 @@
                     </div>
                     <span class="settings-item-arrow">&#x203A;</span>
                 </div>
+                <div class="settings-item" onclick="App.openSpelling()">
+                    <div class="settings-item-left">
+                        <span class="settings-item-icon">&#x1F4DD;</span>
+                        <span class="settings-item-text">拼写练习</span>
+                    </div>
+                    <span class="settings-item-arrow">&#x203A;</span>
+                </div>
+                <div class="settings-item" onclick="App.openChallenge()">
+                    <div class="settings-item-left">
+                        <span class="settings-item-icon">&#x1F3C6;</span>
+                        <span class="settings-item-text">每日挑战</span>
+                    </div>
+                    <span class="settings-item-arrow">&#x203A;</span>
+                </div>
                 <div class="settings-item" onclick="App.openGrammarList()">
                     <div class="settings-item-left">
                         <span class="settings-item-icon">&#x1F4D6;</span>
@@ -390,6 +404,30 @@
                     <button class="modal-close" onclick="App.closeModal('share-modal')">&times;</button>
                 </div>
                 <div class="modal-body" id="share-modal-body"></div>
+            </div>
+        </div>
+
+        <!-- ═══ 拼写练习弹窗 ═══ -->
+        <div class="modal-overlay" id="spelling-modal">
+            <div class="modal-content">
+                <div class="modal-handle"></div>
+                <div class="modal-header">
+                    <h2>&#x270D;&#xFE0F; 拼写练习</h2>
+                    <button class="modal-close" onclick="App.closeModal('spelling-modal')">&times;</button>
+                </div>
+                <div class="modal-body" id="spelling-modal-body"></div>
+            </div>
+        </div>
+
+        <!-- ═══ 每日挑战弹窗 ═══ -->
+        <div class="modal-overlay" id="challenge-modal">
+            <div class="modal-content">
+                <div class="modal-handle"></div>
+                <div class="modal-header">
+                    <h2>&#x1F3AF; 每日挑战</h2>
+                    <button class="modal-close" onclick="App.closeModal('challenge-modal')">&times;</button>
+                </div>
+                <div class="modal-body" id="challenge-modal-body"></div>
             </div>
         </div>
 
