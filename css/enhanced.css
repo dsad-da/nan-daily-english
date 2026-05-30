@@ -1,0 +1,699 @@
+/* ═══════════════════════════════════════════
+   NAN每日一句 - 增强版设计系统
+   基于多邻国、百词斩等流行学习应用
+   ═══════════════════════════════════════════ */
+
+/* ── 游戏化徽章动画 ── */
+@keyframes badgeUnlock {
+    0% { transform: scale(0) rotate(-180deg); opacity: 0; }
+    50% { transform: scale(1.2) rotate(10deg); opacity: 1; }
+    75% { transform: scale(0.9) rotate(-5deg); }
+    100% { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+
+@keyframes streakPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+@keyframes progressGlow {
+    0%, 100% { box-shadow: 0 0 5px rgba(192, 72, 81, 0.3); }
+    50% { box-shadow: 0 0 20px rgba(192, 72, 81, 0.6); }
+}
+
+@keyframes confettiFall {
+    0% { transform: translateY(-100px) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+}
+
+@keyframes slideInUp {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes fadeInScale {
+    from { transform: scale(0.95); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+/* ── 增强的打卡区域 ── */
+.checkin-section {
+    background: linear-gradient(135deg, #FFF9F5 0%, #FFF5F2 100%);
+    border: 2px solid transparent;
+    background-clip: padding-box;
+    position: relative;
+    overflow: hidden;
+}
+
+.checkin-section::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(212, 168, 83, 0.1) 0%, transparent 70%);
+    animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translate(0, 0); }
+    50% { transform: translate(-20px, 20px); }
+}
+
+.checkin-icon {
+    animation: streakPulse 2s ease-in-out infinite;
+}
+
+.btn-checkin {
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-checkin::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.btn-checkin:active::after {
+    width: 200px;
+    height: 200px;
+}
+
+/* ── 增强的统计卡片 ── */
+.stat-item {
+    background: linear-gradient(135deg, #FFFFFF 0%, #FBF8F4 100%);
+    border: 1px solid rgba(237, 230, 222, 0.5);
+    transition: all 0.3s var(--ease);
+}
+
+.stat-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(120, 90, 60, 0.12);
+}
+
+.stat-value {
+    background: linear-gradient(135deg, #C04851, #D4696E);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* ── 增强的句子卡片 ── */
+.sentence-card {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s var(--ease);
+}
+
+.sentence-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--primary), var(--accent));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s var(--ease);
+}
+
+.sentence-card:hover::after,
+.sentence-card:active::after {
+    transform: scaleX(1);
+}
+
+.sentence-card .tag-level {
+    position: relative;
+    z-index: 1;
+}
+
+/* ── 增强的文章卡片 ── */
+.article-card {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s var(--ease);
+}
+
+.article-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: linear-gradient(180deg, var(--indigo), var(--jade));
+    transform: scaleY(0);
+    transform-origin: top;
+    transition: transform 0.3s var(--ease);
+}
+
+.article-card:hover::before,
+.article-card:active::before {
+    transform: scaleY(1);
+}
+
+/* ── 增强的功能入口 ── */
+.feature-item {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, #FFFFFF 0%, #FBF8F4 100%);
+    border: 1px solid rgba(237, 230, 222, 0.3);
+    transition: all 0.3s var(--ease);
+}
+
+.feature-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary), var(--accent));
+    transform: scaleX(0);
+    transition: transform 0.3s var(--ease);
+}
+
+.feature-item:hover::before,
+.feature-item:active::before {
+    transform: scaleX(1);
+}
+
+.feature-item:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(120, 90, 60, 0.15);
+}
+
+.feature-icon {
+    font-size: 2.5rem;
+    margin-bottom: var(--space-md);
+    display: block;
+    transition: transform 0.3s var(--ease);
+}
+
+.feature-item:hover .feature-icon {
+    transform: scale(1.1) rotate(5deg);
+}
+
+/* ── 增强的每日推荐卡片 ── */
+.daily-sentence-card {
+    position: relative;
+    overflow: hidden;
+}
+
+.daily-sentence-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+    animation: shimmer 8s linear infinite;
+}
+
+@keyframes shimmer {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* ── 增强的每日一词卡片 ── */
+.daily-word-card {
+    position: relative;
+    overflow: hidden;
+}
+
+.daily-word-card::after {
+    content: '';
+    position: absolute;
+    bottom: -20px;
+    right: -20px;
+    width: 100px;
+    height: 100px;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.15) 0%, transparent 70%);
+    border-radius: 50%;
+}
+
+/* ── 增强的导航栏 ── */
+.nav-item {
+    position: relative;
+    transition: all 0.3s var(--ease);
+}
+
+.nav-item::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(192, 72, 81, 0.1);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.3s, height 0.3s;
+}
+
+.nav-item:active::before {
+    width: 60px;
+    height: 60px;
+}
+
+.nav-item.active svg {
+    filter: drop-shadow(0 2px 4px rgba(192, 72, 81, 0.3));
+}
+
+/* ── 增强的模态框 ── */
+.modal-content {
+    position: relative;
+    overflow: hidden;
+}
+
+.modal-content::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--primary), var(--accent), transparent);
+    opacity: 0.5;
+}
+
+/* ── 增强的测验选项 ── */
+.quiz-option {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s var(--ease);
+}
+
+.quiz-option::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+.quiz-option:hover::before {
+    left: 100%;
+}
+
+.quiz-option.correct {
+    animation: correctPulse 0.5s ease;
+}
+
+.quiz-option.wrong {
+    animation: wrongShake 0.5s ease;
+}
+
+@keyframes correctPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.02); }
+}
+
+@keyframes wrongShake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+/* ── 增强的进度条 ── */
+.quiz-progress-bar {
+    position: relative;
+    overflow: hidden;
+}
+
+.quiz-progress-fill {
+    position: relative;
+    overflow: hidden;
+}
+
+.quiz-progress-fill::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    animation: progressShine 2s infinite;
+}
+
+@keyframes progressShine {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+/* ── 增强的成就卡片 ── */
+.achievement-card {
+    transition: all 0.3s var(--ease);
+}
+
+.achievement-card.unlocked {
+    animation: badgeUnlock 0.6s ease forwards;
+}
+
+.achievement-card.unlocked:hover {
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 12px 32px rgba(212, 168, 83, 0.2);
+}
+
+.achievement-icon {
+    transition: transform 0.3s var(--ease);
+}
+
+.achievement-card:hover .achievement-icon {
+    transform: scale(1.2) rotate(10deg);
+}
+
+/* ── 增强的输入框 ── */
+.search-input,
+.dictation-input,
+textarea {
+    transition: all 0.3s var(--ease);
+}
+
+.search-input:focus,
+.dictation-input:focus,
+textarea:focus {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(192, 72, 81, 0.1);
+}
+
+/* ── 增强的按钮 ── */
+.btn-primary {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s var(--ease);
+}
+
+.btn-primary::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+.btn-primary:hover::before {
+    left: 100%;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(192, 72, 81, 0.3);
+}
+
+.btn-primary:active {
+    transform: translateY(0) scale(0.98);
+}
+
+/* ── 增强的标签 ── */
+.tag {
+    transition: all 0.3s var(--ease);
+}
+
+.tag:hover {
+    transform: translateY(-1px);
+}
+
+/* ── 增强的生词卡片 ── */
+.vocab-card {
+    transition: all 0.3s var(--ease);
+    position: relative;
+    overflow: hidden;
+}
+
+.vocab-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 3px;
+    height: 100%;
+    background: linear-gradient(180deg, var(--primary), var(--accent));
+    transform: scaleY(0);
+    transition: transform 0.3s var(--ease);
+}
+
+.vocab-card:hover::before {
+    transform: scaleY(1);
+}
+
+.vocab-card:hover {
+    transform: translateX(4px);
+    box-shadow: 0 4px 16px rgba(120, 90, 60, 0.12);
+}
+
+/* ── 增强的日历 ── */
+.calendar-day {
+    transition: all 0.3s var(--ease);
+}
+
+.calendar-day:hover:not(.empty) {
+    background: var(--bg-hover);
+    transform: scale(1.1);
+}
+
+.calendar-day.checked {
+    position: relative;
+    overflow: hidden;
+}
+
+.calendar-day.checked::after {
+    content: '✓';
+    position: absolute;
+    bottom: 2px;
+    right: 2px;
+    font-size: 8px;
+    opacity: 0.7;
+}
+
+/* ── 增强的复习提醒 ── */
+.review-reminder {
+    position: relative;
+    overflow: hidden;
+}
+
+.review-reminder::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+    animation: float 8s ease-in-out infinite;
+}
+
+/* ── 增强的语法专题卡片 ── */
+.grammar-topic-card,
+.writing-template-card {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s var(--ease);
+}
+
+.grammar-topic-card::before,
+.writing-template-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(192, 72, 81, 0.05), transparent);
+    transition: left 0.5s;
+}
+
+.grammar-topic-card:hover::before,
+.writing-template-card:hover::before {
+    left: 100%;
+}
+
+.grammar-topic-card:hover,
+.writing-template-card:hover {
+    transform: translateX(8px);
+    box-shadow: 0 8px 24px rgba(120, 90, 60, 0.12);
+}
+
+/* ── 增强的写作短语标签 ── */
+.writing-phrase {
+    transition: all 0.3s var(--ease);
+    cursor: pointer;
+}
+
+.writing-phrase:hover {
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 4px 12px rgba(192, 72, 81, 0.2);
+}
+
+/* ── 增强的学习报告图表 ── */
+.report-bar {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s var(--ease);
+}
+
+.report-bar:hover {
+    transform: scaleY(1.05);
+    filter: brightness(1.1);
+}
+
+.report-bar::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.3) 0%, transparent 100%);
+}
+
+/* ── 增强的 Toast 通知 ── */
+.toast {
+    background: linear-gradient(135deg, #3B3230, #4A4040);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+}
+
+/* ── 增强的空状态 ── */
+.empty-state-icon {
+    animation: float 3s ease-in-out infinite;
+}
+
+/* ── 增强的加载骨架 ── */
+.skeleton {
+    position: relative;
+    overflow: hidden;
+}
+
+.skeleton::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    animation: skeletonShine 1.5s infinite;
+}
+
+@keyframes skeletonShine {
+    0% { left: -100%; }
+    100% { left: 100%; }
+}
+
+/* ── 增强的滚动条 ── */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--border-dark);
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--text-muted);
+}
+
+/* ── 增强的选择效果 ── */
+::selection {
+    background: rgba(192, 72, 81, 0.2);
+    color: var(--text-primary);
+}
+
+/* ── 增强的焦点样式 ── */
+:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+}
+
+/* ── 增强的触摸反馈 ── */
+@media (hover: hover) {
+    .sentence-card:hover,
+    .article-card:hover,
+    .feature-item:hover,
+    .grammar-topic-card:hover,
+    .writing-template-card:hover {
+        transform: translateY(-4px);
+    }
+}
+
+/* ── 增强的暗色模式 ── */
+[data-theme="dark"] .sentence-card::after,
+[data-theme="dark"] .article-card::before,
+[data-theme="dark"] .feature-item::before,
+[data-theme="dark"] .vocab-card::before {
+    background: linear-gradient(90deg, var(--primary-dark), var(--accent));
+}
+
+[data-theme="dark"] .daily-sentence-card::before {
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.05) 0%, transparent 50%);
+}
+
+[data-theme="dark"] .quiz-option::before {
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+}
+
+/* ── 增强的响应式 ── */
+@media (max-width: 360px) {
+    .feature-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .achievement-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .report-overview {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ── 增强的无障碍 ── */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* ── 增强的打印样式 ── */
+@media print {
+    .bottom-nav,
+    .modal-overlay,
+    .toast,
+    .firework-container {
+        display: none !important;
+    }
+
+    .page {
+        page-break-inside: avoid;
+    }
+}
