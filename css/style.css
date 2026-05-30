@@ -2651,3 +2651,425 @@ p { line-height: 1.7; }
     text-align: center;
     margin-bottom: var(--space-md);
 }
+
+/* ── 词汇测验解释 ── */
+.quiz-explanation {
+    background: var(--bg-card);
+    border-radius: var(--radius);
+    padding: var(--space-md) var(--space-lg);
+    margin-top: var(--space-md);
+    border: 1px solid var(--border);
+}
+
+.quiz-word-detail {
+    margin-bottom: var(--space-md);
+}
+
+.quiz-word-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: var(--space-xs);
+}
+
+.quiz-word-meaning {
+    font-size: 0.9375rem;
+    color: var(--text-primary);
+    margin-bottom: var(--space-xs);
+}
+
+.quiz-word-your-answer {
+    font-size: 0.8125rem;
+    color: var(--danger);
+    margin-bottom: var(--space-xs);
+}
+
+.quiz-word-meta {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+.quiz-tip {
+    background: rgba(212, 168, 83, 0.1);
+    border-radius: var(--radius-sm);
+    padding: var(--space-sm) var(--space-md);
+    font-size: 0.8125rem;
+    color: var(--text-secondary);
+    border-left: 3px solid var(--accent);
+}
+
+.quiz-similar {
+    background: var(--bg-card);
+    border-radius: var(--radius);
+    padding: var(--space-md) var(--space-lg);
+    margin-top: var(--space-md);
+    border: 1px solid var(--border);
+}
+
+.quiz-similar-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--primary);
+    margin-bottom: var(--space-sm);
+}
+
+.quiz-similar-desc {
+    font-size: 0.8125rem;
+    color: var(--text-muted);
+    margin-bottom: var(--space-md);
+}
+
+.quiz-similar-item {
+    background: var(--bg-hover);
+    border-radius: var(--radius-sm);
+    padding: var(--space-sm) var(--space-md);
+    margin-bottom: var(--space-sm);
+}
+
+.quiz-similar-word {
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.quiz-similar-meaning {
+    font-size: 0.8125rem;
+    color: var(--text-secondary);
+}
+
+/* ── 听写解释 ── */
+.dictation-explanation {
+    background: var(--bg-card);
+    border-radius: var(--radius);
+    padding: var(--space-md) var(--space-lg);
+    margin-top: var(--space-md);
+    border: 1px solid var(--border);
+}
+
+.dictation-explanation-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--primary);
+    margin-bottom: var(--space-md);
+}
+
+.dictation-translation {
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    color: var(--text-primary);
+    margin-bottom: var(--space-md);
+    padding: var(--space-sm) var(--space-md);
+    background: var(--primary-bg);
+    border-radius: var(--radius-sm);
+}
+
+.dictation-grammar {
+    margin-bottom: var(--space-md);
+}
+
+.dictation-grammar-label {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--primary);
+    margin-bottom: var(--space-sm);
+}
+
+.dictation-grammar-text {
+    font-size: 0.9375rem;
+    color: var(--text-primary);
+    font-weight: 500;
+    margin-bottom: var(--space-xs);
+}
+
+.dictation-grammar-desc {
+    font-size: 0.8125rem;
+    color: var(--text-secondary);
+}
+
+.dictation-clause {
+    background: var(--bg-hover);
+    border-radius: var(--radius-sm);
+    padding: var(--space-sm) var(--space-md);
+    margin-bottom: var(--space-sm);
+    border-left: 3px solid var(--primary);
+}
+
+.dictation-clause-type {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--primary);
+    margin-bottom: 4px;
+}
+
+.dictation-clause-text {
+    font-size: 0.875rem;
+    color: var(--text-primary);
+    font-weight: 500;
+    margin-bottom: 4px;
+}
+
+.dictation-clause-desc {
+    font-size: 0.8125rem;
+    color: var(--text-secondary);
+}
+
+.dictation-keywords {
+    margin-bottom: var(--space-md);
+}
+
+.dictation-keyword-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+}
+
+.dictation-keyword {
+    background: rgba(192, 72, 81, 0.08);
+    border: 1px solid rgba(192, 72, 81, 0.15);
+    border-radius: var(--radius-full);
+    padding: 4px 12px;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--primary);
+}
+
+.dictation-grammar-points {
+    margin-bottom: var(--space-md);
+}
+
+.dictation-grammar-point {
+    background: rgba(43, 91, 138, 0.05);
+    border-radius: var(--radius-sm);
+    padding: var(--space-sm) var(--space-md);
+    margin-bottom: var(--space-xs);
+    font-size: 0.8125rem;
+    color: var(--text-secondary);
+    border-left: 3px solid var(--indigo);
+}
+
+.dictation-tip {
+    background: rgba(212, 168, 83, 0.1);
+    border-radius: var(--radius-sm);
+    padding: var(--space-sm) var(--space-md);
+    margin-top: var(--space-md);
+    border-left: 3px solid var(--accent);
+}
+
+.dictation-tip-title {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+}
+
+.dictation-tip-text {
+    font-size: 0.8125rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+/* ── 填空解释 ── */
+.cloze-explanation {
+    background: var(--bg-card);
+    border-radius: var(--radius);
+    padding: var(--space-md) var(--space-lg);
+    margin-top: var(--space-md);
+    border: 1px solid var(--border);
+}
+
+.cloze-explanation-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--primary);
+    margin-bottom: var(--space-md);
+}
+
+.cloze-full-sentence {
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    color: var(--text-primary);
+    margin-bottom: var(--space-sm);
+}
+
+.cloze-translation {
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    color: var(--text-secondary);
+    margin-bottom: var(--space-md);
+    padding: var(--space-sm) var(--space-md);
+    background: var(--primary-bg);
+    border-radius: var(--radius-sm);
+}
+
+.cloze-your-answer {
+    font-size: 0.8125rem;
+    color: var(--danger);
+    margin-bottom: var(--space-md);
+}
+
+.cloze-grammar {
+    margin-bottom: var(--space-md);
+}
+
+.cloze-grammar-label {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--primary);
+    margin-bottom: var(--space-sm);
+}
+
+.cloze-grammar-point {
+    background: rgba(43, 91, 138, 0.05);
+    border-radius: var(--radius-sm);
+    padding: var(--space-sm) var(--space-md);
+    margin-bottom: var(--space-xs);
+    font-size: 0.8125rem;
+    color: var(--text-secondary);
+    border-left: 3px solid var(--indigo);
+}
+
+.cloze-keywords {
+    margin-bottom: var(--space-md);
+}
+
+.cloze-keyword-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+}
+
+.cloze-keyword {
+    background: rgba(192, 72, 81, 0.08);
+    border: 1px solid rgba(192, 72, 81, 0.15);
+    border-radius: var(--radius-full);
+    padding: 4px 12px;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--primary);
+}
+
+.cloze-tip {
+    background: rgba(212, 168, 83, 0.1);
+    border-radius: var(--radius-sm);
+    padding: var(--space-sm) var(--space-md);
+    font-size: 0.8125rem;
+    color: var(--text-secondary);
+    border-left: 3px solid var(--accent);
+}
+
+/* ── 拼写解释 ── */
+.spelling-explanation {
+    background: var(--bg-card);
+    border-radius: var(--radius);
+    padding: var(--space-md) var(--space-lg);
+    margin-top: var(--space-md);
+    border: 1px solid var(--border);
+}
+
+.spelling-explanation-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--primary);
+    margin-bottom: var(--space-md);
+}
+
+.spelling-word-detail {
+    margin-bottom: var(--space-md);
+    padding-bottom: var(--space-md);
+    border-bottom: 1px dashed var(--border);
+}
+
+.spelling-word-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: var(--space-xs);
+}
+
+.spelling-word-meaning {
+    font-size: 0.9375rem;
+    color: var(--text-primary);
+    margin-bottom: var(--space-xs);
+}
+
+.spelling-word-source {
+    font-size: 0.8125rem;
+    color: var(--text-muted);
+    margin-bottom: var(--space-xs);
+}
+
+.spelling-word-meta {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+.spelling-breakdown {
+    margin-bottom: var(--space-md);
+}
+
+.spelling-breakdown-title {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--primary);
+    margin-bottom: var(--space-sm);
+}
+
+.spelling-breakdown-text {
+    font-size: 0.8125rem;
+    color: var(--text-secondary);
+    margin-bottom: var(--space-sm);
+}
+
+.spelling-parts {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-sm);
+}
+
+.spelling-part {
+    background: var(--primary-bg);
+    border: 1px solid rgba(192, 72, 81, 0.2);
+    border-radius: var(--radius-sm);
+    padding: var(--space-sm) var(--space-md);
+    font-family: var(--font-mono);
+    font-weight: 600;
+    color: var(--primary);
+}
+
+.spelling-part-sep {
+    font-size: 1.25rem;
+    color: var(--text-muted);
+}
+
+.spelling-tips {
+    margin-bottom: var(--space-md);
+}
+
+.spelling-tips-title {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--primary);
+    margin-bottom: var(--space-sm);
+}
+
+.spelling-tips-list {
+    list-style: none;
+    padding: 0;
+}
+
+.spelling-tips-list li {
+    font-size: 0.8125rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: var(--space-xs);
+    padding-left: var(--space-md);
+    position: relative;
+}
+
+.spelling-tips-list li::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    color: var(--primary);
+}

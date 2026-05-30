@@ -343,7 +343,51 @@ const App = (() => {
             feedbackHtml += '<div>正确拼写：<span style="color:var(--success);">' + escapeHtml(correctAnswer) + '</span></div>';
             feedbackHtml += '</div>';
         }
-        feedbackHtml += '<div style="text-align:center;margin-top:12px;"><button class="btn btn-primary" onclick="App.nextSpelling()">下一题</button></div>';
+
+        // 添加详细解释
+        feedbackHtml += '<div class="spelling-explanation">';
+        feedbackHtml += '<div class="spelling-explanation-title">&#x1F4D6; 词汇详解</div>';
+        feedbackHtml += '<div class="spelling-word-detail">';
+        feedbackHtml += '<div class="spelling-word-title">' + escapeHtml(w.word) + '</div>';
+        feedbackHtml += '<div class="spelling-word-meaning">' + escapeHtml(w.definition) + '</div>';
+        if (w.source) {
+            feedbackHtml += '<div class="spelling-word-source">来源：' + escapeHtml(w.source) + '</div>';
+        }
+        feedbackHtml += '<div class="spelling-word-meta">出现 ' + w.count + ' 次 · 添加于 ' + w.addedDate + '</div>';
+        feedbackHtml += '</div>';
+
+        // 拆分记忆
+        feedbackHtml += '<div class="spelling-breakdown">';
+        feedbackHtml += '<div class="spelling-breakdown-title">&#x1F9E0; 拆分记忆</div>';
+        feedbackHtml += '<div class="spelling-breakdown-text">把 <strong>' + escapeHtml(w.word) + '</strong> 拆分成更小的部分来记忆：</div>';
+        const wordLen = w.word.length;
+        if (wordLen > 6) {
+            const mid = Math.floor(wordLen / 2);
+            feedbackHtml += '<div class="spelling-parts">';
+            feedbackHtml += '<span class="spelling-part">' + escapeHtml(w.word.slice(0, mid)) + '</span>';
+            feedbackHtml += '<span class="spelling-part-sep">+</span>';
+            feedbackHtml += '<span class="spelling-part">' + escapeHtml(w.word.slice(mid)) + '</span>';
+            feedbackHtml += '</div>';
+        } else {
+            feedbackHtml += '<div class="spelling-parts">';
+            feedbackHtml += '<span class="spelling-part">' + escapeHtml(w.word) + '</span>';
+            feedbackHtml += '</div>';
+        }
+        feedbackHtml += '</div>';
+
+        // 拼写提示
+        feedbackHtml += '<div class="spelling-tips">';
+        feedbackHtml += '<div class="spelling-tips-title">&#x1F4DD; 拼写提示</div>';
+        feedbackHtml += '<ul class="spelling-tips-list">';
+        feedbackHtml += '<li>注意双写字母：' + escapeHtml(w.word) + ' 中是否有重复字母</li>';
+        feedbackHtml += '<li>注意词尾变化：-ing, -ed, -tion, -sion 等常见后缀</li>';
+        feedbackHtml += '<li>多读几遍，根据发音拼写</li>';
+        feedbackHtml += '</ul>';
+        feedbackHtml += '</div>';
+
+        feedbackHtml += '</div>';
+
+        feedbackHtml += '<div style="text-align:center;margin-top:16px;"><button class="btn btn-primary" onclick="App.nextSpelling()">下一题</button></div>';
         document.getElementById('spelling-feedback').innerHTML = feedbackHtml;
     }
 
@@ -1108,19 +1152,76 @@ const App = (() => {
         const options = document.querySelectorAll('#quiz-modal-body .quiz-option');
         const labels = ['A', 'B', 'C', 'D'];
         options.forEach(el => el.style.pointerEvents = 'none');
+
+        // 获取词汇详细信息
+        const vocab = Storage.getVocabulary();
+        const wordInfo = vocab.find(w => w.word.toLowerCase() === q.word.toLowerCase());
+
         if (idx === q.correct) {
             quizState.score++;
             options[idx].classList.add('correct');
-            document.getElementById('quiz-feedback').innerHTML = '<div class="quiz-result correct">&#x2705; 正确！</div>';
+            let feedback = '<div class="quiz-result correct">&#x2705; 正确！</div>';
+            feedback += '<div class="quiz-explanation">';
+            feedback += '<div class="quiz-word-detail">';
+            feedback += '<div class="quiz-word-title">' + escapeHtml(q.word) + '</div>';
+            feedback += '<div class="quiz-word-meaning">' + escapeHtml(q.options[q.correct]) + '</div>';
+            if (wordInfo) {
+                feedback += '<div class="quiz-word-meta">出现 ' + wordInfo.count + ' 次 · ' + (wordInfo.mastered ? '已掌握' : '学习中') + '</div>';
+            }
+            feedback += '</div>';
+            feedback += '<div class="quiz-tip">&#x1F4A1; 记忆技巧：把单词拆分联想记忆，多在句子中理解用法</div>';
+            feedback += '</div>';
+            document.getElementById('quiz-feedback').innerHTML = feedback;
         } else {
             options[idx].classList.add('wrong');
             options[q.correct].classList.add('correct');
-            document.getElementById('quiz-feedback').innerHTML = '<div class="quiz-result wrong">&#x274C; 错误！正确答案是 ' + labels[q.correct] + '</div>';
+            let feedback = '<div class="quiz-result wrong">&#x274C; 错误！正确答案是 ' + labels[q.correct] + '</div>';
+            feedback += '<div class="quiz-explanation">';
+            feedback += '<div class="quiz-word-detail">';
+            feedback += '<div class="quiz-word-title">' + escapeHtml(q.word) + '</div>';
+            feedback += '<div class="quiz-word-meaning">' + escapeHtml(q.options[q.correct]) + '</div>';
+            feedback += '<div class="quiz-word-your-answer">你的选择：' + escapeHtml(q.options[idx]) + '</div>';
+            if (wordInfo) {
+                feedback += '<div class="quiz-word-meta">出现 ' + wordInfo.count + ' 次 · ' + (wordInfo.mastered ? '已掌握' : '学习中') + '</div>';
+            }
+            feedback += '</div>';
+            feedback += '<div class="quiz-tip">&#x1F4A1; 建议：把这个词加入生词本，多复习几次</div>';
+            feedback += '</div>';
+            document.getElementById('quiz-feedback').innerHTML = feedback;
         }
+
+        // 添加举一反三
         setTimeout(() => {
-            quizState.current++;
-            renderQuizQuestion();
-        }, 1200);
+            generateSimilarQuiz(q.word);
+        }, 500);
+    }
+
+    function generateSimilarQuiz(word) {
+        const vocab = Storage.getVocabulary();
+        const currentWord = vocab.find(w => w.word.toLowerCase() === word.toLowerCase());
+        if (!currentWord) return;
+
+        // 找相似的词（同词性或相近含义）
+        const similarWords = vocab.filter(w =>
+            w.word.toLowerCase() !== word.toLowerCase() &&
+            w.definition.includes(currentWord.definition.slice(0, 2))
+        ).slice(0, 2);
+
+        if (similarWords.length === 0) return;
+
+        let html = '<div class="quiz-similar">';
+        html += '<div class="quiz-similar-title">&#x1F504; 举一反三</div>';
+        html += '<div class="quiz-similar-desc">看看这些相关的词：</div>';
+
+        similarWords.forEach(w => {
+            html += '<div class="quiz-similar-item">';
+            html += '<div class="quiz-similar-word">' + escapeHtml(w.word) + '</div>';
+            html += '<div class="quiz-similar-meaning">' + escapeHtml(w.definition) + '</div>';
+            html += '</div>';
+        });
+
+        html += '</div>';
+        document.getElementById('quiz-feedback').innerHTML += html;
     }
 
     function renderQuizResult() {
@@ -1209,6 +1310,66 @@ const App = (() => {
         html += '<div class="dictation-label" style="margin-top:12px;">你的答案：</div>';
         html += '<div class="dictation-user">' + highlightDiff(input, s.sentence) + '</div>';
         html += '</div>';
+
+        // 详细解释
+        html += '<div class="dictation-explanation">';
+        html += '<div class="dictation-explanation-title">&#x1F4D6; 句子解析</div>';
+        html += '<div class="dictation-translation"><strong>翻译：</strong>' + escapeHtml(s.translation) + '</div>';
+
+        // 语法分析
+        if (s.grammar) {
+            if (s.grammar.main) {
+                html += '<div class="dictation-grammar">';
+                html += '<div class="dictation-grammar-label">句子主干</div>';
+                html += '<div class="dictation-grammar-text">' + escapeHtml(s.grammar.main.text) + '</div>';
+                html += '<div class="dictation-grammar-desc">' + escapeHtml(s.grammar.main.desc) + '</div>';
+                html += '</div>';
+            }
+
+            if (s.grammar.clauses && s.grammar.clauses.length > 0) {
+                html += '<div class="dictation-grammar">';
+                html += '<div class="dictation-grammar-label">从句分析</div>';
+                s.grammar.clauses.forEach(clause => {
+                    html += '<div class="dictation-clause">';
+                    html += '<div class="dictation-clause-type">' + escapeHtml(clause.type) + '</div>';
+                    html += '<div class="dictation-clause-text">' + escapeHtml(clause.text) + '</div>';
+                    html += '<div class="dictation-clause-desc">' + escapeHtml(clause.desc) + '</div>';
+                    html += '</div>';
+                });
+                html += '</div>';
+            }
+
+            // 关键词
+            if (s.grammar.keywords && s.grammar.keywords.length > 0) {
+                html += '<div class="dictation-keywords">';
+                html += '<div class="dictation-grammar-label">关键词</div>';
+                html += '<div class="dictation-keyword-list">';
+                s.grammar.keywords.forEach(kw => {
+                    const word = typeof kw === 'string' ? kw : kw.word;
+                    html += '<span class="dictation-keyword">' + escapeHtml(word) + '</span>';
+                });
+                html += '</div></div>';
+            }
+
+            // 语法点
+            if (s.grammar.grammarPoints && s.grammar.grammarPoints.length > 0) {
+                html += '<div class="dictation-grammar-points">';
+                html += '<div class="dictation-grammar-label">&#x1F4DA; 语法要点</div>';
+                s.grammar.grammarPoints.forEach(gp => {
+                    html += '<div class="dictation-grammar-point">' + escapeHtml(gp) + '</div>';
+                });
+                html += '</div>';
+            }
+        }
+
+        // 听力技巧
+        html += '<div class="dictation-tip">';
+        html += '<div class="dictation-tip-title">&#x1F442; 听力技巧</div>';
+        html += '<div class="dictation-tip-text">注意连读、弱读和重音。多听几遍，先抓住主干词汇，再补充细节。</div>';
+        html += '</div>';
+
+        html += '</div>';
+
         html += '<div style="text-align:center;margin-top:16px;">';
         if (isCorrect) {
             html += '<div class="quiz-result correct">&#x2705; 正确！相似度 ' + Math.round(similarity * 100) + '%</div>';
@@ -1367,6 +1528,11 @@ const App = (() => {
         const options = document.querySelectorAll('.cloze-option-btn');
         options.forEach(el => el.disabled = true);
         const blank = document.getElementById('cloze-blank');
+
+        // 获取当前句子信息
+        const q = clozeState.questions[clozeState.current];
+        const sentence = SENTENCES.find(s => s.sentence === q.sentence);
+
         if (selected.toLowerCase() === correct.toLowerCase()) {
             clozeState.score++;
             blank.innerHTML = escapeHtml(correct);
@@ -1374,7 +1540,30 @@ const App = (() => {
             blank.style.borderBottomColor = 'var(--success)';
             btn.style.background = 'var(--success)';
             btn.style.color = 'white';
-            document.getElementById('cloze-feedback').innerHTML = '<div class="quiz-result correct" style="margin-top:12px;">&#x2705; 正确！</div>';
+            let feedback = '<div class="quiz-result correct" style="margin-top:12px;">&#x2705; 正确！</div>';
+
+            // 添加详细解释
+            if (sentence) {
+                feedback += '<div class="cloze-explanation">';
+                feedback += '<div class="cloze-explanation-title">&#x1F4D6; 解析</div>';
+                feedback += '<div class="cloze-full-sentence"><strong>完整句子：</strong>' + escapeHtml(sentence.sentence) + '</div>';
+                feedback += '<div class="cloze-translation"><strong>翻译：</strong>' + escapeHtml(sentence.translation) + '</div>';
+
+                // 语法分析
+                if (sentence.grammar && sentence.grammar.grammarPoints) {
+                    feedback += '<div class="cloze-grammar">';
+                    feedback += '<div class="cloze-grammar-label">&#x1F4DA; 涉及语法</div>';
+                    sentence.grammar.grammarPoints.forEach(gp => {
+                        feedback += '<div class="cloze-grammar-point">' + escapeHtml(gp) + '</div>';
+                    });
+                    feedback += '</div>';
+                }
+
+                feedback += '<div class="cloze-tip">&#x1F4A1; 理解句子结构有助于快速选词填空</div>';
+                feedback += '</div>';
+            }
+
+            document.getElementById('cloze-feedback').innerHTML = feedback;
         } else {
             blank.innerHTML = escapeHtml(correct);
             blank.style.color = 'var(--danger)';
@@ -1387,12 +1576,48 @@ const App = (() => {
                     el.style.color = 'white';
                 }
             });
-            document.getElementById('cloze-feedback').innerHTML = '<div class="quiz-result wrong" style="margin-top:12px;">&#x274C; 正确答案是 ' + escapeHtml(correct) + '</div>';
+            let feedback = '<div class="quiz-result wrong" style="margin-top:12px;">&#x274C; 正确答案是 ' + escapeHtml(correct) + '</div>';
+
+            // 添加详细解释
+            if (sentence) {
+                feedback += '<div class="cloze-explanation">';
+                feedback += '<div class="cloze-explanation-title">&#x1F4D6; 解析</div>';
+                feedback += '<div class="cloze-full-sentence"><strong>完整句子：</strong>' + escapeHtml(sentence.sentence) + '</div>';
+                feedback += '<div class="cloze-translation"><strong>翻译：</strong>' + escapeHtml(sentence.translation) + '</div>';
+                feedback += '<div class="cloze-your-answer">你的选择：' + escapeHtml(selected) + '</div>';
+
+                // 语法分析
+                if (sentence.grammar && sentence.grammar.grammarPoints) {
+                    feedback += '<div class="cloze-grammar">';
+                    feedback += '<div class="cloze-grammar-label">&#x1F4DA; 涉及语法</div>';
+                    sentence.grammar.grammarPoints.forEach(gp => {
+                        feedback += '<div class="cloze-grammar-point">' + escapeHtml(gp) + '</div>';
+                    });
+                    feedback += '</div>';
+                }
+
+                // 关键词提示
+                if (sentence.grammar && sentence.grammar.keywords) {
+                    feedback += '<div class="cloze-keywords">';
+                    feedback += '<div class="cloze-grammar-label">&#x1F511; 关键词</div>';
+                    feedback += '<div class="cloze-keyword-list">';
+                    sentence.grammar.keywords.forEach(kw => {
+                        const word = typeof kw === 'string' ? kw : kw.word;
+                        feedback += '<span class="cloze-keyword">' + escapeHtml(word) + '</span>';
+                    });
+                    feedback += '</div></div>';
+                }
+
+                feedback += '<div class="cloze-tip">&#x1F4A1; 仔细分析句子成分，找出缺失的词性</div>';
+                feedback += '</div>';
+            }
+
+            document.getElementById('cloze-feedback').innerHTML = feedback;
         }
         setTimeout(() => {
             clozeState.current++;
             renderClozeQuestion();
-        }, 1500);
+        }, 3000);
     }
 
     function renderClozeResult() {
