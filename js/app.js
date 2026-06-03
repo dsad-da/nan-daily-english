@@ -790,7 +790,7 @@ const App = (() => {
         { id: 'streak_7', icon: '&#x1F525;', title: '坚持不懈', desc: '连续打卡7天', check: () => Storage.getStreak() >= 7 },
         { id: 'streak_30', icon: '&#x1F31F;', title: '月度之星', desc: '连续打卡30天', check: () => Storage.getStreak() >= 30 },
         { id: 'vocab_50', icon: '&#x1F4D6;', title: '词汇达人', desc: '积累50个生词', check: () => Storage.getVocabCount().total >= 50 },
-        { id: 'quiz_master', icon: '&#x1F3AF;', title: '测验高手', desc: '完成5次词汇测验', check: () => (Storage._get ? 0 : 0) >= 5 },
+        { id: 'quiz_master', icon: '&#x1F3AF;', title: '测验高手', desc: '完成5次词汇测验', check: () => (Storage.getQuizCount ? Storage.getQuizCount() : 0) >= 5 },
         { id: 'no_mistakes', icon: '&#x2705;', title: '零失误', desc: '错题本为空', check: () => Storage.getMistakeCount() === 0 && Storage.getStats().totalSentences >= 5 },
     ];
 
@@ -1115,14 +1115,25 @@ const App = (() => {
         const count = Math.min(10, shuffled.length);
         quizState.total = count;
         quizState.questions = shuffled.slice(0, count).map(w => {
-            const wrongAnswers = vocab
+            const wrongItems = vocab
                 .filter(v => v.word !== w.word)
                 .sort(() => Math.random() - 0.5)
-                .slice(0, 3)
-                .map(v => v.definition);
-            const options = [w.definition, ...wrongAnswers].sort(() => Math.random() - 0.5);
+                .slice(0, 3);
+            const allItems = [{ word: w.word, definition: w.definition, isCorrect: true },
+                ...wrongItems.map(v => ({ word: v.word, definition: v.definition, isCorrect: false }))
+            ].sort(() => Math.random() - 0.5);
+            const options = allItems.map(i => i.definition);
+            const optionWords = allItems.map(i => i.word);
             const correctIdx = options.indexOf(w.definition);
-            return { word: w.word, options, correct: correctIdx };
+            // 为每个选项生成解释
+            const explanations = allItems.map(i => {
+                if (i.isCorrect) {
+                    return '✅ 这是 <strong>' + escapeHtml(w.word) + '</strong> 的正确释义。' + escapeHtml(w.word) + ' 意为「' + escapeHtml(w.definition) + '」';
+                } else {
+                    return '❌ 这是 <strong>' + escapeHtml(i.word) + '</strong> 的释义，不是 ' + escapeHtml(w.word) + '。';
+                }
+            });
+            return { word: w.word, options, optionWords, correct: correctIdx, explanations };
         });
     }
 
@@ -1157,38 +1168,62 @@ const App = (() => {
         const vocab = Storage.getVocabulary();
         const wordInfo = vocab.find(w => w.word.toLowerCase() === q.word.toLowerCase());
 
-        if (idx === q.correct) {
-            quizState.score++;
-            options[idx].classList.add('correct');
-            let feedback = '<div class="quiz-result correct">&#x2705; 正确！</div>';
-            feedback += '<div class="quiz-explanation">';
-            feedback += '<div class="quiz-word-detail">';
-            feedback += '<div class="quiz-word-title">' + escapeHtml(q.word) + '</div>';
-            feedback += '<div class="quiz-word-meaning">' + escapeHtml(q.options[q.correct]) + '</div>';
-            if (wordInfo) {
-                feedback += '<div class="quiz-word-meta">出现 ' + wordInfo.count + ' 次 · ' + (wordInfo.mastered ? '已掌握' : '学习中') + '</div>';
-            }
-            feedback += '</div>';
-            feedback += '<div class="quiz-tip">&#x1F4A1; 记忆技巧：把单词拆分联想记忆，多在句子中理解用法</div>';
-            feedback += '</div>';
-            document.getElementById('quiz-feedback').innerHTML = feedback;
-        } else {
-            options[idx].classList.add('wrong');
-            options[q.correct].classList.add('correct');
-            let feedback = '<div class="quiz-result wrong">&#x274C; 错误！正确答案是 ' + labels[q.correct] + '</div>';
-            feedback += '<div class="quiz-explanation">';
-            feedback += '<div class="quiz-word-detail">';
-            feedback += '<div class="quiz-word-title">' + escapeHtml(q.word) + '</div>';
-            feedback += '<div class="quiz-word-meaning">' + escapeHtml(q.options[q.correct]) + '</div>';
+        const isCorrect = idx === q.correct;
+        if (isCorrect) quizState.score++;
+
+        // 标记正确/错误选项样式
+        options[idx].classList.add(isCorrect ? 'correct' : 'wrong');
+        if (!isCorrect) options[q.correct].classList.add('correct');
+
+        // 构建反馈
+        let feedback = '';
+        feedback += '<div class="quiz-result ' + (isCorrect ? 'correct' : 'wrong') + '">';
+        feedback += isCorrect ? '&#x2705; 正确！' : '&#x274C; 错误！正确答案是 ' + labels[q.correct];
+        feedback += '</div>';
+
+        // 词汇详情
+        feedback += '<div class="quiz-explanation">';
+        feedback += '<div class="quiz-word-detail">';
+        feedback += '<div class="quiz-word-title">' + escapeHtml(q.word) + '</div>';
+        feedback += '<div class="quiz-word-meaning">' + escapeHtml(q.options[q.correct]) + '</div>';
+        if (!isCorrect) {
             feedback += '<div class="quiz-word-your-answer">你的选择：' + escapeHtml(q.options[idx]) + '</div>';
-            if (wordInfo) {
-                feedback += '<div class="quiz-word-meta">出现 ' + wordInfo.count + ' 次 · ' + (wordInfo.mastered ? '已掌握' : '学习中') + '</div>';
-            }
-            feedback += '</div>';
-            feedback += '<div class="quiz-tip">&#x1F4A1; 建议：把这个词加入生词本，多复习几次</div>';
-            feedback += '</div>';
-            document.getElementById('quiz-feedback').innerHTML = feedback;
         }
+        if (wordInfo) {
+            feedback += '<div class="quiz-word-meta">出现 ' + wordInfo.count + ' 次 · ' + (wordInfo.mastered ? '已掌握' : '学习中') + '</div>';
+        }
+        feedback += '</div>';
+
+        // 每个选项的解释
+        feedback += '<div class="quiz-options-review">';
+        feedback += '<div class="quiz-options-review-title">&#x1F4D6; 选项解析</div>';
+        q.options.forEach((opt, i) => {
+            let optCls = 'quiz-option-review';
+            let badge = '';
+            if (i === q.correct) {
+                optCls += ' quiz-option-review-correct';
+                badge = '<span class="quiz-option-badge quiz-option-badge-correct">✓ 正确</span>';
+            } else if (i === idx) {
+                optCls += ' quiz-option-review-wrong';
+                badge = '<span class="quiz-option-badge quiz-option-badge-wrong">✗ 你的选择</span>';
+            }
+            feedback += '<div class="' + optCls + '">';
+            feedback += '<div class="quiz-option-review-header">';
+            feedback += '<span class="quiz-option-review-label">' + labels[i] + '.</span>';
+            feedback += '<span class="quiz-option-review-word">' + escapeHtml(q.options[i]) + '</span>';
+            feedback += badge;
+            feedback += '</div>';
+            feedback += '<div class="quiz-option-review-explain">' + q.explanations[i] + '</div>';
+            feedback += '</div>';
+        });
+        feedback += '</div>';
+
+        feedback += '</div>';
+
+        // 举一反三
+        feedback += '<div id="quiz-similar-area"></div>';
+
+        document.getElementById('quiz-feedback').innerHTML = feedback;
 
         // 添加举一反三
         setTimeout(() => {
@@ -1221,10 +1256,12 @@ const App = (() => {
         });
 
         html += '</div>';
-        document.getElementById('quiz-feedback').innerHTML += html;
+        var similarArea = document.getElementById('quiz-similar-area');
+        if (similarArea) similarArea.innerHTML = html;
     }
 
     function renderQuizResult() {
+        Storage.incrementQuizCount();
         const percent = Math.round(quizState.score / quizState.total * 100);
         let emoji = '&#x1F389;';
         let msg = '太棒了！';
@@ -1808,6 +1845,25 @@ const App = (() => {
         list.forEach(a => {
             const isFav = Storage.isFavoriteArticle(a.id);
             const learned = Storage.hasLearnedArticle(a.id);
+
+            // 计算阅读时间（约200词/分钟）
+            let totalWords = 0;
+            a.paragraphs.forEach(p => {
+                totalWords += p.en.split(/\s+/).length;
+            });
+            const readTime = Math.max(1, Math.ceil(totalWords / 200));
+
+            // 难度标识
+            let difficultyIcon = '&#x1F4D6;';
+            let difficultyText = '入门';
+            if (a.level === '六级' || a.level === '考研') {
+                difficultyIcon = '&#x1F4DA;';
+                difficultyText = '进阶';
+            } else if (a.level === '雅思' || a.level === '托福') {
+                difficultyIcon = '&#x1F393;';
+                difficultyText = '高级';
+            }
+
             html +=
                 '<div class="article-card" onclick="App.openArticleDetail(' + a.id + ')">' +
                 '  <div class="article-card-header">' +
@@ -1817,11 +1873,15 @@ const App = (() => {
                 '    </button>' +
                 '  </div>' +
                 '  <div class="article-card-summary">' + escapeHtml(a.summary) + '</div>' +
+                '  <div class="article-card-meta">' +
+                '    <span class="article-read-time">&#x23F1; ' + readTime + '分钟</span>' +
+                '    <span class="article-difficulty">' + difficultyIcon + ' ' + difficultyText + '</span>' +
+                '  </div>' +
                 '  <div class="article-card-footer">' +
-                '    <div style="display:flex;gap:6px;">' +
+                '    <div style="display:flex;gap:6px;flex-wrap:wrap;">' +
                 '      <span class="tag tag-level">' + a.level + '</span>' +
                 '      <span class="tag tag-source">' + (a.source || '') + '</span>' +
-                (learned ? '<span class="tag tag-success">&#x2713;</span>' : '') +
+                (learned ? '<span class="tag tag-success">&#x2713; 已读</span>' : '') +
                 '    </div>' +
                 '  </div>' +
                 '</div>';
@@ -2177,7 +2237,7 @@ const App = (() => {
                 'nan_vocabulary', 'nan_settings', 'nan_last_visit',
                 'nan_daily_sentence', 'nan_daily_date', 'nan_daily_word',
                 'nan_daily_word_date', 'nan_article_progress', 'nan_mistakes',
-                'nan_review_schedule', 'nan_challenge_date'
+                'nan_review_schedule', 'nan_challenge_date', 'nan_quiz_count'
             ];
             appKeys.forEach(key => localStorage.removeItem(key));
             showToast('数据已清除');

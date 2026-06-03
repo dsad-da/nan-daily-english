@@ -1109,6 +1109,21 @@ p { line-height: 1.7; }
     margin-top: var(--space-md);
 }
 
+.article-card-meta {
+    display: flex;
+    gap: 16px;
+    margin-top: 10px;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+.article-read-time,
+.article-difficulty {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
 /* ── Article Detail ── */
 .article-detail-header {
     margin-bottom: var(--space-lg);

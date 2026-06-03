@@ -1325,7 +1325,7 @@ const ARTICLES = [
     paragraphs: [
       {
         en: "Trees are far more social than we ever imagined. Through an underground network of fungi known as the 'Wood Wide Web,' trees share nutrients, water, and even chemical warning signals with their neighbors. This remarkable discovery has fundamentally changed how scientists understand forest ecosystems.",
-        cn: "树木远比我们想象的更具社交性。通过被称为'树木互联网'的地下真菌网络，树木与邻居共享养分、水分，甚至化学警告信号。这一remarkable发现从根本上改变了科学家对森林生态系统的理解。",
+        cn: "树木远比我们想象的更具社交性。通过被称为'树木互联网'的地下真菌网络，树木与邻居共享养分、水分，甚至化学警告信号。这一令人惊叹的发现从根本上改变了科学家对森林生态系统的理解。",
         difficultWords: ["fungi", "nutrient", "remarkable", "ecosystem", "underground"]
       },
       {
@@ -1698,6 +1698,146 @@ const ARTICLES = [
     ],
     question: "What is the 'anchoring effect' according to the article?",
     options: ["A technique for improving memory", "Relying too heavily on the first piece of information encountered", "A method for solving complex problems", "The tendency to avoid making decisions"],
+    answer: 1
+  },
+  {
+    id: 16,
+    level: "四级",
+    source: "BBC News",
+    title: "The Benefits of Learning a Second Language",
+    summary: "揭示学习第二语言对大脑和职业发展的多重好处",
+    paragraphs: [
+      {
+        en: "In today's interconnected world, speaking more than one language is increasingly seen as a valuable skill. Research has shown that bilingual individuals often have better problem-solving abilities, improved memory, and greater mental flexibility compared to those who speak only one language.",
+        cn: "在当今互联的世界中，会说一种以上的语言越来越被视为一项有价值的技能。研究表明，双语者往往比只会一种语言的人拥有更好的解决问题的能力、更强的记忆力和更大的心理灵活性。",
+        difficultWords: ["interconnected", "bilingual", "flexibility", "cognitive"]
+      },
+      {
+        en: "Beyond cognitive benefits, being bilingual can also open up career opportunities. Many employers value candidates who can communicate with clients and partners in different languages. In fields like international business, diplomacy, and tourism, language skills can be a decisive factor in hiring decisions.",
+        cn: "除了认知上的好处，双语能力还能开启职业机会。许多雇主重视能够用不同语言与客户和合作伙伴沟通的候选人。在国际商务、外交和旅游等领域，语言技能可能是招聘决策中的决定性因素。",
+        difficultWords: ["diplomacy", "decisive", "candidates", "employers"]
+      },
+      {
+        en: "The best time to start learning a second language is during childhood, when the brain is most receptive to new linguistic patterns. However, adults can also achieve fluency with dedication and consistent practice. The key is to immerse yourself in the language as much as possible through reading, listening, and speaking.",
+        cn: "学习第二语言的最佳时间是童年，此时大脑对新的语言模式最为敏感。然而，成年人也可以通过专注和持续的练习达到流利。关键是通过阅读、听力和口语尽可能多地沉浸在语言中。",
+        difficultWords: ["receptive", "linguistic", "fluency", "immerse"]
+      },
+      {
+        en: "Technology has made language learning more accessible than ever. Apps, online courses, and language exchange platforms allow people to practice with native speakers from around the world. While these tools are helpful, they work best when combined with traditional methods like classroom instruction and conversation practice.",
+        cn: "科技使语言学习比以往任何时候都更容易。应用程序、在线课程和语言交流平台让人们可以与世界各地的母语者练习。虽然这些工具有帮助，但与课堂指导和对话练习等传统方法结合使用时效果最佳。",
+        difficultWords: ["accessible", "exchange", "instruction", "traditional"]
+      }
+    ],
+    question: "According to the article, what is the best time to learn a second language?",
+    options: ["During adulthood", "During childhood", "After retirement", "During college"],
+    answer: 1
+  },
+  {
+    id: 17,
+    level: "六级",
+    source: "The Economist",
+    title: "The Rise of Artificial Intelligence in Healthcare",
+    summary: "探讨人工智能在医疗领域的应用前景和挑战",
+    paragraphs: [
+      {
+        en: "Artificial intelligence is transforming healthcare in ways that were unimaginable just a decade ago. From diagnosing diseases to developing new drugs, AI-powered systems are helping doctors make faster and more accurate decisions. In radiology, for example, AI algorithms can detect signs of cancer in medical images with accuracy that matches or even exceeds that of human specialists.",
+        cn: "人工智能正在以十年前无法想象的方式改变医疗保健。从诊断疾病到开发新药，人工智能驱动的系统正在帮助医生做出更快、更准确的决策。例如，在放射学领域，人工智能算法可以在医学图像中检测癌症迹象，其准确性甚至可以匹配或超过人类专家。",
+        difficultWords: ["radiology", "algorithms", "accuracy", "specialists"]
+      },
+      {
+        en: "One of the most promising applications of AI in healthcare is personalized medicine. By analyzing a patient's genetic makeup, lifestyle factors, and medical history, AI systems can recommend treatments that are tailored to the individual. This approach has shown particular promise in oncology, where AI can help identify the most effective chemotherapy drugs for specific types of cancer.",
+        cn: "人工智能在医疗保健中最有前景的应用之一是个性化医疗。通过分析患者的基因构成、生活方式因素和病史，人工智能系统可以推荐针对个人定制的治疗方法。这种方法在肿瘤学中显示出特别的前景，人工智能可以帮助识别针对特定类型癌症最有效的化疗药物。",
+        difficultWords: ["personalized", "oncology", "chemotherapy", "tailored"]
+      },
+      {
+        en: "Despite these advances, the integration of AI into healthcare faces significant challenges. Concerns about data privacy, algorithmic bias, and the potential for errors must be addressed. There is also the question of accountability: when an AI system makes a mistake, who is responsible? These issues require careful regulation and ongoing dialogue between technologists, healthcare professionals, and policymakers.",
+        cn: "尽管取得了这些进展，人工智能融入医疗保健仍面临重大挑战。必须解决对数据隐私、算法偏见和潜在错误的担忧。还有一个责任问题：当人工智能系统犯错时，谁应该负责？这些问题需要技术人员、医疗专业人员和政策制定者之间的仔细监管和持续对话。",
+        difficultWords: ["integration", "algorithmic", "accountability", "regulation"]
+      }
+    ],
+    question: "What is one of the most promising applications of AI in healthcare?",
+    options: ["Replacing all doctors", "Personalized medicine", "Building hospitals", "Training nurses"],
+    answer: 1
+  },
+  {
+    id: 18,
+    level: "考研",
+    source: "Nature",
+    title: "The Future of Space Exploration",
+    summary: "展望人类太空探索的未来方向和挑战",
+    paragraphs: [
+      {
+        en: "Humanity stands at the threshold of a new era in space exploration. With advances in rocket technology, robotics, and artificial intelligence, we are closer than ever to becoming a multi-planetary species. Private companies like SpaceX and Blue Origin are developing reusable rockets that could dramatically reduce the cost of space travel, making it accessible to more people than ever before.",
+        cn: "人类正处于太空探索新纪元的门槛上。随着火箭技术、机器人技术和人工智能的进步，我们比以往任何时候都更接近成为多星球物种。像SpaceX和蓝色起源这样的私人公司正在开发可重复使用的火箭，这可以大幅降低太空旅行的成本，使其比以往任何时候都更容易被更多人使用。",
+        difficultWords: ["threshold", "multi-planetary", "reusable", "accessible"]
+      },
+      {
+        en: "The Moon is likely to be the next major destination for human explorers. NASA's Artemis program aims to return astronauts to the lunar surface by 2025, with the goal of establishing a permanent base there. This base could serve as a stepping stone for future missions to Mars and beyond, as well as a platform for scientific research and resource extraction.",
+        cn: "月球可能是人类探索者的下一个主要目的地。美国宇航局的阿尔忒弥斯计划旨在2025年之前将宇航员送回月球表面，目标是在那里建立一个永久基地。这个基地可以作为未来火星及更远任务的垫脚石，也可以作为科学研究和资源开采的平台。",
+        difficultWords: ["lunar", "permanent", "extraction", "stepping stone"]
+      },
+      {
+        en: "However, space exploration also raises profound ethical questions. As we venture further into the cosmos, we must consider the environmental impact of our activities, the potential for contaminating other worlds with Earth organisms, and the rights of any extraterrestrial life we might discover. These issues will require international cooperation and new legal frameworks to ensure that space is explored responsibly.",
+        cn: "然而，太空探索也引发了深刻的伦理问题。当我们进一步深入宇宙时，必须考虑我们活动的环境影响、用地球生物污染其他世界的潜在风险，以及我们可能发现的任何外星生命的权利。这些问题将需要国际合作和新的法律框架，以确保负责任地探索太空。",
+        difficultWords: ["cosmos", "contaminating", "extraterrestrial", "frameworks"]
+      }
+    ],
+    question: "What is NASA's Artemis program aiming to do?",
+    options: ["Build a space station", "Return astronauts to the Moon", "Send humans to Mars", "Explore Jupiter"],
+    answer: 1
+  },
+  {
+    id: 19,
+    level: "四级",
+    source: "National Geographic",
+    title: "The Wonders of the Deep Ocean",
+    summary: "揭示深海世界的奥秘和科学发现",
+    paragraphs: [
+      {
+        en: "The deep ocean remains one of the least explored places on Earth. Below 200 meters, sunlight cannot penetrate, creating a world of perpetual darkness. Yet this mysterious realm is teeming with life, including creatures that have adapted to extreme conditions of pressure, cold, and lack of light in remarkable ways.",
+        cn: "深海仍然是地球上最少被探索的地方之一。在200米以下，阳光无法穿透，形成了一个永恒黑暗的世界。然而，这个神秘的领域充满了生命，包括以非凡方式适应了极端压力、寒冷和缺乏光线条件的生物。",
+        difficultWords: ["penetrate", "perpetual", "teeming", "adapted"]
+      },
+      {
+        en: "Deep-sea exploration has revealed fascinating discoveries. Hydrothermal vents, where superheated water erupts from the ocean floor, support unique ecosystems that thrive without sunlight. These communities of organisms, which rely on chemical energy rather than solar power, have expanded our understanding of where life can exist and have implications for the search for life on other planets.",
+        cn: "深海探索揭示了令人着迷的发现。热液喷口——过热水从海底喷出的地方——支持着独特的生态系统，这些系统在没有阳光的情况下繁衍生息。这些生物群落依赖化学能而非太阳能，扩展了我们对生命可以在哪里存在的理解，并对寻找其他行星上的生命具有重要意义。",
+        difficultWords: ["hydrothermal", "erupts", "ecosystems", "implications"]
+      },
+      {
+        en: "Despite its importance, the deep ocean faces growing threats from human activities. Deep-sea mining, plastic pollution, and climate change are all impacting these fragile ecosystems. Scientists warn that we must act quickly to protect the deep ocean before it is too late, calling for stricter regulations on deep-sea mining and better waste management to prevent pollution from reaching the deep sea.",
+        cn: "尽管深海很重要，但它正面临来自人类活动的日益严重的威胁。深海采矿、塑料污染和气候变化都在影响这些脆弱的生态系统。科学家警告说，我们必须迅速采取行动保护深海，否则为时已晚，呼吁对深海采矿实施更严格的监管，并改善废物管理以防止污染到达深海。",
+        difficultWords: ["fragile", "mining", "regulations", "management"]
+      }
+    ],
+    question: "What supports life at hydrothermal vents?",
+    options: ["Sunlight", "Chemical energy", "Wind power", "Electricity"],
+    answer: 1
+  },
+  {
+    id: 20,
+    level: "六级",
+    source: "TIME",
+    title: "The Psychology of Social Media",
+    summary: "分析社交媒体对心理健康的影响",
+    paragraphs: [
+      {
+        en: "Social media has become an integral part of modern life, with billions of people worldwide using platforms like Facebook, Instagram, and Twitter to connect with others, share experiences, and consume information. However, growing research suggests that excessive social media use can have negative effects on mental health, particularly among young people.",
+        cn: "社交媒体已成为现代生活不可或缺的一部分，全球数十亿人使用Facebook、Instagram和Twitter等平台与他人联系、分享经验和消费信息。然而，越来越多的研究表明，过度使用社交媒体可能对心理健康产生负面影响，尤其是在年轻人中。",
+        difficultWords: ["integral", "excessive", "negative", "particularly"]
+      },
+      {
+        en: "One of the main concerns is the impact of social media on self-esteem. Platforms like Instagram encourage users to present idealized versions of their lives, which can lead to social comparison and feelings of inadequacy. Studies have found that people who spend more time on social media are more likely to report symptoms of depression and anxiety, although the relationship is complex and may be influenced by other factors.",
+        cn: "主要担忧之一是社交媒体对自尊的影响。像Instagram这样的平台鼓励用户展示理想化的生活版本，这可能导致社会比较和不足感。研究发现，在社交媒体上花费更多时间的人更容易报告抑郁和焦虑症状，尽管这种关系很复杂，可能受到其他因素的影响。",
+        difficultWords: ["self-esteem", "idealized", "inadequacy", "symptoms"]
+      },
+      {
+        en: "Despite these concerns, social media also offers significant benefits. It can provide a sense of community for people who feel isolated, facilitate political activism and social movements, and enable businesses to reach customers in new ways. The key challenge is finding a healthy balance that allows people to enjoy the benefits of social media while minimizing its potential harms.",
+        cn: "尽管存在这些担忧，社交媒体也提供了显著的好处。它可以为感到孤立的人提供社区感，促进政治行动主义和社会运动，并使企业能够以新的方式接触客户。关键挑战是找到一个健康的平衡，让人们能够享受社交媒体的好处，同时将其潜在危害降至最低。",
+        difficultWords: ["isolated", "facilitate", "activism", "minimizing"]
+      }
+    ],
+    question: "What is one of the main concerns about social media?",
+    options: ["It's too expensive", "Its impact on self-esteem", "It's too slow", "It uses too much data"],
     answer: 1
   }
 ];
