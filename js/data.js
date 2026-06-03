@@ -6,7 +6,7 @@ const SENTENCES = [
   {
     id: 1,
     level: "考研",
-    source: "The Economist",
+    source: "考研阅读精选",
     sentence: "The notion that artificial intelligence could eventually surpass human intelligence, once dismissed as science fiction, is now taken seriously by leading researchers who warn that we may be unprepared for the consequences.",
     translation: "人工智能最终可能超越人类智能这一观点，曾被视为科幻小说而不屑一顾，如今却被顶尖研究者认真对待，他们警告说我们可能对由此产生的后果毫无准备。",
     grammar: {
@@ -24,7 +24,7 @@ const SENTENCES = [
   {
     id: 2,
     level: "考研",
-    source: "The Atlantic",
+    source: "外刊精读",
     sentence: "What makes this discovery particularly significant is not merely that it challenges existing theories, but that it opens up entirely new avenues for research that could fundamentally change our understanding of the universe.",
     translation: "使这一发现尤为重要的，不仅仅是它挑战了现有理论，还在于它开辟了全新的研究途径，这些途径可能从根本上改变我们对宇宙的理解。",
     grammar: {
@@ -43,7 +43,7 @@ const SENTENCES = [
   {
     id: 3,
     level: "考研",
-    source: "TIME",
+    source: "外刊精读",
     sentence: "The researchers, whose findings were published in the journal Nature, found that people who regularly engage in physical exercise are not only less likely to develop chronic diseases but also tend to have better cognitive function as they age.",
     translation: "这项研究的结果发表在《自然》杂志上，研究人员发现，经常进行体育锻炼的人不仅更不容易患上慢性疾病，而且随着年龄增长往往拥有更好的认知功能。",
     grammar: {
@@ -62,7 +62,7 @@ const SENTENCES = [
   {
     id: 4,
     level: "考研",
-    source: "The Guardian",
+    source: "六级阅读精选",
     sentence: "It is widely acknowledged that education systems around the world must undergo fundamental transformation if they are to adequately prepare students for the challenges of a rapidly changing technological landscape.",
     translation: "人们普遍认为，如果全球教育体系要充分培养学生应对快速变化的技术环境所带来的挑战，就必须经历根本性的变革。",
     grammar: {
@@ -80,7 +80,7 @@ const SENTENCES = [
   {
     id: 5,
     level: "考研",
-    source: "Scientific American",
+    source: "科普阅读",
     sentence: "Although the relationship between sleep deprivation and decreased cognitive performance has long been established, recent studies suggest that even moderate reductions in sleep quality can have profound effects on emotional regulation and decision-making ability.",
     translation: "虽然睡眠不足与认知能力下降之间的关系早已被证实，但最近的研究表明，即使是睡眠质量的适度下降也可能对情绪调节和决策能力产生深远影响。",
     grammar: {
@@ -98,7 +98,7 @@ const SENTENCES = [
   {
     id: 6,
     level: "考研",
-    source: "The New Yorker",
+    source: "外刊精读",
     sentence: "The irony of our digital age is that the very technologies designed to bring us closer together have, in many cases, created deeper divides between communities that were already struggling to find common ground.",
     translation: "我们这个数字时代的讽刺之处在于，那些本应拉近我们距离的技术，在很多情况下，却在本已难以找到共同点的社区之间制造了更深的裂痕。",
     grammar: {
@@ -116,7 +116,7 @@ const SENTENCES = [
   {
     id: 7,
     level: "考研",
-    source: "TIME",
+    source: "外刊精读",
     sentence: "Governments that fail to invest in renewable energy infrastructure today will find themselves increasingly dependent on fossil fuels at a time when the rest of the world is moving decisively toward a sustainable future.",
     translation: "今天未能投资可再生能源基础设施的政府，将会发现自己越来越依赖化石燃料，而此时世界其他国家正在果断地迈向可持续的未来。",
     grammar: {
@@ -133,7 +133,7 @@ const SENTENCES = [
   {
     id: 8,
     level: "考研",
-    source: "The Atlantic",
+    source: "外刊精读",
     sentence: "Not until the emergence of big data analytics did scientists fully appreciate the extent to which climate change is affecting biodiversity in ways that were previously invisible to traditional monitoring methods.",
     translation: "直到大数据分析的出现，科学家们才充分认识到气候变化正在以前所未有的方式影响生物多样性，而这些影响是传统监测方法所无法察觉的。",
     grammar: {
@@ -150,7 +150,7 @@ const SENTENCES = [
   {
     id: 9,
     level: "考研",
-    source: "Nature",
+    source: "学术阅读",
     sentence: "The study, conducted over a period of ten years across multiple continents, provides compelling evidence that the decline in insect populations is far more severe than previously thought, with potentially catastrophic consequences for global food chains.",
     translation: "这项跨越多个大洲、历时十年的研究提供了令人信服的证据，表明昆虫数量的下降比此前认为的要严重得多，可能对全球食物链产生灾难性后果。",
     grammar: {
@@ -168,7 +168,7 @@ const SENTENCES = [
   {
     id: 10,
     level: "考研",
-    source: "Harvard Business Review",
+    source: "商业阅读",
     sentence: "Companies that embrace a culture of continuous learning and adaptability are significantly more likely to survive economic downturns than those that cling rigidly to traditional business models, regardless of how successful those models may have been in the past.",
     translation: "拥抱持续学习和适应性文化的公司，在经济衰退中存活的可能性要远远高于那些死守传统商业模式的公司，无论这些模式过去多么成功。",
     grammar: {
@@ -186,7 +186,7 @@ const SENTENCES = [
   {
     id: 11,
     level: "六级",
-    source: "BBC",
+    source: "四级阅读精选",
     sentence: "The rise of remote work, accelerated by the global pandemic, has fundamentally altered not only how people think about their careers but also where they choose to live, leading to significant shifts in urban and rural population dynamics.",
     translation: "远程工作的兴起——因全球疫情而加速——不仅从根本上改变了人们对职业的看法，也改变了他们选择居住的地方，导致城乡人口动态发生重大变化。",
     grammar: {
@@ -204,7 +204,7 @@ const SENTENCES = [
   {
     id: 12,
     level: "六级",
-    source: "The Guardian",
+    source: "六级阅读精选",
     sentence: "While social media platforms have democratized access to information and given voice to marginalized communities, they have also created echo chambers that reinforce existing biases and make constructive dialogue increasingly difficult.",
     translation: "虽然社交媒体平台使信息获取更加民主化，给了边缘化群体发声的机会，但它们也创造了回音室，强化了现有偏见，使建设性对话变得越来越困难。",
     grammar: {
@@ -221,7 +221,7 @@ const SENTENCES = [
   {
     id: 13,
     level: "六级",
-    source: "TIME",
+    source: "外刊精读",
     sentence: "The global shortage of semiconductors, which are essential components in everything from smartphones to automobiles, has exposed the fragility of supply chains that many assumed were robust enough to withstand major disruptions.",
     translation: "全球半导体短缺——这些是从智能手机到汽车等各种产品的核心组件——暴露了供应链的脆弱性，而许多人曾认为这些供应链足够强大，能够抵御重大冲击。",
     grammar: {
@@ -238,7 +238,7 @@ const SENTENCES = [
   {
     id: 14,
     level: "六级",
-    source: "National Geographic",
+    source: "科普阅读",
     sentence: "As glaciers continue to melt at an unprecedented rate due to rising global temperatures, scientists warn that many coastal cities could face severe flooding within the next few decades unless drastic measures are taken to reduce carbon emissions.",
     translation: "随着全球气温上升，冰川以前所未有的速度持续融化，科学家警告说，除非采取严厉措施减少碳排放，否则许多沿海城市可能在未来几十年内面临严重洪灾。",
     grammar: {
@@ -256,7 +256,7 @@ const SENTENCES = [
   {
     id: 15,
     level: "六级",
-    source: "The Economist",
+    source: "考研阅读精选",
     sentence: "The growing inequality between the world's richest and poorest nations, exacerbated by the pandemic and compounded by climate change, poses a serious threat to global stability and could undermine decades of progress in poverty reduction.",
     translation: "世界上最富国和最穷国之间日益加剧的不平等——因疫情而恶化，又因气候变化而加剧——对全球稳定构成严重威胁，并可能破坏数十年来在减贫方面取得的进展。",
     grammar: {
@@ -274,7 +274,7 @@ const SENTENCES = [
   {
     id: 16,
     level: "四级",
-    source: "BBC Learning English",
+    source: "四级阅读精选",
     sentence: "Learning a second language at an early age not only improves a child's ability to communicate but also enhances their problem-solving skills and makes them more adaptable to different cultural environments.",
     translation: "在幼年学习第二语言不仅能提高孩子的沟通能力，还能增强他们解决问题的能力，使他们更容易适应不同的文化环境。",
     grammar: {
@@ -290,7 +290,7 @@ const SENTENCES = [
   {
     id: 17,
     level: "四级",
-    source: "National Geographic",
+    source: "科普阅读",
     sentence: "The Amazon rainforest, often referred to as the lungs of the Earth, produces approximately 20 percent of the world's oxygen and is home to an estimated 10 percent of all species on the planet.",
     translation: "亚马逊雨林——常被称为地球之肺——产生约全球20%的氧气，据估计是地球上10%物种的栖息地。",
     grammar: {
@@ -306,7 +306,7 @@ const SENTENCES = [
   {
     id: 18,
     level: "四级",
-    source: "The Guardian",
+    source: "六级阅读精选",
     sentence: "Research has shown that people who maintain a regular exercise routine tend to sleep better, experience less stress, and have a lower risk of developing heart disease compared to those who lead sedentary lifestyles.",
     translation: "研究表明，与久坐不动的人相比，保持规律运动习惯的人往往睡眠更好、压力更小、患心脏病的风险更低。",
     grammar: {
@@ -324,7 +324,7 @@ const SENTENCES = [
   {
     id: 19,
     level: "四级",
-    source: "TIME",
+    source: "外刊精读",
     sentence: "The rapid development of electric vehicles, driven by both environmental concerns and technological breakthroughs, is expected to transform the automotive industry and significantly reduce carbon emissions over the next two decades.",
     translation: "电动汽车的快速发展——受环境关切和技术突破的双重驱动——预计将改变汽车行业，并在未来二十年内大幅减少碳排放。",
     grammar: {
@@ -340,7 +340,7 @@ const SENTENCES = [
   {
     id: 20,
     level: "四级",
-    source: "BBC",
+    source: "四级阅读精选",
     sentence: "Many young people today are choosing to delay major life decisions such as getting married and buying a house, partly because of economic uncertainty and partly because they value personal freedom and career development more than previous generations.",
     translation: "如今许多年轻人选择推迟结婚、买房等重大人生决定，部分原因是经济不确定性，部分原因是他们比前几代人更看重个人自由和职业发展。",
     grammar: {
@@ -357,7 +357,7 @@ const SENTENCES = [
   {
     id: 21,
     level: "四级",
-    source: "Scientific American",
+    source: "科普阅读",
     sentence: "Sleep, which accounts for approximately one-third of our lives, plays a crucial role in memory consolidation, immune function, and emotional regulation, yet millions of people worldwide suffer from chronic sleep deprivation.",
     translation: "睡眠约占我们生命的三分之一，在记忆巩固、免疫功能和情绪调节方面起着至关重要的作用，然而全世界有数百万人遭受慢性睡眠不足的困扰。",
     grammar: {
@@ -373,7 +373,7 @@ const SENTENCES = [
   {
     id: 22,
     level: "六级",
-    source: "The Atlantic",
+    source: "外刊精读",
     sentence: "The concept of universal basic income, once considered a radical proposal championed only by economists on the fringes, has gained mainstream acceptance as automation and artificial intelligence threaten to displace millions of workers.",
     translation: "全民基本收入的概念——曾一度被认为是只有边缘经济学家支持的激进提议——随着自动化和人工智能威胁到数百万工人的就业，已获得主流认可。",
     grammar: {
@@ -390,7 +390,7 @@ const SENTENCES = [
   {
     id: 23,
     level: "六级",
-    source: "Nature",
+    source: "学术阅读",
     sentence: "Gene editing technology, particularly CRISPR, has opened up unprecedented possibilities for treating genetic diseases, but it has also raised profound ethical questions about how far we should go in altering the human genome.",
     translation: "基因编辑技术，尤其是CRISPR，为治疗遗传疾病开辟了前所未有的可能性，但也引发了关于我们应该在多大程度上改变人类基因组的深刻伦理问题。",
     grammar: {
@@ -407,7 +407,7 @@ const SENTENCES = [
   {
     id: 24,
     level: "六级",
-    source: "TIME",
+    source: "外刊精读",
     sentence: "The mental health crisis among young people, exacerbated by social media, academic pressure, and economic insecurity, has prompted calls for a fundamental rethinking of how societies support the well-being of their youngest members.",
     translation: "年轻人中的心理健康危机——因社交媒体、学业压力和经济不安全而加剧——促使人们呼吁从根本上重新思考社会如何支持其最年轻成员的福祉。",
     grammar: {
@@ -424,7 +424,7 @@ const SENTENCES = [
   {
     id: 25,
     level: "四级",
-    source: "The Guardian",
+    source: "六级阅读精选",
     sentence: "Volunteering abroad can be a life-changing experience that broadens your perspective, develops your independence, and helps you appreciate the privileges that you may have taken for granted back home.",
     translation: "海外志愿服务可能是一次改变人生的经历，它能拓宽你的视野，培养你的独立性，帮助你认识到那些在国内可能被视为理所当然的特权。",
     grammar: {
@@ -441,7 +441,7 @@ const SENTENCES = [
   {
     id: 26,
     level: "四级",
-    source: "BBC",
+    source: "四级阅读精选",
     sentence: "The popularity of plant-based diets has surged in recent years, driven by growing awareness of the environmental impact of meat production and increasing concern about animal welfare.",
     translation: "近年来，植物性饮食的流行度急剧上升，这得益于人们对肉类生产环境影响的日益认识和对动物福利的日益关注。",
     grammar: {
@@ -457,7 +457,7 @@ const SENTENCES = [
   {
     id: 27,
     level: "四级",
-    source: "National Geographic",
+    source: "科普阅读",
     sentence: "Coral reefs, which support roughly 25 percent of all marine species, are under severe threat from rising ocean temperatures, pollution, and overfishing, putting the entire ocean ecosystem at risk.",
     translation: "珊瑚礁支撑着大约25%的海洋物种，正面临海洋温度上升、污染和过度捕捞的严重威胁，使整个海洋生态系统处于危险之中。",
     grammar: {
@@ -474,7 +474,7 @@ const SENTENCES = [
   {
     id: 28,
     level: "六级",
-    source: "The Economist",
+    source: "考研阅读精选",
     sentence: "Central banks around the world face the delicate task of taming inflation without triggering a recession, a balancing act that requires precise timing and careful calibration of interest rate adjustments.",
     translation: "世界各地的央行面临着在不引发衰退的情况下遏制通胀的微妙任务，这是一项需要精确把握时机和仔细校准利率调整的平衡之举。",
     grammar: {
@@ -492,7 +492,7 @@ const SENTENCES = [
   {
     id: 29,
     level: "六级",
-    source: "Harvard Business Review",
+    source: "商业阅读",
     sentence: "The most successful leaders in the 21st century are not those who have all the answers, but rather those who ask the right questions, listen actively to diverse perspectives, and create environments where innovation can thrive.",
     translation: "21世纪最成功的领导者不是那些拥有所有答案的人，而是那些提出正确问题、积极倾听不同观点、并创造创新能够蓬勃发展的环境的人。",
     grammar: {
@@ -510,7 +510,7 @@ const SENTENCES = [
   {
     id: 30,
     level: "四级",
-    source: "TIME",
+    source: "外刊精读",
     sentence: "Reading for pleasure has been shown to improve vocabulary, enhance empathy, reduce stress, and even increase life expectancy, making it one of the most beneficial activities a person can engage in.",
     translation: "阅读乐趣已被证明能提高词汇量、增强同理心、减轻压力，甚至延长寿命，使其成为一个人可以从事的最有益的活动之一。",
     grammar: {
@@ -528,7 +528,7 @@ const SENTENCES = [
   {
     id: 31,
     level: "考研",
-    source: "The New Yorker",
+    source: "外刊精读",
     sentence: "What distinguishes great writing from competent writing is not mastery of grammar or an extensive vocabulary, but rather the ability to make the reader feel something deeply and personally.",
     translation: "将优秀写作与合格写作区分开来的，不是语法的掌握或丰富的词汇量，而是让读者深刻而个人化地感受到某种情感的能力。",
     grammar: {
@@ -545,7 +545,7 @@ const SENTENCES = [
   {
     id: 32,
     level: "六级",
-    source: "BBC",
+    source: "四级阅读精选",
     sentence: "The gig economy, characterized by short-term contracts and freelance work rather than permanent jobs, has grown rapidly in recent years, offering flexibility to workers but also raising concerns about job security and benefits.",
     translation: "零工经济——以短期合同和自由职业而非固定工作为特征——近年来发展迅速，为工人提供了灵活性，但也引发了对工作保障和福利的担忧。",
     grammar: {
@@ -562,7 +562,7 @@ const SENTENCES = [
   {
     id: 33,
     level: "四级",
-    source: "National Geographic",
+    source: "科普阅读",
     sentence: "Dolphins are among the most intelligent animals on Earth, capable of recognizing themselves in mirrors, using tools, and communicating with each other through a complex system of clicks and whistles.",
     translation: "海豚是地球上最聪明的动物之一，能够识别镜中的自己、使用工具，并通过复杂的咔哒声和口哨声系统相互交流。",
     grammar: {
@@ -578,7 +578,7 @@ const SENTENCES = [
   {
     id: 34,
     level: "考研",
-    source: "The Atlantic",
+    source: "外刊精读",
     sentence: "The paradox of choice suggests that while having more options seems desirable, an excess of choices can lead to anxiety, decision paralysis, and ultimately dissatisfaction with whatever option is finally selected.",
     translation: "选择悖论表明，虽然拥有更多选择似乎令人向往，但过多的选择可能导致焦虑、决策瘫痪，最终对最终选择的任何选项都不满意。",
     grammar: {
@@ -596,7 +596,7 @@ const SENTENCES = [
   {
     id: 35,
     level: "六级",
-    source: "Scientific American",
+    source: "科普阅读",
     sentence: "The human brain, which contains roughly 86 billion neurons connected by trillions of synapses, remains the most complex structure in the known universe, and scientists are still far from fully understanding how it works.",
     translation: "人类大脑包含大约860亿个神经元，通过数万亿个突触连接，仍然是已知宇宙中最复杂的结构，科学家们距离完全理解它的工作原理还很遥远。",
     grammar: {
@@ -613,7 +613,7 @@ const SENTENCES = [
   {
     id: 36,
     level: "四级",
-    source: "The Guardian",
+    source: "六级阅读精选",
     sentence: "Cooking at home is not only healthier and more affordable than eating out, but it can also be a creative and therapeutic activity that brings families together and helps people develop a deeper appreciation for food.",
     translation: "在家做饭不仅比外出就餐更健康、更实惠，而且还可以成为一种创造性和治疗性的活动，将家人聚在一起，帮助人们更深刻地欣赏食物。",
     grammar: {
@@ -629,7 +629,7 @@ const SENTENCES = [
   {
     id: 37,
     level: "考研",
-    source: "Nature",
+    source: "学术阅读",
     sentence: "Microplastics, tiny fragments of plastic less than five millimeters in size, have been found in virtually every environment on Earth, from the deepest ocean trenches to the highest mountain peaks, raising urgent questions about their impact on human health.",
     translation: "微塑料——小于五毫米的微小塑料碎片——几乎在地球上的每个环境中都被发现，从最深的海沟到最高的山峰，引发了关于其对人类健康影响的紧迫问题。",
     grammar: {
@@ -647,7 +647,7 @@ const SENTENCES = [
   {
     id: 38,
     level: "六级",
-    source: "TIME",
+    source: "外刊精读",
     sentence: "The debate over privacy in the digital age is not simply a matter of choosing between security and freedom, but rather of finding a balance that protects individual rights while allowing society to benefit from technological advances.",
     translation: "数字时代关于隐私的争论不仅仅是安全与自由之间的选择问题，而是要在保护个人权利的同时让社会从技术进步中受益，找到一个平衡点。",
     grammar: {
@@ -665,7 +665,7 @@ const SENTENCES = [
   {
     id: 39,
     level: "四级",
-    source: "BBC Learning English",
+    source: "四级阅读精选",
     sentence: "Music has the unique ability to transcend language barriers, evoke powerful emotions, and bring people from different cultures and backgrounds together in a shared experience.",
     translation: "音乐具有超越语言障碍、唤起强烈情感、并将来自不同文化和背景的人们聚集在共同体验中的独特能力。",
     grammar: {
@@ -681,7 +681,7 @@ const SENTENCES = [
   {
     id: 40,
     level: "考研",
-    source: "The Economist",
+    source: "考研阅读精选",
     sentence: "Housing affordability has become one of the most pressing social issues in major cities worldwide, with young people increasingly unable to purchase homes in the neighborhoods where they grew up.",
     translation: "住房负担能力已成为全球主要城市最紧迫的社会问题之一，年轻人越来越无力在他们成长的社区购买住房。",
     grammar: {
@@ -698,7 +698,7 @@ const SENTENCES = [
   {
     id: 41,
     level: "六级",
-    source: "Harvard Business Review",
+    source: "商业阅读",
     sentence: "The transition to a circular economy, in which products are designed to be reused, repaired, and recycled rather than discarded, represents one of the most significant opportunities for businesses to reduce their environmental footprint.",
     translation: "向循环经济的转型——在这种经济模式中，产品被设计为可重复使用、可修复和可回收，而不是被丢弃——代表了企业减少环境足迹的最重要机遇之一。",
     grammar: {
@@ -714,7 +714,7 @@ const SENTENCES = [
   {
     id: 42,
     level: "四级",
-    source: "National Geographic",
+    source: "科普阅读",
     sentence: "The world's oceans absorb about 30 percent of the carbon dioxide produced by humans, which helps slow global warming but also causes the water to become more acidic, threatening marine life.",
     translation: "世界海洋吸收了人类产生的约30%的二氧化碳，这有助于减缓全球变暖，但也导致海水变得更酸，威胁海洋生物。",
     grammar: {
@@ -731,7 +731,7 @@ const SENTENCES = [
   {
     id: 43,
     level: "六级",
-    source: "The Guardian",
+    source: "六级阅读精选",
     sentence: "The rise of populism in many democracies reflects a deep-seated frustration among citizens who feel that the political establishment has failed to address their concerns about immigration, inequality, and cultural change.",
     translation: "许多民主国家民粹主义的兴起反映了公民中根深蒂固的挫败感，他们觉得政治体制未能解决他们对移民、不平等和文化变革的关切。",
     grammar: {
@@ -748,7 +748,7 @@ const SENTENCES = [
   {
     id: 44,
     level: "四级",
-    source: "TIME",
+    source: "外刊精读",
     sentence: "Regular reading, even just 20 minutes a day, can significantly improve brain function, increase empathy, and reduce the risk of cognitive decline later in life.",
     translation: "定期阅读，即使每天只有20分钟，也能显著改善大脑功能、增强同理心，并降低晚年认知能力下降的风险。",
     grammar: {
@@ -764,7 +764,7 @@ const SENTENCES = [
   {
     id: 45,
     level: "考研",
-    source: "The Atlantic",
+    source: "外刊精读",
     sentence: "The fact that we can now sequence an entire human genome for under a thousand dollars, a task that cost billions just two decades ago, illustrates the extraordinary pace of technological progress and its potential to transform medicine.",
     translation: "我们现在能以不到一千美元的价格完成整个人类基因组测序——而仅仅二十年前这项任务需要数十亿美元——这说明了技术进步的非凡速度及其改变医学的潜力。",
     grammar: {
@@ -782,7 +782,7 @@ const SENTENCES = [
   {
     id: 46,
     level: "六级",
-    source: "BBC",
+    source: "四级阅读精选",
     sentence: "The growing movement to reduce single-use plastics has gained momentum globally, with many countries implementing bans on plastic bags and straws, and consumers increasingly choosing reusable alternatives.",
     translation: "减少一次性塑料的运动在全球范围内势头日增，许多国家实施了塑料袋和吸管禁令，消费者也越来越多地选择可重复使用的替代品。",
     grammar: {
@@ -799,7 +799,7 @@ const SENTENCES = [
   {
     id: 47,
     level: "四级",
-    source: "Scientific American",
+    source: "科普阅读",
     sentence: "Drinking enough water every day is essential for maintaining good health, as it helps regulate body temperature, transport nutrients, and remove waste products from the body.",
     translation: "每天喝足够的水对保持健康至关重要，因为它有助于调节体温、运输营养物质和排出体内的废物。",
     grammar: {
@@ -815,7 +815,7 @@ const SENTENCES = [
   {
     id: 48,
     level: "考研",
-    source: "Nature",
+    source: "学术阅读",
     sentence: "The discovery of gravitational waves, predicted by Einstein a century ago but only recently detected by sophisticated instruments, has opened an entirely new window onto the universe and confirmed a key prediction of general relativity.",
     translation: "引力波的发现——一个世纪前由爱因斯坦预测，但直到最近才被精密仪器探测到——为宇宙打开了一扇全新的窗口，证实了广义相对论的一个关键预测。",
     grammar: {
@@ -831,7 +831,7 @@ const SENTENCES = [
   {
     id: 49,
     level: "六级",
-    source: "The Economist",
+    source: "考研阅读精选",
     sentence: "The shift toward renewable energy sources is not just an environmental imperative but also an economic opportunity, as the cost of solar and wind power continues to fall and new jobs are created in the green energy sector.",
     translation: "向可再生能源的转变不仅是一种环境必要，也是一种经济机遇，因为太阳能和风能的成本持续下降，绿色能源领域创造了新的就业机会。",
     grammar: {
@@ -847,7 +847,7 @@ const SENTENCES = [
   {
     id: 50,
     level: "四级",
-    source: "The Guardian",
+    source: "六级阅读精选",
     sentence: "Spending time in nature, whether it is a walk in the park or a hike in the mountains, has been proven to lower blood pressure, reduce anxiety, and improve overall mental well-being.",
     translation: "在大自然中度过时光——无论是在公园散步还是在山中远足——已被证明能降低血压、减轻焦虑并改善整体心理健康。",
     grammar: {
@@ -863,7 +863,7 @@ const SENTENCES = [
   {
     id: 51,
     level: "考研",
-    source: "Harvard Business Review",
+    source: "商业阅读",
     sentence: "Organizations that foster a culture of psychological safety, where employees feel comfortable expressing dissenting opinions and admitting mistakes, consistently outperform those that punish failure and reward conformity.",
     translation: "培养心理安全感文化的组织——员工在其中可以自在地表达不同意见和承认错误——始终优于那些惩罚失败和奖励从众的组织。",
     grammar: {
@@ -881,7 +881,7 @@ const SENTENCES = [
   {
     id: 52,
     level: "六级",
-    source: "TIME",
+    source: "外刊精读",
     sentence: "The global vaccine rollout, unprecedented in both its speed and scale, has demonstrated what can be achieved when scientists, governments, and pharmaceutical companies work together toward a common goal.",
     translation: "全球疫苗接种工作——在速度和规模上都是史无前例的——展示了当科学家、政府和制药公司朝着共同目标合作时可以取得的成就。",
     grammar: {
@@ -899,7 +899,7 @@ const SENTENCES = [
   {
     id: 53,
     level: "四级",
-    source: "BBC Learning English",
+    source: "四级阅读精选",
     sentence: "Learning to manage your time effectively is one of the most valuable skills you can develop, as it allows you to accomplish more in less time and reduces the stress associated with procrastination.",
     translation: "学会有效管理时间是你能培养的最有价值的技能之一，因为它能让你在更少的时间内完成更多事情，并减少拖延带来的压力。",
     grammar: {
@@ -917,7 +917,7 @@ const SENTENCES = [
   {
     id: 54,
     level: "考研",
-    source: "The New Yorker",
+    source: "外刊精读",
     sentence: "In an era of information overload, the ability to think critically—to evaluate evidence, identify biases, and distinguish fact from opinion—has never been more important for navigating the complexities of modern life.",
     translation: "在信息过载的时代，批判性思维能力——评估证据、识别偏见、区分事实与观点——对于应对现代生活的复杂性从未如此重要。",
     grammar: {
@@ -934,7 +934,7 @@ const SENTENCES = [
   {
     id: 55,
     level: "六级",
-    source: "National Geographic",
+    source: "科普阅读",
     sentence: "The rapid expansion of urban areas, which now house more than half of the world's population, is putting unprecedented pressure on natural habitats, water resources, and agricultural land, forcing difficult trade-offs between development and conservation.",
     translation: "城市地区的快速扩张——现在容纳了世界一半以上的人口——给自然栖息地、水资源和农业用地带来了前所未有的压力，迫使在发展与保护之间做出艰难的权衡。",
     grammar: {
@@ -952,7 +952,7 @@ const SENTENCES = [
   {
     id: 56,
     level: "雅思",
-    source: "The Guardian",
+    source: "六级阅读精选",
     sentence: "The proliferation of surveillance cameras in public spaces, while ostensibly intended to enhance security, has raised fundamental questions about the balance between safety and the right to privacy in democratic societies.",
     translation: "公共空间中监控摄像头的激增——表面上是为了加强安全——引发了关于民主社会中安全与隐私权之间平衡的根本问题。",
     grammar: {
@@ -970,7 +970,7 @@ const SENTENCES = [
   {
     id: 57,
     level: "雅思",
-    source: "BBC",
+    source: "四级阅读精选",
     sentence: "Governments should allocate a greater proportion of their budgets to scientific research, as the long-term benefits of investment in areas such as renewable energy and medical innovation far outweigh the short-term costs.",
     translation: "政府应将更大比例的预算分配给科学研究，因为投资于可再生能源和医疗创新等领域的长期收益远远超过短期成本。",
     grammar: {
@@ -987,7 +987,7 @@ const SENTENCES = [
   {
     id: 58,
     level: "雅思",
-    source: "The Economist",
+    source: "考研阅读精选",
     sentence: "The widening gap between the rich and the poor, if left unaddressed, could destabilize entire economies and lead to social unrest on a scale not seen since the last century.",
     translation: "贫富之间日益扩大的差距，如果不加以解决，可能会破坏整个经济体的稳定，并导致自上个世纪以来从未见过的社会动荡。",
     grammar: {
@@ -1004,7 +1004,7 @@ const SENTENCES = [
   {
     id: 59,
     level: "雅思",
-    source: "Nature",
+    source: "学术阅读",
     sentence: "While some argue that space exploration is a waste of resources that could be better spent solving problems on Earth, others contend that the scientific knowledge gained from such endeavors is invaluable and may ultimately benefit all of humanity.",
     translation: "虽然一些人认为太空探索是浪费资源，这些资源可以更好地用于解决地球上的问题，但另一些人认为从这些努力中获得的科学知识是无价的，最终可能造福全人类。",
     grammar: {
@@ -1023,7 +1023,7 @@ const SENTENCES = [
   {
     id: 60,
     level: "雅思",
-    source: "TIME",
+    source: "外刊精读",
     sentence: "Education should not merely focus on academic achievement but should also cultivate critical thinking, creativity, and emotional intelligence—qualities that are increasingly valued in the modern workplace.",
     translation: "教育不应仅仅关注学业成绩，还应培养批判性思维、创造力和情商——这些品质在现代职场中越来越受到重视。",
     grammar: {
@@ -1041,7 +1041,7 @@ const SENTENCES = [
   {
     id: 61,
     level: "托福",
-    source: "Scientific American",
+    source: "科普阅读",
     sentence: "The ability of certain bird species to navigate thousands of miles during migration, using the Earth's magnetic field as a guide, has fascinated scientists for decades and remains one of nature's most remarkable mysteries.",
     translation: "某些鸟类在迁徙过程中利用地球磁场作为导航，能够飞行数千英里的能力几十年来一直令科学家着迷，至今仍是自然界最引人注目的奥秘之一。",
     grammar: {
@@ -1058,7 +1058,7 @@ const SENTENCES = [
   {
     id: 62,
     level: "托福",
-    source: "National Geographic",
+    source: "科普阅读",
     sentence: "Archaeologists have recently discovered that ancient civilizations in South America were far more sophisticated than previously believed, with evidence of complex irrigation systems, astronomical observatories, and extensive trade networks dating back thousands of years.",
     translation: "考古学家最近发现，南美洲的古代文明远比之前认为的要复杂得多，有证据表明数千年前就存在复杂的灌溉系统、天文台和广泛的贸易网络。",
     grammar: {
@@ -1076,7 +1076,7 @@ const SENTENCES = [
   {
     id: 63,
     level: "托福",
-    source: "The Atlantic",
+    source: "外刊精读",
     sentence: "The transition from fossil fuels to renewable energy sources, while essential for combating climate change, will require massive investment in infrastructure, significant changes in consumer behavior, and unprecedented international cooperation.",
     translation: "从化石燃料向可再生能源的转型——虽然对应对气候变化至关重要——将需要大规模的基础设施投资、消费者行为的重大变化以及前所未有的国际合作。",
     grammar: {
@@ -1093,7 +1093,7 @@ const SENTENCES = [
   {
     id: 64,
     level: "托福",
-    source: "BBC",
+    source: "四级阅读精选",
     sentence: "Studies have demonstrated that children who are exposed to multiple languages from an early age develop stronger cognitive abilities, including improved memory, enhanced problem-solving skills, and greater mental flexibility.",
     translation: "研究表明，从幼年就接触多种语言的儿童会发展出更强的认知能力，包括改善的记忆力、增强的解决问题的能力和更大的心理灵活性。",
     grammar: {
@@ -1111,7 +1111,7 @@ const SENTENCES = [
   {
     id: 65,
     level: "托福",
-    source: "TIME",
+    source: "外刊精读",
     sentence: "The rapid advancement of biotechnology, particularly in the fields of gene therapy and personalized medicine, promises to revolutionize healthcare by enabling treatments tailored to an individual's genetic makeup.",
     translation: "生物技术的快速发展——特别是在基因治疗和个性化医疗领域——有望通过实现针对个人基因构成的定制治疗来彻底改变医疗保健。",
     grammar: {
@@ -1130,7 +1130,7 @@ const SENTENCES = [
   {
     id: 66,
     level: "考研",
-    source: "The Economist",
+    source: "考研阅读精选",
     sentence: "Central to the debate over artificial intelligence is the question of whether machines can truly think, or whether they are merely sophisticated tools that simulate human intelligence without genuine understanding.",
     translation: "人工智能辩论的核心问题是机器是否能真正思考，还是它们仅仅是模拟人类智能而没有真正理解的精密工具。",
     grammar: {
@@ -1149,7 +1149,7 @@ const SENTENCES = [
   {
     id: 67,
     level: "考研",
-    source: "Nature",
+    source: "学术阅读",
     sentence: "It is no exaggeration to say that the discovery of the microbiome—the trillions of microorganisms living in and on our bodies—has fundamentally transformed our understanding of human health and disease.",
     translation: "毫不夸张地说，微生物组的发现——生活在我们体内和体表的数万亿微生物——从根本上改变了我们对人类健康和疾病的理解。",
     grammar: {
@@ -1167,7 +1167,7 @@ const SENTENCES = [
   {
     id: 68,
     level: "考研",
-    source: "Harvard Business Review",
+    source: "商业阅读",
     sentence: "What separates enduring companies from those that fade into obscurity is not the absence of failure, but rather the capacity to learn from setbacks, adapt to changing circumstances, and continuously reinvent themselves.",
     translation: "将经久不衰的公司与逐渐销声匿迹的公司区分开来的，不是没有失败，而是从挫折中学习、适应不断变化的环境并持续自我革新的能力。",
     grammar: {
@@ -1186,7 +1186,7 @@ const SENTENCES = [
   {
     id: 69,
     level: "六级",
-    source: "The Guardian",
+    source: "六级阅读精选",
     sentence: "The concept of sustainable development, which seeks to balance economic growth with environmental protection and social equity, has become a guiding principle for policymakers around the world.",
     translation: "可持续发展的概念——寻求平衡经济增长与环境保护和社会公平——已成为全球政策制定者的指导原则。",
     grammar: {
@@ -1202,7 +1202,7 @@ const SENTENCES = [
   {
     id: 70,
     level: "六级",
-    source: "Scientific American",
+    source: "科普阅读",
     sentence: "Artificial intelligence is increasingly being used to diagnose diseases, predict natural disasters, and optimize energy consumption, demonstrating its potential to address some of humanity's most pressing challenges.",
     translation: "人工智能正越来越多地被用于诊断疾病、预测自然灾害和优化能源消耗，展示了其解决人类一些最紧迫挑战的潜力。",
     grammar: {
@@ -1220,7 +1220,7 @@ const SENTENCES = [
   {
     id: 71,
     level: "四级",
-    source: "BBC",
+    source: "四级阅读精选",
     sentence: "The number of students choosing to study abroad has increased dramatically over the past decade, driven by the desire for better educational opportunities and international experience.",
     translation: "过去十年来，选择出国留学的学生数量急剧增加，这得益于对更好教育机会和国际经验的渴望。",
     grammar: {
@@ -1237,7 +1237,7 @@ const SENTENCES = [
   {
     id: 72,
     level: "四级",
-    source: "The Guardian",
+    source: "六级阅读精选",
     sentence: "Eating a balanced diet that includes plenty of fruits, vegetables, and whole grains is essential for maintaining good health and preventing chronic diseases.",
     translation: "吃包含大量水果、蔬菜和全谷物的均衡饮食对保持健康和预防慢性疾病至关重要。",
     grammar: {
@@ -1254,7 +1254,7 @@ const SENTENCES = [
   {
     id: 73,
     level: "六级",
-    source: "TIME",
+    source: "外刊精读",
     sentence: "The gig economy, which allows people to work flexible hours as independent contractors, has grown rapidly but raised concerns about worker protections and benefits.",
     translation: "零工经济允许人们作为独立承包商灵活工作时间，发展迅速，但也引发了对工人保护和福利的担忧。",
     grammar: {
@@ -1270,7 +1270,7 @@ const SENTENCES = [
   {
     id: 74,
     level: "六级",
-    source: "The Economist",
+    source: "考研阅读精选",
     sentence: "Central banks around the world are grappling with the challenge of controlling inflation without stifling economic growth, a delicate balancing act that requires careful calibration of monetary policy.",
     translation: "世界各地的央行正在努力应对在不扼杀经济增长的情况下控制通胀的挑战，这是一项需要仔细校准货币政策的微妙平衡之举。",
     grammar: {
@@ -1287,7 +1287,7 @@ const SENTENCES = [
   {
     id: 75,
     level: "考研",
-    source: "Nature",
+    source: "学术阅读",
     sentence: "The discovery that the human microbiome plays a crucial role in regulating immune function has opened up new avenues for treating autoimmune diseases and allergies.",
     translation: "人类微生物组在调节免疫功能中起关键作用的发现，为治疗自身免疫性疾病和过敏开辟了新途径。",
     grammar: {
@@ -1303,7 +1303,7 @@ const SENTENCES = [
   {
     id: 76,
     level: "考研",
-    source: "The Atlantic",
+    source: "外刊精读",
     sentence: "What makes a great leader is not the ability to command obedience, but rather the capacity to inspire others to pursue a shared vision with enthusiasm and commitment.",
     translation: "使一个伟大领袖的不是命令服从的能力，而是激励他人以热情和承诺追求共同愿景的能力。",
     grammar: {
@@ -1320,7 +1320,7 @@ const SENTENCES = [
   {
     id: 77,
     level: "雅思",
-    source: "BBC",
+    source: "四级阅读精选",
     sentence: "While some people believe that university education should be free for everyone, others argue that students should contribute to the cost of their studies, as this encourages them to value their education more highly.",
     translation: "虽然一些人认为大学教育应该对所有人免费，但另一些人认为学生应该为学习成本做出贡献，因为这鼓励他们更重视教育。",
     grammar: {
@@ -1337,7 +1337,7 @@ const SENTENCES = [
   {
     id: 78,
     level: "雅思",
-    source: "The Guardian",
+    source: "六级阅读精选",
     sentence: "The increasing popularity of online shopping has had a profound impact on traditional brick-and-mortar stores, many of which have been forced to close or reinvent themselves to survive.",
     translation: "网上购物日益普及对传统实体店产生了深远影响，其中许多被迫关闭或重新改造以求生存。",
     grammar: {
@@ -1353,7 +1353,7 @@ const SENTENCES = [
   {
     id: 79,
     level: "托福",
-    source: "Scientific American",
+    source: "科普阅读",
     sentence: "Recent advances in neuroscience have revealed that the brain is far more plastic than previously thought, capable of forming new neural connections throughout life in response to learning and experience.",
     translation: "神经科学的最新进展表明，大脑的可塑性远超此前认为的，能够在整个生命过程中根据学习和经验形成新的神经连接。",
     grammar: {
@@ -1371,7 +1371,7 @@ const SENTENCES = [
   {
     id: 80,
     level: "托福",
-    source: "TIME",
+    source: "外刊精读",
     sentence: "Climate change poses an existential threat to many island nations, which face the prospect of losing significant portions of their territory to rising sea levels within the next few decades.",
     translation: "气候变化对许多岛国构成生存威胁，这些国家面临在未来几十年内因海平面上升而失去大部分领土的前景。",
     grammar: {
@@ -1388,7 +1388,7 @@ const SENTENCES = [
   {
     id: 81,
     level: "四级",
-    source: "National Geographic",
+    source: "科普阅读",
     sentence: "Volunteering in developing countries can be a life-changing experience that broadens your perspective and helps you appreciate the privileges you may have taken for granted.",
     translation: "在发展中国家做志愿者可能是一次改变人生的经历，它能拓宽你的视野，帮助你认识到可能被视为理所当然的特权。",
     grammar: {
@@ -1405,7 +1405,7 @@ const SENTENCES = [
   {
     id: 82,
     level: "六级",
-    source: "Harvard Business Review",
+    source: "商业阅读",
     sentence: "Companies that invest in employee training and development tend to have higher retention rates, greater innovation, and better financial performance than those that do not.",
     translation: "投资于员工培训和发展的公司往往比不投资的公司拥有更高的留任率、更强的创新能力和更好的财务表现。",
     grammar: {
@@ -1422,7 +1422,7 @@ const SENTENCES = [
   {
     id: 83,
     level: "考研",
-    source: "The New Yorker",
+    source: "外刊精读",
     sentence: "The paradox of modern technology is that while it has made communication easier and more convenient, it has also made genuine human connection more difficult to achieve.",
     translation: "现代技术的悖论是，虽然它使沟通变得更容易更方便，但也使真正的人际联系更难实现。",
     grammar: {
@@ -1439,7 +1439,7 @@ const SENTENCES = [
   {
     id: 84,
     level: "雅思",
-    source: "The Economist",
+    source: "考研阅读精选",
     sentence: "The growing income inequality between the richest and poorest segments of society has become one of the most pressing issues of our time, with far-reaching implications for social stability and economic growth.",
     translation: "社会最富裕和最贫困阶层之间日益扩大的收入不平等已成为我们时代最紧迫的问题之一，对社会稳定和经济增长具有深远影响。",
     grammar: {
@@ -1456,7 +1456,7 @@ const SENTENCES = [
   {
     id: 85,
     level: "四级",
-    source: "BBC Learning English",
+    source: "四级阅读精选",
     sentence: "Learning to manage your time effectively is one of the most valuable skills you can develop, as it allows you to accomplish more in less time and reduces stress.",
     translation: "学会有效管理时间是你能培养的最有价值的技能之一，因为它能让你在更少的时间内完成更多事情并减少压力。",
     grammar: {
@@ -1473,7 +1473,7 @@ const SENTENCES = [
   {
     id: 86,
     level: "六级",
-    source: "Nature",
+    source: "学术阅读",
     sentence: "Gene therapy, which involves replacing or modifying defective genes to treat disease, has shown remarkable promise in clinical trials for conditions such as sickle cell disease and certain types of blindness.",
     translation: "基因治疗——通过替换或修饰缺陷基因来治疗疾病——在镰状细胞病和某些类型失明等疾病的临床试验中显示出显著前景。",
     grammar: {
@@ -1490,7 +1490,7 @@ const SENTENCES = [
   {
     id: 87,
     level: "考研",
-    source: "TIME",
+    source: "外刊精读",
     sentence: "The fact that misinformation spreads faster than factual information on social media platforms poses a serious threat to democratic discourse and public trust in institutions.",
     translation: "社交媒体平台上错误信息比事实信息传播更快的事实，对民主话语和公众对机构的信任构成严重威胁。",
     grammar: {
@@ -1506,7 +1506,7 @@ const SENTENCES = [
   {
     id: 88,
     level: "托福",
-    source: "National Geographic",
+    source: "科普阅读",
     sentence: "The decline of pollinator populations, caused by habitat loss, pesticide use, and climate change, threatens global food security, as approximately 75 percent of the world's food crops depend on animal pollination.",
     translation: "传粉者数量的下降——由栖息地丧失、农药使用和气候变化引起——威胁着全球粮食安全，因为世界上约75%的粮食作物依赖动物授粉。",
     grammar: {
@@ -1523,7 +1523,7 @@ const SENTENCES = [
   {
     id: 89,
     level: "四级",
-    source: "The Guardian",
+    source: "六级阅读精选",
     sentence: "Regular physical activity, such as walking, cycling, or swimming, can significantly reduce the risk of heart disease, stroke, and type 2 diabetes.",
     translation: "定期体育活动，如步行、骑自行车或游泳，可以显著降低患心脏病、中风和2型糖尿病的风险。",
     grammar: {
@@ -1539,7 +1539,7 @@ const SENTENCES = [
   {
     id: 90,
     level: "六级",
-    source: "Harvard Business Review",
+    source: "商业阅读",
     sentence: "The most successful organizations are those that embrace diversity and inclusion, recognizing that diverse teams produce better outcomes because they bring a wider range of perspectives and experiences to problem-solving.",
     translation: "最成功的组织是那些拥抱多样性和包容性的组织，他们认识到多元化的团队能产生更好的结果，因为它们为解决问题带来了更广泛的视角和经验。",
     grammar: {
@@ -1561,7 +1561,7 @@ const ARTICLES = [
   {
     id: 1,
     level: "四级",
-    source: "BBC Learning English",
+    source: "四级阅读精选",
     title: "The Power of Habit: Why We Do What We Do",
     summary: "探讨习惯的力量以及如何利用习惯改变生活",
     paragraphs: [
@@ -1593,7 +1593,7 @@ const ARTICLES = [
   {
     id: 2,
     level: "六级",
-    source: "The Atlantic",
+    source: "外刊精读",
     title: "Why Remote Work Is Here to Stay",
     summary: "分析远程工作的趋势及其对社会的深远影响",
     paragraphs: [
@@ -1625,7 +1625,7 @@ const ARTICLES = [
   {
     id: 3,
     level: "考研",
-    source: "The Economist",
+    source: "考研阅读精选",
     title: "The Ethics of Artificial Intelligence",
     summary: "探讨人工智能发展带来的伦理挑战",
     paragraphs: [
@@ -1657,7 +1657,7 @@ const ARTICLES = [
   {
     id: 4,
     level: "四级",
-    source: "National Geographic",
+    source: "科普阅读",
     title: "The Secret Life of Trees",
     summary: "揭示树木之间令人惊叹的交流和互助网络",
     paragraphs: [
@@ -1689,7 +1689,7 @@ const ARTICLES = [
   {
     id: 5,
     level: "六级",
-    source: "TIME",
+    source: "外刊精读",
     title: "The Science of Sleep: Why We Can't Afford to Skip It",
     summary: "揭示睡眠对健康的深远影响以及现代人的睡眠危机",
     paragraphs: [
@@ -1721,7 +1721,7 @@ const ARTICLES = [
   {
     id: 6,
     level: "四级",
-    source: "The Guardian",
+    source: "六级阅读精选",
     title: "Why Walking Is the Best Exercise",
     summary: "揭示步行作为最佳运动形式的科学证据",
     paragraphs: [
@@ -1753,7 +1753,7 @@ const ARTICLES = [
   {
     id: 7,
     level: "考研",
-    source: "Nature",
+    source: "学术阅读",
     title: "The Promise and Peril of Gene Editing",
     summary: "探讨CRISPR基因编辑技术的潜力与伦理挑战",
     paragraphs: [
@@ -1785,7 +1785,7 @@ const ARTICLES = [
   {
     id: 8,
     level: "六级",
-    source: "Harvard Business Review",
+    source: "商业阅读",
     title: "The Future of Leadership in the Age of AI",
     summary: "探讨人工智能时代领导力的新要求",
     paragraphs: [
@@ -1817,7 +1817,7 @@ const ARTICLES = [
   {
     id: 9,
     level: "四级",
-    source: "BBC",
+    source: "四级阅读精选",
     title: "The Benefits of Bilingualism",
     summary: "揭示掌握两种语言对大脑和生活的多重好处",
     paragraphs: [
@@ -1849,7 +1849,7 @@ const ARTICLES = [
   {
     id: 10,
     level: "考研",
-    source: "The Economist",
+    source: "考研阅读精选",
     title: "The Global Water Crisis: A Threat to Stability",
     summary: "分析全球水资源危机的严重性及其对地缘政治的影响",
     paragraphs: [
@@ -1881,7 +1881,7 @@ const ARTICLES = [
   {
     id: 11,
     level: "雅思",
-    source: "The Guardian",
+    source: "六级阅读精选",
     title: "The Urbanization Challenge: Cities of the Future",
     summary: "探讨快速城市化带来的挑战以及未来城市的可持续发展方案",
     paragraphs: [
@@ -1913,7 +1913,7 @@ const ARTICLES = [
   {
     id: 12,
     level: "雅思",
-    source: "BBC",
+    source: "四级阅读精选",
     title: "The Power of Cultural Exchange in a Globalized World",
     summary: "分析文化交流在全球化时代的重要性及其对个人和社会的深远影响",
     paragraphs: [
@@ -1945,7 +1945,7 @@ const ARTICLES = [
   {
     id: 13,
     level: "托福",
-    source: "Scientific American",
+    source: "科普阅读",
     title: "The Microbiome Revolution: How Bacteria Shape Our Health",
     summary: "揭示人体微生物组对健康的关键作用及其在医学中的应用前景",
     paragraphs: [
@@ -1977,7 +1977,7 @@ const ARTICLES = [
   {
     id: 14,
     level: "四级",
-    source: "BBC Learning English",
+    source: "四级阅读精选",
     title: "The Art of Effective Communication",
     summary: "探讨有效沟通的技巧及其在个人和职业生活中的重要性",
     paragraphs: [
@@ -2009,7 +2009,7 @@ const ARTICLES = [
   {
     id: 15,
     level: "六级",
-    source: "TIME",
+    source: "外刊精读",
     title: "The Psychology of Decision-Making",
     summary: "揭示人类决策过程中的心理机制及其对日常选择的影响",
     paragraphs: [
@@ -2041,7 +2041,7 @@ const ARTICLES = [
   {
     id: 16,
     level: "四级",
-    source: "BBC News",
+    source: "四级阅读精选",
     title: "The Benefits of Learning a Second Language",
     summary: "揭示学习第二语言对大脑和职业发展的多重好处",
     paragraphs: [
@@ -2073,7 +2073,7 @@ const ARTICLES = [
   {
     id: 17,
     level: "六级",
-    source: "The Economist",
+    source: "考研阅读精选",
     title: "The Rise of Artificial Intelligence in Healthcare",
     summary: "探讨人工智能在医疗领域的应用前景和挑战",
     paragraphs: [
@@ -2100,7 +2100,7 @@ const ARTICLES = [
   {
     id: 18,
     level: "考研",
-    source: "Nature",
+    source: "学术阅读",
     title: "The Future of Space Exploration",
     summary: "展望人类太空探索的未来方向和挑战",
     paragraphs: [
@@ -2127,7 +2127,7 @@ const ARTICLES = [
   {
     id: 19,
     level: "四级",
-    source: "National Geographic",
+    source: "科普阅读",
     title: "The Wonders of the Deep Ocean",
     summary: "揭示深海世界的奥秘和科学发现",
     paragraphs: [
@@ -2154,7 +2154,7 @@ const ARTICLES = [
   {
     id: 20,
     level: "六级",
-    source: "TIME",
+    source: "外刊精读",
     title: "The Psychology of Social Media",
     summary: "分析社交媒体对心理健康的影响",
     paragraphs: [
@@ -2181,7 +2181,7 @@ const ARTICLES = [
   {
     id: 21,
     level: "四级",
-    source: "BBC",
+    source: "四级阅读精选",
     title: "The Importance of Sleep for Students",
     summary: "揭示睡眠对学习效果和学生健康的关键作用",
     paragraphs: [
@@ -2208,7 +2208,7 @@ const ARTICLES = [
   {
     id: 22,
     level: "六级",
-    source: "The Economist",
+    source: "考研阅读精选",
     title: "The Future of Renewable Energy",
     summary: "分析可再生能源的发展趋势和挑战",
     paragraphs: [
@@ -2235,7 +2235,7 @@ const ARTICLES = [
   {
     id: 23,
     level: "考研",
-    source: "Nature",
+    source: "学术阅读",
     title: "The Promise of Quantum Computing",
     summary: "探讨量子计算的潜力和应用前景",
     paragraphs: [
@@ -2262,7 +2262,7 @@ const ARTICLES = [
   {
     id: 24,
     level: "四级",
-    source: "The Guardian",
+    source: "六级阅读精选",
     title: "The Benefits of Reading for Pleasure",
     summary: "揭示阅读对个人成长和心理健康的多重好处",
     paragraphs: [
@@ -2289,7 +2289,7 @@ const ARTICLES = [
   {
     id: 25,
     level: "六级",
-    source: "TIME",
+    source: "外刊精读",
     title: "The Psychology of Decision Making",
     summary: "分析人类决策过程中的心理机制和认知偏差",
     paragraphs: [
@@ -2316,7 +2316,7 @@ const ARTICLES = [
   {
     id: 26,
     level: "四级",
-    source: "BBC Learning English",
+    source: "四级阅读精选",
     title: "How to Improve Your Memory",
     summary: "介绍科学验证的记忆提升方法和技巧",
     paragraphs: [
@@ -2343,7 +2343,7 @@ const ARTICLES = [
   {
     id: 27,
     level: "考研",
-    source: "The Atlantic",
+    source: "外刊精读",
     title: "The Ethics of Artificial Intelligence",
     summary: "探讨人工智能发展带来的伦理挑战和社会影响",
     paragraphs: [
@@ -2370,7 +2370,7 @@ const ARTICLES = [
   {
     id: 28,
     level: "六级",
-    source: "Scientific American",
+    source: "科普阅读",
     title: "The Wonders of the Human Brain",
     summary: "揭示人脑的惊人能力和最新神经科学发现",
     paragraphs: [
@@ -2397,7 +2397,7 @@ const ARTICLES = [
   {
     id: 29,
     level: "四级",
-    source: "National Geographic",
+    source: "科普阅读",
     title: "Protecting Our Oceans",
     summary: "介绍海洋保护的重要性和当前面临的挑战",
     paragraphs: [
@@ -2424,7 +2424,7 @@ const ARTICLES = [
   {
     id: 30,
     level: "考研",
-    source: "Harvard Business Review",
+    source: "商业阅读",
     title: "The Future of Remote Work",
     summary: "分析远程工作的趋势及其对组织管理的影响",
     paragraphs: [
