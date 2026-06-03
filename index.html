@@ -89,27 +89,79 @@
                 <div class="study-tip-text" id="study-tip-text">Loading...</div>
             </div>
 
-            <!-- 功能入口 -->
-            <div class="feature-grid">
-                <div class="feature-item" onclick="App.switchTab('sentences')">
-                    <span class="feature-icon">&#x1F4DD;</span>
-                    <div class="feature-title">长难句</div>
-                    <div class="feature-desc">90+精选句子</div>
+            <!-- 功能入口 - 横向滚动 -->
+            <div class="section-title">
+                <span>&#x1F680; 快速入口</span>
+            </div>
+            <div class="feature-scroll">
+                <div class="feature-scroll-inner">
+                    <div class="feature-card" onclick="App.switchTab('sentences')">
+                        <div class="feature-card-bg" style="background: linear-gradient(135deg, #C04851, #D4696E);"></div>
+                        <div class="feature-card-icon">&#x1F4DD;</div>
+                        <div class="feature-card-title">长难句</div>
+                        <div class="feature-card-desc">70+精选句子</div>
+                    </div>
+                    <div class="feature-card" onclick="App.switchTab('articles')">
+                        <div class="feature-card-bg" style="background: linear-gradient(135deg, #2B5B8A, #5A8AB8);"></div>
+                        <div class="feature-card-icon">&#x1F4F0;</div>
+                        <div class="feature-card-title">外刊精读</div>
+                        <div class="feature-card-desc">15+分级文章</div>
+                    </div>
+                    <div class="feature-card" onclick="App.openQuiz()">
+                        <div class="feature-card-bg" style="background: linear-gradient(135deg, #D4A853, #E8C97A);"></div>
+                        <div class="feature-card-icon">&#x1F3AF;</div>
+                        <div class="feature-card-title">词汇测验</div>
+                        <div class="feature-card-desc">测试词汇量</div>
+                    </div>
+                    <div class="feature-card" onclick="App.openSpelling()">
+                        <div class="feature-card-bg" style="background: linear-gradient(135deg, #5B8C6F, #7BAC8F);"></div>
+                        <div class="feature-card-icon">&#x270D;&#xFE0F;</div>
+                        <div class="feature-card-title">拼写练习</div>
+                        <div class="feature-card-desc">强化记忆</div>
+                    </div>
+                    <div class="feature-card" onclick="App.openChallenge()">
+                        <div class="feature-card-bg" style="background: linear-gradient(135deg, #7B4A7D, #A06DA2);"></div>
+                        <div class="feature-card-icon">&#x1F3C6;</div>
+                        <div class="feature-card-title">每日挑战</div>
+                        <div class="feature-card-desc">限时答题</div>
+                    </div>
+                    <div class="feature-card" onclick="App.openFavorites()">
+                        <div class="feature-card-bg" style="background: linear-gradient(135deg, #B3424A, #D05A62);"></div>
+                        <div class="feature-card-icon">&#x2764;&#xFE0F;</div>
+                        <div class="feature-card-title">我的收藏</div>
+                        <div class="feature-card-desc">重点复习</div>
+                    </div>
                 </div>
-                <div class="feature-item" onclick="App.switchTab('articles')">
-                    <span class="feature-icon">&#x1F4F0;</span>
-                    <div class="feature-title">外刊精读</div>
-                    <div class="feature-desc">30+分级文章</div>
+            </div>
+
+            <!-- 更多功能 -->
+            <div class="section-title">
+                <span>&#x1F4C0; 更多功能</span>
+            </div>
+            <div class="more-features">
+                <div class="more-feature-item" onclick="App.openDictation()">
+                    <span class="more-feature-icon">&#x1F3A4;</span>
+                    <span class="more-feature-text">听写模式</span>
                 </div>
-                <div class="feature-item" onclick="App.switchTab('profile')">
-                    <span class="feature-icon">&#x1F4CA;</span>
-                    <div class="feature-title">学习统计</div>
-                    <div class="feature-desc">打卡日历</div>
+                <div class="more-feature-item" onclick="App.openCloze()">
+                    <span class="more-feature-icon">&#x1F4D0;</span>
+                    <span class="more-feature-text">填空练习</span>
                 </div>
-                <div class="feature-item" onclick="App.openFavorites()">
-                    <span class="feature-icon">&#x2764;&#xFE0F;</span>
-                    <div class="feature-title">我的收藏</div>
-                    <div class="feature-desc">重点复习</div>
+                <div class="more-feature-item" onclick="App.openGrammarList()">
+                    <span class="more-feature-icon">&#x1F4D6;</span>
+                    <span class="more-feature-text">语法专题</span>
+                </div>
+                <div class="more-feature-item" onclick="App.openWritingList()">
+                    <span class="more-feature-icon">&#x270F;&#xFE0F;</span>
+                    <span class="more-feature-text">写作模板</span>
+                </div>
+                <div class="more-feature-item" onclick="App.switchTab('profile')">
+                    <span class="more-feature-icon">&#x1F4CA;</span>
+                    <span class="more-feature-text">学习报告</span>
+                </div>
+                <div class="more-feature-item" onclick="App.openMistakes()">
+                    <span class="more-feature-icon">&#x1F4DA;</span>
+                    <span class="more-feature-text">错题本</span>
                 </div>
             </div>
         </div>
