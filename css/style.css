@@ -3257,3 +3257,251 @@ p { line-height: 1.7; }
     left: 0;
     color: var(--primary);
 }
+
+/* ── 精听训练 ── */
+.listening-controls {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    margin-bottom: 16px;
+}
+
+.listening-play-btn {
+    min-width: 120px;
+}
+
+.listening-loop-btn {
+    min-width: 100px;
+}
+
+.listening-loop-btn.active {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+}
+
+.listening-speed {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+    justify-content: center;
+}
+
+.listening-speed-label {
+    font-size: 0.8125rem;
+    color: var(--text-muted);
+}
+
+.listening-speed-btns {
+    display: flex;
+    gap: 6px;
+}
+
+.listening-speed-btn {
+    padding: 6px 12px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    background: var(--bg-card);
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.listening-speed-btn.active {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+}
+
+.listening-info {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    margin-bottom: 16px;
+}
+
+.listening-input-area {
+    margin-bottom: 16px;
+}
+
+.listening-input-label {
+    font-size: 0.8125rem;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+}
+
+.listening-textarea {
+    width: 100%;
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    padding: 14px;
+    font-size: 0.9375rem;
+    font-family: var(--font);
+    line-height: 1.6;
+    resize: vertical;
+    background: var(--bg-card);
+    color: var(--text-primary);
+    transition: border-color 0.2s ease;
+}
+
+.listening-textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(192, 72, 81, 0.1);
+}
+
+.listening-textarea:disabled {
+    background: var(--bg-hover);
+    opacity: 0.7;
+}
+
+.listening-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    margin-bottom: 16px;
+}
+
+.listening-compare {
+    background: var(--bg-card);
+    border-radius: 12px;
+    padding: 16px;
+    border: 1px solid var(--border);
+}
+
+.listening-compare-label {
+    font-size: 0.8125rem;
+    color: var(--text-muted);
+    margin-bottom: 4px;
+}
+
+.listening-compare-correct {
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+.listening-compare-user {
+    font-size: 0.9375rem;
+    line-height: 1.6;
+}
+
+.listening-explanation {
+    background: var(--bg-card);
+    border-radius: 12px;
+    padding: 16px;
+    margin-top: 16px;
+    border: 1px solid var(--border);
+}
+
+.listening-explanation-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--primary);
+    margin-bottom: 12px;
+}
+
+.listening-translation {
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    color: var(--text-primary);
+    margin-bottom: 12px;
+    padding: 10px 14px;
+    background: var(--primary-bg);
+    border-radius: 8px;
+}
+
+.listening-grammar {
+    margin-bottom: 12px;
+}
+
+.listening-grammar-label {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--primary);
+    margin-bottom: 8px;
+}
+
+.listening-grammar-point {
+    background: rgba(43, 91, 138, 0.05);
+    border-radius: 8px;
+    padding: 8px 12px;
+    margin-bottom: 4px;
+    font-size: 0.8125rem;
+    color: var(--text-secondary);
+    border-left: 3px solid var(--indigo);
+}
+
+.listening-tip {
+    background: rgba(212, 168, 83, 0.1);
+    border-radius: 8px;
+    padding: 10px 14px;
+    border-left: 3px solid var(--accent);
+}
+
+.listening-tip-title {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+}
+
+.listening-tip-text {
+    font-size: 0.8125rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+/* ── 听力理解 ── */
+.listening-quiz-header {
+    margin-bottom: 16px;
+}
+
+.listening-quiz-title {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+}
+
+.listening-quiz-meta {
+    display: flex;
+    gap: 8px;
+}
+
+.listening-quiz-controls {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.listening-quiz-question {
+    background: var(--bg-card);
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 16px;
+    border: 1px solid var(--border);
+}
+
+.listening-quiz-question-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--primary);
+    margin-bottom: 12px;
+}
+
+.listening-quiz-question-text {
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    color: var(--text-primary);
+    margin-bottom: 16px;
+}
+
+.listening-quiz-content {
+    margin-top: 16px;
+}

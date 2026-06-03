@@ -139,6 +139,14 @@
                 <span>&#x1F4C0; 更多功能</span>
             </div>
             <div class="more-features">
+                <div class="more-feature-item" onclick="App.openListening()">
+                    <span class="more-feature-icon">&#x1F442;</span>
+                    <span class="more-feature-text">精听训练</span>
+                </div>
+                <div class="more-feature-item" onclick="App.openListeningQuiz()">
+                    <span class="more-feature-icon">&#x1F3A7;</span>
+                    <span class="more-feature-text">听力理解</span>
+                </div>
                 <div class="more-feature-item" onclick="App.openDictation()">
                     <span class="more-feature-icon">&#x1F3A4;</span>
                     <span class="more-feature-text">听写模式</span>
@@ -459,6 +467,30 @@
                     <button class="modal-close" onclick="App.closeModal('share-modal')">&times;</button>
                 </div>
                 <div class="modal-body" id="share-modal-body"></div>
+            </div>
+        </div>
+
+        <!-- ═══ 精听训练弹窗 ═══ -->
+        <div class="modal-overlay" id="listening-modal">
+            <div class="modal-content">
+                <div class="modal-handle"></div>
+                <div class="modal-header">
+                    <h2>&#x1F442; 精听训练</h2>
+                    <button class="modal-close" onclick="App.closeModal('listening-modal')">&times;</button>
+                </div>
+                <div class="modal-body" id="listening-modal-body"></div>
+            </div>
+        </div>
+
+        <!-- ═══ 听力理解弹窗 ═══ -->
+        <div class="modal-overlay" id="listening-quiz-modal">
+            <div class="modal-content">
+                <div class="modal-handle"></div>
+                <div class="modal-header">
+                    <h2>&#x1F3A7; 听力理解</h2>
+                    <button class="modal-close" onclick="App.closeModal('listening-quiz-modal')">&times;</button>
+                </div>
+                <div class="modal-body" id="listening-quiz-modal-body"></div>
             </div>
         </div>
 

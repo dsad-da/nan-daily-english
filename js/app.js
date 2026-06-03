@@ -270,6 +270,356 @@ const App = (() => {
         document.getElementById('writing-modal-title').textContent = template.title;
     }
 
+    // ── 精听训练 ──
+
+    let listeningState = { sentences: [], current: 0, score: 0, total: 0, speed: 1 };
+
+    function openListening() {
+        const learned = Storage.getStats().totalSentences;
+        if (learned < 3) {
+            showToast('至少需要学习3个句子才能开始精听训练');
+            return;
+        }
+        const learnedIds = [];
+        for (let i = 0; i < SENTENCES.length; i++) {
+            if (Storage.hasLearnedSentence(SENTENCES[i].id)) learnedIds.push(SENTENCES[i]);
+        }
+        const shuffled = learnedIds.sort(() => Math.random() - 0.5);
+        listeningState.sentences = shuffled.slice(0, Math.min(5, shuffled.length));
+        listeningState.current = 0;
+        listeningState.score = 0;
+        listeningState.total = listeningState.sentences.length;
+        listeningState.speed = 1;
+        renderListeningQuestion();
+        openModal('listening-modal');
+    }
+
+    function renderListeningQuestion() {
+        if (listeningState.current >= listeningState.total) {
+            renderListeningResult();
+            return;
+        }
+        const s = listeningState.sentences[listeningState.current];
+        const progress = (listeningState.current / listeningState.total * 100).toFixed(0);
+
+        let html = '<div class="quiz-progress-bar"><div class="quiz-progress-fill" style="width:' + progress + '%"></div></div>';
+        html += '<div class="quiz-score">第 ' + (listeningState.current + 1) + ' / ' + listeningState.total + ' 题</div>';
+
+        // 播放控制区
+        html += '<div class="listening-controls">';
+        html += '<button class="btn btn-primary listening-play-btn" onclick="App.playListeningSentence()">&#x1F50A; 播放</button>';
+        html += '<button class="btn btn-outline listening-loop-btn" id="listening-loop-btn" onclick="App.toggleListeningLoop()">&#x1F501; 循环</button>';
+        html += '</div>';
+
+        // 语速控制
+        html += '<div class="listening-speed">';
+        html += '<span class="listening-speed-label">语速：</span>';
+        html += '<div class="listening-speed-btns">';
+        [0.5, 0.75, 1, 1.25, 1.5].forEach(spd => {
+            const isActive = listeningState.speed === spd;
+            html += '<button class="listening-speed-btn ' + (isActive ? 'active' : '') + '" onclick="App.setListeningSpeed(' + spd + ')">' + spd + 'x</button>';
+        });
+        html += '</div></div>';
+
+        // 难度和来源
+        html += '<div class="listening-info">';
+        html += '<span class="tag tag-level">' + s.level + '</span>';
+        html += '<span class="tag tag-source">' + (s.source || '') + '</span>';
+        html += '</div>';
+
+        // 输入区
+        html += '<div class="listening-input-area">';
+        html += '<div class="listening-input-label">输入你听到的句子：</div>';
+        html += '<textarea id="listening-input" class="listening-textarea" rows="4" placeholder="在这里输入..."></textarea>';
+        html += '</div>';
+
+        // 提交按钮
+        html += '<div class="listening-actions">';
+        html += '<button class="btn btn-primary" onclick="App.checkListening()">提交答案</button>';
+        html += '<button class="btn btn-ghost" onclick="App.skipListening()">跳过</button>';
+        html += '</div>';
+
+        html += '<div id="listening-feedback"></div>';
+
+        document.getElementById('listening-modal-body').innerHTML = html;
+
+        // 自动聚焦输入框
+        setTimeout(() => {
+            const input = document.getElementById('listening-input');
+            if (input) input.focus();
+        }, 300);
+    }
+
+    let listeningLoopInterval = null;
+    let isListeningLoop = false;
+
+    function playListeningSentence() {
+        const s = listeningState.sentences[listeningState.current];
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.cancel();
+            const u = new SpeechSynthesisUtterance(s.sentence);
+            u.lang = 'en-US';
+            u.rate = listeningState.speed;
+            u.pitch = 1;
+            window.speechSynthesis.speak(u);
+        }
+    }
+
+    function toggleListeningLoop() {
+        isListeningLoop = !isListeningLoop;
+        const btn = document.getElementById('listening-loop-btn');
+        if (btn) {
+            btn.classList.toggle('active', isListeningLoop);
+            btn.innerHTML = isListeningLoop ? '&#x23F9; 停止' : '&#x1F501; 循环';
+        }
+
+        if (isListeningLoop) {
+            playListeningSentence();
+            listeningLoopInterval = setInterval(() => {
+                playListeningSentence();
+            }, 3000);
+        } else {
+            clearInterval(listeningLoopInterval);
+            window.speechSynthesis.cancel();
+        }
+    }
+
+    function setListeningSpeed(speed) {
+        listeningState.speed = speed;
+        // 更新按钮状态
+        document.querySelectorAll('.listening-speed-btn').forEach(btn => {
+            btn.classList.toggle('active', parseFloat(btn.textContent) === speed);
+        });
+        showToast('语速已设置为 ' + speed + 'x');
+    }
+
+    function checkListening() {
+        const s = listeningState.sentences[listeningState.current];
+        const input = document.getElementById('listening-input').value.trim();
+        if (!input) {
+            showToast('请输入你听到的句子');
+            return;
+        }
+
+        // 停止循环播放
+        if (isListeningLoop) {
+            isListeningLoop = false;
+            clearInterval(listeningLoopInterval);
+            window.speechSynthesis.cancel();
+        }
+
+        const correct = s.sentence.toLowerCase().replace(/[.,!?;:'"]/g, '').trim();
+        const user = input.toLowerCase().replace(/[.,!?;:'"]/g, '').trim();
+        const similarity = calculateSimilarity(user, correct);
+        const isCorrect = similarity > 0.8;
+        if (isCorrect) listeningState.score++;
+
+        // 禁用输入
+        document.getElementById('listening-input').disabled = true;
+
+        let html = '<div style="margin-top:16px;">';
+
+        // 对比结果
+        html += '<div class="listening-compare">';
+        html += '<div class="listening-compare-label">正确答案：</div>';
+        html += '<div class="listening-compare-correct">' + escapeHtml(s.sentence) + '</div>';
+        html += '<div class="listening-compare-label" style="margin-top:12px;">你的答案：</div>';
+        html += '<div class="listening-compare-user">' + highlightDiff(input, s.sentence) + '</div>';
+        html += '</div>';
+
+        // 得分
+        html += '<div style="text-align:center;margin-top:16px;">';
+        if (isCorrect) {
+            html += '<div class="quiz-result correct">&#x2705; 正确！相似度 ' + Math.round(similarity * 100) + '%</div>';
+        } else {
+            html += '<div class="quiz-result wrong">&#x274C; 需要改进！相似度 ' + Math.round(similarity * 100) + '%</div>';
+        }
+        html += '</div>';
+
+        // 详细解释
+        html += '<div class="listening-explanation">';
+        html += '<div class="listening-explanation-title">&#x1F4D6; 句子解析</div>';
+        html += '<div class="listening-translation"><strong>翻译：</strong>' + escapeHtml(s.translation) + '</div>';
+
+        // 语法要点
+        if (s.grammar && s.grammar.grammarPoints) {
+            html += '<div class="listening-grammar">';
+            html += '<div class="listening-grammar-label">&#x1F4DA; 语法要点</div>';
+            s.grammar.grammarPoints.forEach(gp => {
+                html += '<div class="listening-grammar-point">' + escapeHtml(gp) + '</div>';
+            });
+            html += '</div>';
+        }
+
+        // 听力技巧
+        html += '<div class="listening-tip">';
+        html += '<div class="listening-tip-title">&#x1F442; 听力技巧</div>';
+        html += '<div class="listening-tip-text">注意连读、弱读和重音。多听几遍，先抓住主干词汇，再补充细节。</div>';
+        html += '</div>';
+
+        html += '</div>';
+
+        // 下一题按钮
+        html += '<div style="text-align:center;margin-top:16px;">';
+        html += '<button class="btn btn-primary" onclick="App.nextListening()">下一题</button>';
+        html += '</div>';
+
+        html += '</div>';
+        document.getElementById('listening-feedback').innerHTML = html;
+    }
+
+    function skipListening() {
+        const s = listeningState.sentences[listeningState.current];
+
+        // 停止循环播放
+        if (isListeningLoop) {
+            isListeningLoop = false;
+            clearInterval(listeningLoopInterval);
+            window.speechSynthesis.cancel();
+        }
+
+        let html = '<div class="quiz-result wrong" style="margin-top:16px;">&#x23ED;&#xFE0F; 跳过，正确答案：</div>';
+        html += '<div class="listening-compare-correct" style="margin-top:8px;">' + escapeHtml(s.sentence) + '</div>';
+        html += '<div class="listening-translation" style="margin-top:8px;">' + escapeHtml(s.translation) + '</div>';
+        html += '<div style="text-align:center;margin-top:16px;"><button class="btn btn-primary" onclick="App.nextListening()">下一题</button></div>';
+
+        document.getElementById('listening-feedback').innerHTML = html;
+        document.getElementById('listening-input').disabled = true;
+    }
+
+    function nextListening() {
+        listeningState.current++;
+        renderListeningQuestion();
+    }
+
+    function renderListeningResult() {
+        const percent = Math.round(listeningState.score / listeningState.total * 100);
+        let emoji = '&#x1F389;';
+        let msg = '精听完成！';
+        if (percent < 60) { emoji = '&#x1F4AA;'; msg = '继续练习！'; }
+        else if (percent < 80) { emoji = '&#x1F44D;'; msg = '不错！'; }
+
+        let html = '<div class="quiz-result-screen">';
+        html += '<div class="quiz-result-emoji">' + emoji + '</div>';
+        html += '<div class="quiz-result-msg">' + msg + '</div>';
+        html += '<div class="quiz-result-score">' + listeningState.score + ' / ' + listeningState.total + '</div>';
+        html += '<div class="quiz-result-percent">正确率 ' + percent + '%</div>';
+        html += '<button class="btn btn-primary" onclick="App.openListening()" style="margin-top:20px;">再来一轮</button>';
+        html += '</div>';
+
+        document.getElementById('listening-modal-body').innerHTML = html;
+    }
+
+    // ── 听力理解测试 ──
+
+    function openListeningQuiz() {
+        const allArticles = ARTICLES;
+        if (allArticles.length === 0) {
+            showToast('暂无文章数据');
+            return;
+        }
+        const shuffled = [...allArticles].sort(() => Math.random() - 0.5);
+        const article = shuffled[0];
+        renderListeningQuiz(article);
+        openModal('listening-quiz-modal');
+    }
+
+    function renderListeningQuiz(article) {
+        let html = '';
+
+        // 文章信息
+        html += '<div class="listening-quiz-header">';
+        html += '<div class="listening-quiz-title">' + escapeHtml(article.title) + '</div>';
+        html += '<div class="listening-quiz-meta">';
+        html += '<span class="tag tag-level">' + article.level + '</span>';
+        html += '<span class="tag tag-source">' + (article.source || '') + '</span>';
+        html += '</div></div>';
+
+        // 播放控制
+        html += '<div class="listening-quiz-controls">';
+        html += '<button class="btn btn-primary" onclick="App.playListeningArticle(' + article.id + ')">&#x1F50A; 播放全文</button>';
+        html += '<button class="btn btn-outline" onclick="App.playListeningArticleParagraphs(' + article.id + ')">&#x1F50A; 逐段播放</button>';
+        html += '</div>';
+
+        // 问题
+        if (article.question) {
+            html += '<div class="listening-quiz-question">';
+            html += '<div class="listening-quiz-question-title">&#x2753; 听力理解</div>';
+            html += '<div class="listening-quiz-question-text">' + escapeHtml(article.question) + '</div>';
+
+            const labels = ['A', 'B', 'C', 'D'];
+            article.options.forEach((opt, idx) => {
+                html += '<div class="quiz-option" data-article="' + article.id + '" data-idx="' + idx + '" onclick="App.answerListeningQuiz(' + article.id + ',' + idx + ')">';
+                html += '<span class="quiz-option-label">' + labels[idx] + '.</span>';
+                html += '<span>' + escapeHtml(opt) + '</span>';
+                html += '</div>';
+            });
+
+            html += '<div id="listening-quiz-feedback"></div>';
+            html += '</div>';
+        }
+
+        // 文章内容（折叠）
+        html += '<div class="listening-quiz-content">';
+        html += '<button class="btn btn-ghost" onclick="App.toggleListeningArticleContent()">&#x1F441; 显示/隐藏原文</button>';
+        html += '<div id="listening-article-content" style="display:none;">';
+        article.paragraphs.forEach((p, idx) => {
+            html += '<div class="article-paragraph">';
+            html += '<div class="article-paragraph-en">' + escapeHtml(p.en) + '</div>';
+            html += '<div class="article-paragraph-cn">' + escapeHtml(p.cn) + '</div>';
+            html += '</div>';
+        });
+        html += '</div></div>';
+
+        document.getElementById('listening-quiz-modal-body').innerHTML = html;
+    }
+
+    function playListeningArticle(articleId) {
+        const article = ARTICLES.find(a => a.id === articleId);
+        if (!article) return;
+        const fullText = article.paragraphs.map(p => p.en).join('. ');
+        speak(fullText);
+    }
+
+    let listeningParagraphIndex = 0;
+    function playListeningArticleParagraphs(articleId) {
+        const article = ARTICLES.find(a => a.id === articleId);
+        if (!article) return;
+        if (listeningParagraphIndex >= article.paragraphs.length) {
+            listeningParagraphIndex = 0;
+        }
+        speak(article.paragraphs[listeningParagraphIndex].en);
+        listeningParagraphIndex++;
+        showToast('播放第 ' + listeningParagraphIndex + ' 段');
+    }
+
+    function answerListeningQuiz(articleId, idx) {
+        const article = ARTICLES.find(a => a.id === articleId);
+        if (!article) return;
+
+        const options = document.querySelectorAll('.listening-quiz-option[data-article="' + articleId + '"]');
+        options.forEach(el => el.style.pointerEvents = 'none');
+
+        const correct = article.answer;
+        const labels = ['A', 'B', 'C', 'D'];
+
+        if (idx === correct) {
+            document.querySelector('.listening-quiz-option[data-article="' + articleId + '"][data-idx="' + idx + '"]').classList.add('correct');
+            document.getElementById('listening-quiz-feedback').innerHTML = '<div class="quiz-result correct">&#x2705; 正确！</div>';
+        } else {
+            document.querySelector('.listening-quiz-option[data-article="' + articleId + '"][data-idx="' + idx + '"]').classList.add('wrong');
+            document.querySelector('.listening-quiz-option[data-article="' + articleId + '"][data-idx="' + correct + '"]').classList.add('correct');
+            document.getElementById('listening-quiz-feedback').innerHTML = '<div class="quiz-result wrong">&#x274C; 错误！正确答案是 ' + labels[correct] + '</div>';
+        }
+    }
+
+    function toggleListeningArticleContent() {
+        const content = document.getElementById('listening-article-content');
+        if (content) {
+            content.style.display = content.style.display === 'none' ? 'block' : 'none';
+        }
+    }
+
     // ── 拼写练习 ──
 
     let spellingState = { words: [], current: 0, score: 0, total: 0 };
@@ -2760,6 +3110,18 @@ const App = (() => {
         checkSpelling,
         skipSpelling,
         nextSpelling,
+        openListening,
+        playListeningSentence,
+        toggleListeningLoop,
+        setListeningSpeed,
+        checkListening,
+        skipListening,
+        nextListening,
+        openListeningQuiz,
+        playListeningArticle,
+        playListeningArticleParagraphs,
+        answerListeningQuiz,
+        toggleListeningArticleContent,
         openChallenge,
         answerChallenge,
         answerChallengeSpelling,
