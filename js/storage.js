@@ -90,23 +90,31 @@ const Storage = (() => {
 
     function recordSentence(sentenceId) {
         const h = _getHistory();
-        if (!h.sentences.includes(sentenceId)) {
+        const isNew = !h.sentences.includes(sentenceId);
+        if (isNew) {
             h.sentences.push(sentenceId);
         }
         const today = _today();
         h.dates[today] = h.dates[today] || { sentences: 0, articles: 0 };
-        h.dates[today].sentences += 1;
+        // 只有新句子才增加今日计数
+        if (isNew) {
+            h.dates[today].sentences += 1;
+        }
         _set(KEYS.LEARNING_HISTORY, h);
     }
 
     function recordArticle(articleId) {
         const h = _getHistory();
-        if (!h.articles.includes(articleId)) {
+        const isNew = !h.articles.includes(articleId);
+        if (isNew) {
             h.articles.push(articleId);
         }
         const today = _today();
         h.dates[today] = h.dates[today] || { sentences: 0, articles: 0 };
-        h.dates[today].articles += 1;
+        // 只有新文章才增加今日计数
+        if (isNew) {
+            h.dates[today].articles += 1;
+        }
         _set(KEYS.LEARNING_HISTORY, h);
     }
 

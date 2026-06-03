@@ -2423,20 +2423,26 @@ const App = (() => {
     function applyThemeColors(colors) {
         if (colors.primary) {
             document.documentElement.style.setProperty('--primary', colors.primary);
-            // 计算浅色版本
+            // 计算浅色版本（补零确保两位十六进制）
             const r = parseInt(colors.primary.slice(1, 3), 16);
             const g = parseInt(colors.primary.slice(3, 5), 16);
             const b = parseInt(colors.primary.slice(5, 7), 16);
             const lightR = Math.min(255, r + 30);
             const lightG = Math.min(255, g + 30);
             const lightB = Math.min(255, b + 30);
-            document.documentElement.style.setProperty('--primary-light', '#' + lightR.toString(16) + lightG.toString(16) + lightB.toString(16));
+            const lightHex = '#' +
+                lightR.toString(16).padStart(2, '0') +
+                lightG.toString(16).padStart(2, '0') +
+                lightB.toString(16).padStart(2, '0');
+            document.documentElement.style.setProperty('--primary-light', lightHex);
         }
         if (colors.accent) {
             document.documentElement.style.setProperty('--accent', colors.accent);
         }
         if (colors.bg) {
-            document.body.style.background = colors.bg;
+            document.documentElement.style.setProperty('--bg', colors.bg);
+            // 保留其他背景属性
+            document.body.style.backgroundColor = colors.bg;
         }
     }
 
@@ -2546,7 +2552,8 @@ const App = (() => {
                 'nan_vocabulary', 'nan_settings', 'nan_last_visit',
                 'nan_daily_sentence', 'nan_daily_date', 'nan_daily_word',
                 'nan_daily_word_date', 'nan_article_progress', 'nan_mistakes',
-                'nan_review_schedule', 'nan_challenge_date', 'nan_quiz_count'
+                'nan_review_schedule', 'nan_challenge_date', 'nan_quiz_count',
+                'nan_custom_theme'
             ];
             appKeys.forEach(key => localStorage.removeItem(key));
             showToast('数据已清除');
@@ -2658,17 +2665,24 @@ const App = (() => {
         }
     });
 
-    // 阅读进度条
+    // 阅读进度条（带节流）
     const articleModal = document.getElementById('article-modal');
     if (articleModal) {
         const modalContent = articleModal.querySelector('.modal-content');
         if (modalContent) {
+            let ticking = false;
             modalContent.addEventListener('scroll', () => {
-                const scrollTop = modalContent.scrollTop;
-                const scrollHeight = modalContent.scrollHeight - modalContent.clientHeight;
-                const progress = scrollHeight > 0 ? (scrollTop / scrollHeight * 100).toFixed(1) : 0;
-                const fill = document.getElementById('reading-progress-fill');
-                if (fill) fill.style.width = progress + '%';
+                if (!ticking) {
+                    requestAnimationFrame(() => {
+                        const scrollTop = modalContent.scrollTop;
+                        const scrollHeight = modalContent.scrollHeight - modalContent.clientHeight;
+                        const progress = scrollHeight > 0 ? (scrollTop / scrollHeight * 100).toFixed(1) : 0;
+                        const fill = document.getElementById('reading-progress-fill');
+                        if (fill) fill.style.width = progress + '%';
+                        ticking = false;
+                    });
+                    ticking = true;
+                }
             });
         }
     }
