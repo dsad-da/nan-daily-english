@@ -1215,6 +1215,344 @@ const SENTENCES = [
       grammarPoints: ["be used to do", "三个并列不定式", "现在分词作结果状语"]
     },
     tags: ["科技", "AI"]
+  },
+  // ===== 补充句子 (71-90) =====
+  {
+    id: 71,
+    level: "四级",
+    source: "BBC",
+    sentence: "The number of students choosing to study abroad has increased dramatically over the past decade, driven by the desire for better educational opportunities and international experience.",
+    translation: "过去十年来，选择出国留学的学生数量急剧增加，这得益于对更好教育机会和国际经验的渴望。",
+    grammar: {
+      main: { text: "The number of students has increased dramatically", desc: "主干：学生数量急剧增加" },
+      clauses: [
+        { type: "现在分词短语", text: "choosing to study abroad", desc: "修饰 students" },
+        { type: "过去分词短语", text: "driven by the desire for better educational opportunities", desc: "原因状语" }
+      ],
+      keywords: ["dramatically", "decade", "driven by", "desire", "opportunity"],
+      grammarPoints: ["现在分词作后置定语", "过去分词作原因状语", "the number of..."]
+    },
+    tags: ["教育", "留学"]
+  },
+  {
+    id: 72,
+    level: "四级",
+    source: "The Guardian",
+    sentence: "Eating a balanced diet that includes plenty of fruits, vegetables, and whole grains is essential for maintaining good health and preventing chronic diseases.",
+    translation: "吃包含大量水果、蔬菜和全谷物的均衡饮食对保持健康和预防慢性疾病至关重要。",
+    grammar: {
+      main: { text: "Eating a balanced diet is essential for maintaining good health", desc: "主干：吃均衡饮食对保持健康至关重要" },
+      clauses: [
+        { type: "动名词短语", text: "Eating a balanced diet", desc: "作主语" },
+        { type: "定语从句", text: "that includes plenty of fruits, vegetables, and whole grains", desc: "修饰 diet" }
+      ],
+      keywords: ["balanced", "essential", "maintain", "prevent", "chronic"],
+      grammarPoints: ["动名词作主语", "that 引导定语从句", "be essential for doing"]
+    },
+    tags: ["健康", "饮食"]
+  },
+  {
+    id: 73,
+    level: "六级",
+    source: "TIME",
+    sentence: "The gig economy, which allows people to work flexible hours as independent contractors, has grown rapidly but raised concerns about worker protections and benefits.",
+    translation: "零工经济允许人们作为独立承包商灵活工作时间，发展迅速，但也引发了对工人保护和福利的担忧。",
+    grammar: {
+      main: { text: "The gig economy has grown rapidly but raised concerns", desc: "主干：零工经济发展迅速但也引发担忧" },
+      clauses: [
+        { type: "非限制性定语从句", text: "which allows people to work flexible hours as independent contractors", desc: "补充说明 gig economy" }
+      ],
+      keywords: ["gig economy", "flexible", "contractor", "protection", "benefit"],
+      grammarPoints: ["非限制性定语从句", "allow sb to do", "raise concerns about..."]
+    },
+    tags: ["经济", "工作"]
+  },
+  {
+    id: 74,
+    level: "六级",
+    source: "The Economist",
+    sentence: "Central banks around the world are grappling with the challenge of controlling inflation without stifling economic growth, a delicate balancing act that requires careful calibration of monetary policy.",
+    translation: "世界各地的央行正在努力应对在不扼杀经济增长的情况下控制通胀的挑战，这是一项需要仔细校准货币政策的微妙平衡之举。",
+    grammar: {
+      main: { text: "Central banks are grappling with the challenge", desc: "主干：央行正在应对挑战" },
+      clauses: [
+        { type: "介词短语", text: "of controlling inflation without stifling economic growth", desc: "修饰 challenge" },
+        { type: "同位语", text: "a delicate balancing act that requires careful calibration", desc: "解释说明 challenge" }
+      ],
+      keywords: ["grapple", "inflation", "stifle", "delicate", "calibration"],
+      grammarPoints: ["grapple with...", "without doing", "同位语"]
+    },
+    tags: ["经济", "金融"]
+  },
+  {
+    id: 75,
+    level: "考研",
+    source: "Nature",
+    sentence: "The discovery that the human microbiome plays a crucial role in regulating immune function has opened up new avenues for treating autoimmune diseases and allergies.",
+    translation: "人类微生物组在调节免疫功能中起关键作用的发现，为治疗自身免疫性疾病和过敏开辟了新途径。",
+    grammar: {
+      main: { text: "The discovery has opened up new avenues", desc: "主干：发现开辟了新途径" },
+      clauses: [
+        { type: "同位语从句", text: "that the human microbiome plays a crucial role in regulating immune function", desc: "解释 discovery" }
+      ],
+      keywords: ["microbiome", "crucial", "regulate", "avenue", "autoimmune"],
+      grammarPoints: ["同位语从句", "play a role in...", "open up"]
+    },
+    tags: ["医学", "科学"]
+  },
+  {
+    id: 76,
+    level: "考研",
+    source: "The Atlantic",
+    sentence: "What makes a great leader is not the ability to command obedience, but rather the capacity to inspire others to pursue a shared vision with enthusiasm and commitment.",
+    translation: "使一个伟大领袖的不是命令服从的能力，而是激励他人以热情和承诺追求共同愿景的能力。",
+    grammar: {
+      main: { text: "What makes a great leader is not... but rather the capacity to...", desc: "主语从句 + 并列表语" },
+      clauses: [
+        { type: "主语从句", text: "What makes a great leader", desc: "what 引导" },
+        { type: "不定式", text: "to inspire others to pursue a shared vision", desc: "修饰 capacity" }
+      ],
+      keywords: ["command", "obedience", "inspire", "pursue", "commitment"],
+      grammarPoints: ["What 引导主语从句", "not... but rather...", "inspire sb to do"]
+    },
+    tags: ["领导力", "管理"]
+  },
+  {
+    id: 77,
+    level: "雅思",
+    source: "BBC",
+    sentence: "While some people believe that university education should be free for everyone, others argue that students should contribute to the cost of their studies, as this encourages them to value their education more highly.",
+    translation: "虽然一些人认为大学教育应该对所有人免费，但另一些人认为学生应该为学习成本做出贡献，因为这鼓励他们更重视教育。",
+    grammar: {
+      main: { text: "While some people believe that... others argue that...", desc: "主干：一些人认为...另一些人认为..." },
+      clauses: [
+        { type: "让步状语从句", text: "While some people believe that university education should be free", desc: "While 让步" },
+        { type: "原因状语从句", text: "as this encourages them to value their education more highly", desc: "as 引导原因" }
+      ],
+      keywords: ["university", "contribute", "encourage", "value", "highly"],
+      grammarPoints: ["While... others...", "argue that...", "encourage sb to do"]
+    },
+    tags: ["教育", "社会"]
+  },
+  {
+    id: 78,
+    level: "雅思",
+    source: "The Guardian",
+    sentence: "The increasing popularity of online shopping has had a profound impact on traditional brick-and-mortar stores, many of which have been forced to close or reinvent themselves to survive.",
+    translation: "网上购物日益普及对传统实体店产生了深远影响，其中许多被迫关闭或重新改造以求生存。",
+    grammar: {
+      main: { text: "The increasing popularity has had a profound impact", desc: "主干：普及产生了深远影响" },
+      clauses: [
+        { type: "非限制性定语从句", text: "many of which have been forced to close or reinvent themselves", desc: "补充说明 stores" }
+      ],
+      keywords: ["profound", "impact", "brick-and-mortar", "reinvent", "survive"],
+      grammarPoints: ["have an impact on...", "many of which...", "be forced to do"]
+    },
+    tags: ["商业", "科技"]
+  },
+  {
+    id: 79,
+    level: "托福",
+    source: "Scientific American",
+    sentence: "Recent advances in neuroscience have revealed that the brain is far more plastic than previously thought, capable of forming new neural connections throughout life in response to learning and experience.",
+    translation: "神经科学的最新进展表明，大脑的可塑性远超此前认为的，能够在整个生命过程中根据学习和经验形成新的神经连接。",
+    grammar: {
+      main: { text: "Recent advances have revealed that...", desc: "主干：进展表明..." },
+      clauses: [
+        { type: "宾语从句", text: "that the brain is far more plastic than previously thought", desc: "revealed 的宾语" },
+        { type: "形容词短语", text: "capable of forming new neural connections", desc: "补充说明 brain" },
+        { type: "介词短语", text: "in response to learning and experience", desc: "条件状语" }
+      ],
+      keywords: ["neuroscience", "plastic", "neural", "connection", "response"],
+      grammarPoints: ["far more... than...", "capable of doing", "in response to..."]
+    },
+    tags: ["科学", "大脑"]
+  },
+  {
+    id: 80,
+    level: "托福",
+    source: "TIME",
+    sentence: "Climate change poses an existential threat to many island nations, which face the prospect of losing significant portions of their territory to rising sea levels within the next few decades.",
+    translation: "气候变化对许多岛国构成生存威胁，这些国家面临在未来几十年内因海平面上升而失去大部分领土的前景。",
+    grammar: {
+      main: { text: "Climate change poses an existential threat", desc: "主干：气候变化构成生存威胁" },
+      clauses: [
+        { type: "非限制性定语从句", text: "which face the prospect of losing significant portions of their territory", desc: "补充说明 island nations" },
+        { type: "介词短语", text: "to rising sea levels within the next few decades", desc: "时间/原因状语" }
+      ],
+      keywords: ["existential", "threat", "prospect", "territory", "significant"],
+      grammarPoints: ["pose a threat to...", "the prospect of doing", "within the next..."]
+    },
+    tags: ["环境", "气候"]
+  },
+  {
+    id: 81,
+    level: "四级",
+    source: "National Geographic",
+    sentence: "Volunteering in developing countries can be a life-changing experience that broadens your perspective and helps you appreciate the privileges you may have taken for granted.",
+    translation: "在发展中国家做志愿者可能是一次改变人生的经历，它能拓宽你的视野，帮助你认识到可能被视为理所当然的特权。",
+    grammar: {
+      main: { text: "Volunteering can be a life-changing experience", desc: "动名词作主语" },
+      clauses: [
+        { type: "定语从句", text: "that broadens your perspective and helps you appreciate", desc: "修饰 experience" },
+        { type: "定语从句", text: "you may have taken for granted", desc: "省略 that，修饰 privileges" }
+      ],
+      keywords: ["volunteer", "perspective", "appreciate", "privilege", "take for granted"],
+      grammarPoints: ["动名词作主语", "take for granted", "help sb do"]
+    },
+    tags: ["社会", "志愿"]
+  },
+  {
+    id: 82,
+    level: "六级",
+    source: "Harvard Business Review",
+    sentence: "Companies that invest in employee training and development tend to have higher retention rates, greater innovation, and better financial performance than those that do not.",
+    translation: "投资于员工培训和发展的公司往往比不投资的公司拥有更高的留任率、更强的创新能力和更好的财务表现。",
+    grammar: {
+      main: { text: "Companies tend to have higher retention rates than those", desc: "主干：公司往往拥有更高的留任率" },
+      clauses: [
+        { type: "定语从句1", text: "that invest in employee training and development", desc: "修饰 companies" },
+        { type: "定语从句2", text: "that do not", desc: "修饰 those" }
+      ],
+      keywords: ["invest", "retention", "innovation", "financial", "performance"],
+      grammarPoints: ["tend to do", "比较级 + than", "those 代词"]
+    },
+    tags: ["商业", "管理"]
+  },
+  {
+    id: 83,
+    level: "考研",
+    source: "The New Yorker",
+    sentence: "The paradox of modern technology is that while it has made communication easier and more convenient, it has also made genuine human connection more difficult to achieve.",
+    translation: "现代技术的悖论是，虽然它使沟通变得更容易更方便，但也使真正的人际联系更难实现。",
+    grammar: {
+      main: { text: "The paradox is that...", desc: "主干：悖论在于..." },
+      clauses: [
+        { type: "表语从句", text: "that while it has made communication easier... it has also made genuine human connection more difficult", desc: "表语从句含让步" },
+        { type: "让步状语从句", text: "while it has made communication easier and more convenient", desc: "while 让步" }
+      ],
+      keywords: ["paradox", "convenient", "genuine", "connection", "achieve"],
+      grammarPoints: ["表语从句", "while 让步", "make + 宾语 + adj."]
+    },
+    tags: ["科技", "社会"]
+  },
+  {
+    id: 84,
+    level: "雅思",
+    source: "The Economist",
+    sentence: "The growing income inequality between the richest and poorest segments of society has become one of the most pressing issues of our time, with far-reaching implications for social stability and economic growth.",
+    translation: "社会最富裕和最贫困阶层之间日益扩大的收入不平等已成为我们时代最紧迫的问题之一，对社会稳定和经济增长具有深远影响。",
+    grammar: {
+      main: { text: "The growing income inequality has become one of the most pressing issues", desc: "主干：收入不平等成为最紧迫问题之一" },
+      clauses: [
+        { type: "介词短语", text: "between the richest and poorest segments of society", desc: "修饰 inequality" },
+        { type: "with 短语", text: "with far-reaching implications for social stability", desc: "伴随状语" }
+      ],
+      keywords: ["inequality", "segment", "pressing", "implication", "stability"],
+      grammarPoints: ["one of the most...", "with + 名词 + 介词短语", "between... and..."]
+    },
+    tags: ["经济", "社会"]
+  },
+  {
+    id: 85,
+    level: "四级",
+    source: "BBC Learning English",
+    sentence: "Learning to manage your time effectively is one of the most valuable skills you can develop, as it allows you to accomplish more in less time and reduces stress.",
+    translation: "学会有效管理时间是你能培养的最有价值的技能之一，因为它能让你在更少的时间内完成更多事情并减少压力。",
+    grammar: {
+      main: { text: "Learning to manage your time is one of the most valuable skills", desc: "动名词作主语" },
+      clauses: [
+        { type: "定语从句", text: "you can develop", desc: "省略 that" },
+        { type: "原因状语从句", text: "as it allows you to accomplish more in less time", desc: "as 引导原因" }
+      ],
+      keywords: ["manage", "effectively", "valuable", "accomplish", "reduce"],
+      grammarPoints: ["动名词作主语", "allow sb to do", "as 引导原因从句"]
+    },
+    tags: ["效率", "成长"]
+  },
+  {
+    id: 86,
+    level: "六级",
+    source: "Nature",
+    sentence: "Gene therapy, which involves replacing or modifying defective genes to treat disease, has shown remarkable promise in clinical trials for conditions such as sickle cell disease and certain types of blindness.",
+    translation: "基因治疗——通过替换或修饰缺陷基因来治疗疾病——在镰状细胞病和某些类型失明等疾病的临床试验中显示出显著前景。",
+    grammar: {
+      main: { text: "Gene therapy has shown remarkable promise", desc: "主干：基因治疗显示出显著前景" },
+      clauses: [
+        { type: "非限制性定语从句", text: "which involves replacing or modifying defective genes to treat disease", desc: "补充说明 gene therapy" },
+        { type: "介词短语", text: "for conditions such as sickle cell disease", desc: "修饰 promise" }
+      ],
+      keywords: ["therapy", "defective", "remarkable", "clinical", "trial"],
+      grammarPoints: ["非限制性定语从句", "involve doing", "such as 举例"]
+    },
+    tags: ["医学", "科技"]
+  },
+  {
+    id: 87,
+    level: "考研",
+    source: "TIME",
+    sentence: "The fact that misinformation spreads faster than factual information on social media platforms poses a serious threat to democratic discourse and public trust in institutions.",
+    translation: "社交媒体平台上错误信息比事实信息传播更快的事实，对民主话语和公众对机构的信任构成严重威胁。",
+    grammar: {
+      main: { text: "The fact poses a serious threat", desc: "主干：事实构成严重威胁" },
+      clauses: [
+        { type: "同位语从句", text: "that misinformation spreads faster than factual information on social media platforms", desc: "解释 fact" }
+      ],
+      keywords: ["misinformation", "factual", "discourse", "institution", "threat"],
+      grammarPoints: ["同位语从句", "the fact that...", "pose a threat to..."]
+    },
+    tags: ["媒体", "社会"]
+  },
+  {
+    id: 88,
+    level: "托福",
+    source: "National Geographic",
+    sentence: "The decline of pollinator populations, caused by habitat loss, pesticide use, and climate change, threatens global food security, as approximately 75 percent of the world's food crops depend on animal pollination.",
+    translation: "传粉者数量的下降——由栖息地丧失、农药使用和气候变化引起——威胁着全球粮食安全，因为世界上约75%的粮食作物依赖动物授粉。",
+    grammar: {
+      main: { text: "The decline threatens global food security", desc: "主干：下降威胁全球粮食安全" },
+      clauses: [
+        { type: "过去分词短语", text: "caused by habitat loss, pesticide use, and climate change", desc: "原因状语" },
+        { type: "原因状语从句", text: "as approximately 75 percent of the world's food crops depend on animal pollination", desc: "as 引导原因" }
+      ],
+      keywords: ["pollinator", "habitat", "pesticide", "security", "approximate"],
+      grammarPoints: ["过去分词作原因状语", "as 引导原因从句", "depend on..."]
+    },
+    tags: ["环境", "农业"]
+  },
+  {
+    id: 89,
+    level: "四级",
+    source: "The Guardian",
+    sentence: "Regular physical activity, such as walking, cycling, or swimming, can significantly reduce the risk of heart disease, stroke, and type 2 diabetes.",
+    translation: "定期体育活动，如步行、骑自行车或游泳，可以显著降低患心脏病、中风和2型糖尿病的风险。",
+    grammar: {
+      main: { text: "Regular physical activity can significantly reduce the risk", desc: "主干：体育活动可以降低风险" },
+      clauses: [
+        { type: "插入语", text: "such as walking, cycling, or swimming", desc: "举例说明" }
+      ],
+      keywords: ["physical", "activity", "significantly", "reduce", "risk"],
+      grammarPoints: ["such as 举例", "reduce the risk of...", "三个并列名词"]
+    },
+    tags: ["健康", "运动"]
+  },
+  {
+    id: 90,
+    level: "六级",
+    source: "Harvard Business Review",
+    sentence: "The most successful organizations are those that embrace diversity and inclusion, recognizing that diverse teams produce better outcomes because they bring a wider range of perspectives and experiences to problem-solving.",
+    translation: "最成功的组织是那些拥抱多样性和包容性的组织，他们认识到多元化的团队能产生更好的结果，因为它们为解决问题带来了更广泛的视角和经验。",
+    grammar: {
+      main: { text: "The most successful organizations are those that...", desc: "主干：最成功的组织是那些..." },
+      clauses: [
+        { type: "定语从句", text: "that embrace diversity and inclusion", desc: "修饰 those" },
+        { type: "现在分词短语", text: "recognizing that diverse teams produce better outcomes", desc: "伴随状语" },
+        { type: "原因状语从句", text: "because they bring a wider range of perspectives and experiences", desc: "because 引导原因" }
+      ],
+      keywords: ["embrace", "diversity", "inclusion", "outcome", "perspective"],
+      grammarPoints: ["those 代词", "现在分词作伴随状语", "a range of..."]
+    },
+    tags: ["管理", "职场"]
   }
 ];
 
@@ -1838,6 +2176,276 @@ const ARTICLES = [
     ],
     question: "What is one of the main concerns about social media?",
     options: ["It's too expensive", "Its impact on self-esteem", "It's too slow", "It uses too much data"],
+    answer: 1
+  },
+  {
+    id: 21,
+    level: "四级",
+    source: "BBC",
+    title: "The Importance of Sleep for Students",
+    summary: "揭示睡眠对学习效果和学生健康的关键作用",
+    paragraphs: [
+      {
+        en: "Sleep is often the first thing students sacrifice when facing deadlines and exams. However, research consistently shows that getting enough sleep is crucial for learning and memory consolidation. During sleep, the brain processes and stores information from the day, making it easier to recall later.",
+        cn: "睡眠常常是学生在面对截止日期和考试时首先牺牲的东西。然而，研究一致表明，充足的睡眠对学习和记忆巩固至关重要。在睡眠期间，大脑处理和存储当天的信息，使其更容易在以后回忆。",
+        difficultWords: ["sacrifice", "consolidation", "crucial", "recall", "process"]
+      },
+      {
+        en: "Studies have found that students who sleep less than seven hours per night perform significantly worse on exams than those who get adequate rest. Sleep deprivation impairs attention, concentration, and problem-solving ability, all of which are essential for academic success.",
+        cn: "研究发现，每晚睡眠不足七小时的学生在考试中的表现明显比睡眠充足的学生差。睡眠不足会损害注意力、集中力和解决问题的能力，这些都是学业成功所必需的。",
+        difficultWords: ["adequate", "deprivation", "impair", "concentration", "essential"]
+      },
+      {
+        en: "Experts recommend that young adults get seven to nine hours of sleep each night. To improve sleep quality, students should maintain a consistent sleep schedule, avoid caffeine and screens before bedtime, and create a dark, quiet sleeping environment.",
+        cn: "专家建议年轻人每晚睡七到九个小时。为了改善睡眠质量，学生应保持一致的睡眠时间表，睡前避免咖啡因和屏幕，并创造黑暗安静的睡眠环境。",
+        difficultWords: ["recommend", "consistent", "caffeine", "environment", "quality"]
+      }
+    ],
+    question: "How many hours of sleep do experts recommend for young adults?",
+    options: ["5-6 hours", "6-7 hours", "7-9 hours", "9-10 hours"],
+    answer: 2
+  },
+  {
+    id: 22,
+    level: "六级",
+    source: "The Economist",
+    title: "The Future of Renewable Energy",
+    summary: "分析可再生能源的发展趋势和挑战",
+    paragraphs: [
+      {
+        en: "The transition to renewable energy is accelerating worldwide. Solar and wind power costs have fallen dramatically over the past decade, making them competitive with fossil fuels in many markets. In 2022, renewable energy sources accounted for nearly 30 percent of global electricity generation, a record high.",
+        cn: "向可再生能源的转型正在全球范围内加速。太阳能和风能成本在过去十年大幅下降，使其在许多市场上与化石燃料具有竞争力。2022年，可再生能源占全球发电量的近30%，创历史新高。",
+        difficultWords: ["transition", "accelerating", "competitive", "generation", "record"]
+      },
+      {
+        en: "Despite this progress, significant challenges remain. Energy storage technology must improve to handle the intermittent nature of solar and wind power. Grid infrastructure needs upgrading to accommodate distributed energy sources. And political will is needed to phase out subsidies for fossil fuels.",
+        cn: "尽管取得了这一进展，重大挑战仍然存在。储能技术必须改进以处理太阳能和风能的间歇性。电网基础设施需要升级以适应分布式能源。并且需要政治意愿来逐步取消对化石燃料的补贴。",
+        difficultWords: ["intermittent", "infrastructure", "accommodate", "subsidy", "phase out"]
+      },
+      {
+        en: "The economic benefits of renewable energy are becoming increasingly clear. The sector now employs more than 12 million people worldwide, and this number is expected to grow significantly. Countries that invest early in renewable energy infrastructure will be well-positioned to lead the clean energy economy of the future.",
+        cn: "可再生能源的经济效益日益明显。该行业目前在全球雇用超过1200万人，预计这一数字将大幅增长。早期投资可再生能源基础设施的国家将处于领先地位，引领未来的清洁能源经济。",
+        difficultWords: ["sector", "employ", "significantly", "infrastructure", "well-positioned"]
+      }
+    ],
+    question: "What percentage of global electricity came from renewable sources in 2022?",
+    options: ["About 10%", "About 20%", "About 30%", "About 40%"],
+    answer: 2
+  },
+  {
+    id: 23,
+    level: "考研",
+    source: "Nature",
+    title: "The Promise of Quantum Computing",
+    summary: "探讨量子计算的潜力和应用前景",
+    paragraphs: [
+      {
+        en: "Quantum computing represents a fundamental shift in how we process information. Unlike classical computers, which use bits that can only be in one of two states (0 or 1), quantum computers use quantum bits, or qubits, which can exist in multiple states simultaneously thanks to a phenomenon called superposition.",
+        cn: "量子计算代表了我们处理信息方式的根本性转变。与只能处于两种状态之一（0或1）的经典计算机不同，量子计算机使用量子比特或量子位，由于一种叫做叠加的现象，它们可以同时存在于多种状态。",
+        difficultWords: ["fundamental", "classical", "simultaneously", "superposition", "phenomenon"]
+      },
+      {
+        en: "The potential applications of quantum computing are vast. In drug discovery, quantum computers could simulate molecular interactions at a level of detail impossible for classical computers, dramatically accelerating the development of new medicines. In cryptography, quantum computers could break many of the encryption methods currently used to secure digital communications.",
+        cn: "量子计算的潜在应用是巨大的。在药物发现方面，量子计算机可以以经典计算机无法达到的详细程度模拟分子相互作用，大大加速新药的开发。在密码学方面，量子计算机可以破解目前用于保护数字通信的许多加密方法。",
+        difficultWords: ["simulate", "molecular", "accelerating", "cryptography", "encryption"]
+      },
+      {
+        en: "Despite enormous progress, building practical quantum computers remains extraordinarily challenging. Qubits are extremely fragile and must be kept at temperatures near absolute zero. Current quantum computers are prone to errors and can only perform calculations for short periods. Scientists and engineers around the world are working to overcome these obstacles.",
+        cn: "尽管取得了巨大进展，但建造实用的量子计算机仍然极具挑战性。量子位极其脆弱，必须保持在接近绝对零度的温度下。目前的量子计算机容易出错，只能在短时间内进行计算。世界各地的科学家和工程师正在努力克服这些障碍。",
+        difficultWords: ["extraordinarily", "fragile", "absolute", "prone", "obstacle"]
+      }
+    ],
+    question: "What allows qubits to exist in multiple states simultaneously?",
+    options: ["Classical computing", "Superposition", "Encryption", "Molecular interaction"],
+    answer: 1
+  },
+  {
+    id: 24,
+    level: "四级",
+    source: "The Guardian",
+    title: "The Benefits of Reading for Pleasure",
+    summary: "揭示阅读对个人成长和心理健康的多重好处",
+    paragraphs: [
+      {
+        en: "Reading for pleasure is one of the most beneficial activities a person can engage in. Studies have shown that regular readers have stronger cognitive abilities, better vocabulary, and higher levels of empathy than non-readers. Reading also reduces stress and can even help prevent cognitive decline in old age.",
+        cn: "阅读乐趣是一个人可以从事的最有益的活动之一。研究表明，经常阅读的人比不阅读的人拥有更强的认知能力、更好的词汇量和更高水平的同理心。阅读还能减轻压力，甚至有助于预防老年认知衰退。",
+        difficultWords: ["beneficial", "cognitive", "empathy", "decline", "prevent"]
+      },
+      {
+        en: "Fiction, in particular, has been shown to enhance social cognition—the ability to understand and predict other people's behavior. When we read novels, we practice imagining ourselves in other people's situations, which strengthens our capacity for empathy and emotional understanding.",
+        cn: "小说尤其被证明能增强社会认知——理解和预测他人行为的能力。当我们阅读小说时，我们练习将自己想象成他人的处境，这增强了我们的同理心和情感理解能力。",
+        difficultWords: ["fiction", "enhance", "cognition", "predict", "capacity"]
+      },
+      {
+        en: "In the digital age, finding time to read can be challenging. However, even reading for just 20 minutes a day can have significant benefits. The key is to choose books that genuinely interest you and to make reading a regular part of your routine, whether it's during your commute, before bed, or during your lunch break.",
+        cn: "在数字时代，找时间阅读可能很有挑战性。然而，即使每天只阅读20分钟也能带来显著的好处。关键是选择真正感兴趣的书籍，并使阅读成为你日常生活的一部分，无论是在通勤时、睡前还是午休时。",
+        difficultWords: ["genuinely", "routine", "commute", "significant", "regular"]
+      }
+    ],
+    question: "What does fiction reading enhance according to the article?",
+    options: ["Physical strength", "Social cognition", "Mathematical ability", "Musical talent"],
+    answer: 1
+  },
+  {
+    id: 25,
+    level: "六级",
+    source: "TIME",
+    title: "The Psychology of Decision Making",
+    summary: "分析人类决策过程中的心理机制和认知偏差",
+    paragraphs: [
+      {
+        en: "Every day, we make thousands of decisions, from trivial choices like what to eat for breakfast to life-changing decisions about careers and relationships. Yet most of us give little thought to the psychological processes that drive our decision-making, which are often far from rational.",
+        cn: "每天，我们做出数千个决定，从早餐吃什么这样的琐碎选择到关于职业和人生关系的改变人生的决定。然而，我们大多数人很少思考驱动我们决策的心理过程，这些过程往往远非理性。",
+        difficultWords: ["trivial", "psychological", "rational", "process", "drive"]
+      },
+      {
+        en: "Nobel laureate Daniel Kahneman identified two systems of thinking: System 1, which is fast, intuitive, and automatic, and System 2, which is slow, deliberate, and analytical. Most of our daily decisions are made by System 1, which relies on mental shortcuts known as heuristics. While these shortcuts are efficient, they can also lead to systematic errors in judgment.",
+        cn: "诺贝尔奖得主丹尼尔·卡尼曼识别出两种思维系统：系统1是快速、直觉和自动的，系统2是缓慢、深思熟虑和分析性的。我们大多数日常决定由系统1做出，它依赖于被称为启发法的心理捷径。虽然这些捷径效率很高，但它们也可能导致系统性的判断错误。",
+        difficultWords: ["intuitive", "deliberate", "heuristic", "systematic", "judgment"]
+      },
+      {
+        en: "Understanding these cognitive biases can help us make better decisions. By slowing down our thinking, seeking diverse perspectives, and deliberately challenging our assumptions, we can overcome many of the pitfalls that lead to poor choices. Some organizations are now using 'nudge' techniques to help people make better decisions without restricting their freedom.",
+        cn: "理解这些认知偏差可以帮助我们做出更好的决定。通过放慢思维、寻求不同观点并刻意挑战我们的假设，我们可以克服许多导致糟糕选择的陷阱。一些组织现在正在使用'助推'技术来帮助人们在不限制自由的情况下做出更好的决定。",
+        difficultWords: ["bias", "deliberately", "assumption", "pitfall", "restriction"]
+      }
+    ],
+    question: "Who identified the two systems of thinking?",
+    options: ["Albert Einstein", "Daniel Kahneman", "Stephen Hawking", "Isaac Newton"],
+    answer: 1
+  },
+  {
+    id: 26,
+    level: "四级",
+    source: "BBC Learning English",
+    title: "How to Improve Your Memory",
+    summary: "介绍科学验证的记忆提升方法和技巧",
+    paragraphs: [
+      {
+        en: "Memory is not a single, unified function but a complex system involving multiple brain regions. Understanding how memory works can help us develop more effective strategies for learning and retaining information. Scientists have identified several techniques that can significantly improve memory performance.",
+        cn: "记忆不是一个单一、统一的功能，而是一个涉及多个大脑区域的复杂系统。理解记忆如何工作可以帮助我们制定更有效的学习和保持信息的策略。科学家已经确定了几种可以显著提高记忆表现的技术。",
+        difficultWords: ["unified", "complex", "retaining", "strategy", "technique"]
+      },
+      {
+        en: "One of the most powerful memory techniques is spaced repetition, which involves reviewing information at gradually increasing intervals. Instead of cramming all your studying into one session, spacing out your review sessions over time leads to much better long-term retention. Apps like Anki use this principle to help users memorize vocabulary and facts efficiently.",
+        cn: "最强大的记忆技巧之一是间隔重复，它涉及在逐渐增加的间隔时间复习信息。与其将所有学习内容塞进一个学习 session，不如将复习 session 分散在一段时间内，这样可以获得更好的长期记忆保持。像 Anki 这样的应用程序使用这个原理帮助用户高效记忆词汇和事实。",
+        difficultWords: ["repetition", "interval", "cramming", "retention", "efficiently"]
+      },
+      {
+        en: "Another effective strategy is active recall, which means testing yourself on the material rather than simply re-reading it. Research has shown that the effort of retrieving information from memory strengthens the neural pathways associated with that information, making it easier to recall in the future.",
+        cn: "另一个有效的策略是主动回忆，这意味着对自己进行材料测试，而不是简单地重新阅读。研究表明，从记忆中检索信息的努力加强了与该信息相关的神经通路，使其在未来更容易回忆。",
+        difficultWords: ["recall", "retrieving", "neural", "pathway", "associated"]
+      }
+    ],
+    question: "What is spaced repetition?",
+    options: ["Studying everything at once", "Reviewing information at increasing intervals", "Never reviewing material", "Only studying before exams"],
+    answer: 1
+  },
+  {
+    id: 27,
+    level: "考研",
+    source: "The Atlantic",
+    title: "The Ethics of Artificial Intelligence",
+    summary: "探讨人工智能发展带来的伦理挑战和社会影响",
+    paragraphs: [
+      {
+        en: "As artificial intelligence becomes increasingly powerful and pervasive, society faces profound ethical questions about how this technology should be developed and deployed. From autonomous vehicles making life-or-death decisions to algorithms that determine who gets a loan or a job interview, AI systems are making choices that were once the exclusive domain of humans.",
+        cn: "随着人工智能变得越来越强大和普遍，社会面临着关于应如何开发和部署这项技术的深刻伦理问题。从自动驾驶汽车做出生死决定到决定谁获得贷款或工作面试的算法，人工智能系统正在做出曾经是人类专属领域的选择。",
+        difficultWords: ["pervasive", "profound", "autonomous", "exclusive", "domain"]
+      },
+      {
+        en: "One of the most pressing concerns is algorithmic bias. AI systems learn from historical data, which often reflects existing societal prejudices. If not carefully designed and monitored, these systems can perpetuate and even amplify discrimination based on race, gender, age, or socioeconomic status. Several high-profile cases have demonstrated how biased algorithms can lead to unfair outcomes in criminal justice, hiring, and lending.",
+        cn: "最紧迫的问题之一是算法偏见。人工智能系统从历史数据中学习，这些数据往往反映了现有的社会偏见。如果不仔细设计和监控，这些系统可能延续甚至放大基于种族、性别、年龄或社会经济地位的歧视。几个备受关注的案例表明，有偏见的算法如何在刑事司法、招聘和贷款中导致不公平的结果。",
+        difficultWords: ["algorithmic", "prejudice", "perpetuate", "amplify", "socioeconomic"]
+      },
+      {
+        en: "The question of accountability is equally complex. When an autonomous vehicle causes an accident, or when an AI-powered medical system makes an incorrect diagnosis, who is responsible? Current legal frameworks are not equipped to handle these questions, and new regulations are urgently needed to ensure that AI is developed and used responsibly.",
+        cn: "责任问题同样复杂。当自动驾驶汽车造成事故，或者当人工智能驱动的医疗系统做出错误诊断时，谁应该负责？目前的法律框架无法处理这些问题，迫切需要新的法规来确保人工智能得到负责任的开发和使用。",
+        difficultWords: ["accountability", "diagnosis", "framework", "regulation", "responsibly"]
+      }
+    ],
+    question: "What is one of the most pressing concerns about AI?",
+    options: ["AI is too expensive", "Algorithmic bias", "AI is too slow", "AI uses too much energy"],
+    answer: 1
+  },
+  {
+    id: 28,
+    level: "六级",
+    source: "Scientific American",
+    title: "The Wonders of the Human Brain",
+    summary: "揭示人脑的惊人能力和最新神经科学发现",
+    paragraphs: [
+      {
+        en: "The human brain is the most complex structure in the known universe, containing approximately 86 billion neurons connected by trillions of synapses. Despite decades of research, we are still far from fully understanding how this remarkable organ works, but recent discoveries have shed new light on its extraordinary capabilities.",
+        cn: "人脑是已知宇宙中最复杂的结构，包含大约860亿个神经元，通过数万亿个突触连接。尽管研究了几十年，我们仍然远未完全理解这个非凡器官的工作原理，但最近的发现为其非凡能力提供了新的见解。",
+        difficultWords: ["approximately", "neuron", "synapse", "remarkable", "extraordinary"]
+      },
+      {
+        en: "One of the most surprising discoveries in recent neuroscience is the brain's remarkable plasticity. Contrary to the long-held belief that the brain stops developing after childhood, scientists have found that the brain continues to form new neural connections throughout life. This neuroplasticity allows the brain to reorganize itself after injury and to adapt to new experiences and learning.",
+        cn: "最近神经科学中最令人惊讶的发现之一是大脑非凡的可塑性。与长期以来认为大脑在童年之后停止发育的观点相反，科学家发现大脑在整个生命过程中继续形成新的神经连接。这种神经可塑性使大脑能够在受伤后自我重组，并适应新的经验和学习。",
+        difficultWords: ["plasticity", "contrary", "neuroplasticity", "reorganize", "adapt"]
+      },
+      {
+        en: "The implications of these discoveries are profound. They suggest that we have far more potential for learning and growth throughout our lives than previously believed. They also offer hope for treating neurological conditions such as stroke, traumatic brain injury, and neurodegenerative diseases like Alzheimer's.",
+        cn: "这些发现的影响是深远的。它们表明，我们在整个生命过程中拥有比此前认为的更多的学习和成长潜力。它们也为治疗中风、创伤性脑损伤和阿尔茨海默症等神经系统疾病提供了希望。",
+        difficultWords: ["implication", "potential", "neurological", "traumatic", "neurodegenerative"]
+      }
+    ],
+    question: "How many neurons does the human brain contain approximately?",
+    options: ["86 million", "860 million", "86 billion", "860 billion"],
+    answer: 2
+  },
+  {
+    id: 29,
+    level: "四级",
+    source: "National Geographic",
+    title: "Protecting Our Oceans",
+    summary: "介绍海洋保护的重要性和当前面临的挑战",
+    paragraphs: [
+      {
+        en: "The oceans cover more than 70 percent of the Earth's surface and are home to an incredible diversity of life. They regulate our climate, produce much of the oxygen we breathe, and provide food for billions of people. Yet despite their importance, the world's oceans face unprecedented threats from pollution, overfishing, and climate change.",
+        cn: "海洋覆盖了地球表面的70%以上，是令人难以置信的生物多样性的家园。它们调节我们的气候，产生我们呼吸的大部分氧气，并为数十亿人提供食物。然而，尽管它们很重要，世界海洋面临着来自污染、过度捕捞和气候变化的前所未有的威胁。",
+        difficultWords: ["diversity", "regulate", "unprecedented", "overfishing", "pollution"]
+      },
+      {
+        en: "Plastic pollution is one of the most visible threats to marine ecosystems. Every year, approximately 8 million tons of plastic waste enters the oceans, harming marine life and contaminating the food chain. Microplastics, tiny fragments less than 5 millimeters in size, have been found in virtually every ocean environment and even in the deepest trenches.",
+        cn: "塑料污染是海洋生态系统最明显的威胁之一。每年约有800万吨塑料废物进入海洋，危害海洋生物并污染食物链。微塑料——小于5毫米的微小碎片——几乎在每个海洋环境中甚至最深的海沟中都被发现。",
+        difficultWords: ["visible", "marine", "contaminate", "microplastic", "fragment"]
+      },
+      {
+        en: "Marine protected areas (MPAs) are one of the most effective tools for ocean conservation. These designated zones restrict human activities such as fishing and drilling, allowing ecosystems to recover and thrive. Currently, about 8 percent of the world's oceans are protected, but scientists recommend increasing this to at least 30 percent to ensure the long-term health of marine ecosystems.",
+        cn: "海洋保护区是海洋保护最有效的工具之一。这些指定区域限制捕鱼和钻探等人类活动，使生态系统得以恢复和繁荣。目前，世界约8%的海洋受到保护，但科学家建议将这一比例提高到至少30%，以确保海洋生态系统的长期健康。",
+        difficultWords: ["designated", "restrict", "drilling", "thrive", "recommend"]
+      }
+    ],
+    question: "How much plastic waste enters the oceans annually?",
+    options: ["About 2 million tons", "About 5 million tons", "About 8 million tons", "About 10 million tons"],
+    answer: 2
+  },
+  {
+    id: 30,
+    level: "考研",
+    source: "Harvard Business Review",
+    title: "The Future of Remote Work",
+    summary: "分析远程工作的趋势及其对组织管理的影响",
+    paragraphs: [
+      {
+        en: "The COVID-19 pandemic forced a massive experiment in remote work that few organizations had anticipated. What began as a temporary measure has evolved into a permanent shift in how millions of people around the world approach their jobs. Surveys consistently show that a majority of remote workers prefer to continue working from home, at least part of the time.",
+        cn: "新冠疫情迫使一场大规模的远程工作实验，这是很少有组织预料到的。最初作为临时措施，已经演变成全球数百万人工作方式的永久性转变。调查一致显示，大多数远程工作者更愿意继续在家工作，至少是部分时间。",
+        difficultWords: ["anticipated", "temporary", "permanent", "evolved", "consistently"]
+      },
+      {
+        en: "The benefits of remote work are well documented. Workers report higher productivity, better work-life balance, and reduced stress from eliminating daily commutes. Companies benefit from lower office costs and access to a global talent pool. Environmental gains are also significant, with reduced commuting leading to lower carbon emissions.",
+        cn: "远程工作的好处已被充分记录。员工报告了更高的生产力、更好的工作与生活平衡，以及因消除日常通勤而减少的压力。公司受益于更低的办公成本和获取全球人才库的机会。环境收益也很显著，减少通勤导致碳排放降低。",
+        difficultWords: ["productivity", "commute", "eliminate", "emission", "significant"]
+      },
+      {
+        en: "However, remote work also presents challenges that organizations must address. Social isolation, difficulty separating work from personal life, and the loss of spontaneous collaboration are common concerns. Managers face new challenges in maintaining team cohesion and monitoring performance without micromanaging. The most successful organizations will be those that develop thoughtful policies that balance flexibility with accountability.",
+        cn: "然而，远程工作也带来了组织必须应对的挑战。社交隔离、难以将工作与个人生活分开，以及失去自发的协作是常见的担忧。管理者在保持团队凝聚力和监控绩效而不进行微观管理方面面临新的挑战。最成功的组织将是那些制定深思熟虑的政策，在灵活性与问责之间取得平衡的组织。",
+        difficultWords: ["isolation", "spontaneous", "cohesion", "micromanaging", "accountability"]
+      }
+    ],
+    question: "What do surveys show about remote workers?",
+    options: ["They all want to return to offices", "Most prefer to continue working from home", "They are less productive", "They want shorter work hours"],
     answer: 1
   }
 ];
