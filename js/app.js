@@ -11,6 +11,7 @@ const App = (() => {
 
     function init() {
         applyTheme();
+        loadSavedTheme();
         updateGreeting();
         loadHomePage();
     }
@@ -62,6 +63,7 @@ const App = (() => {
     function showToast(msg, duration) {
         duration = duration || 2500;
         const t = document.getElementById('toast');
+        if (!t) return;
         t.textContent = msg;
         t.classList.add('show');
         setTimeout(() => t.classList.remove('show'), duration);
@@ -790,7 +792,7 @@ const App = (() => {
         { id: 'streak_7', icon: '&#x1F525;', title: '坚持不懈', desc: '连续打卡7天', check: () => Storage.getStreak() >= 7 },
         { id: 'streak_30', icon: '&#x1F31F;', title: '月度之星', desc: '连续打卡30天', check: () => Storage.getStreak() >= 30 },
         { id: 'vocab_50', icon: '&#x1F4D6;', title: '词汇达人', desc: '积累50个生词', check: () => Storage.getVocabCount().total >= 50 },
-        { id: 'quiz_master', icon: '&#x1F3AF;', title: '测验高手', desc: '完成5次词汇测验', check: () => (Storage.getQuizCount ? Storage.getQuizCount() : 0) >= 5 },
+        { id: 'quiz_master', icon: '&#x1F3AF;', title: '测验高手', desc: '完成5次词汇测验', check: () => Storage.getQuizCount() >= 5 },
         { id: 'no_mistakes', icon: '&#x2705;', title: '零失误', desc: '错题本为空', check: () => Storage.getMistakeCount() === 0 && Storage.getStats().totalSentences >= 5 },
     ];
 
@@ -824,6 +826,7 @@ const App = (() => {
             settings: localStorage.getItem('nan_settings'),
             review_schedule: localStorage.getItem('nan_review_schedule'),
             mistakes: localStorage.getItem('nan_mistakes'),
+            quiz_count: localStorage.getItem('nan_quiz_count'),
             exportDate: new Date().toISOString(),
         };
         const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
@@ -1425,7 +1428,7 @@ const App = (() => {
     }
 
     function highlightDiff(user, correct) {
-        const userWords = user.split(/\s+/);
+        const userWords = user.toLowerCase().replace(/[.,!?;:'"]/g, '').split(/\s+/);
         const correctWords = correct.toLowerCase().replace(/[.,!?;:'"]/g, '').split(/\s+/);
         let result = [];
         for (let i = 0; i < correctWords.length; i++) {
@@ -2017,11 +2020,15 @@ const App = (() => {
         tooltipEl = document.createElement('div');
         tooltipEl.className = 'word-tooltip';
         tooltipEl.innerHTML = '<strong>' + escapeHtml(word) + '</strong>' + (def ? ': ' + escapeHtml(def) : ' (点击词典查看)');
+        tooltipEl.style.visibility = 'hidden';
         document.body.appendChild(tooltipEl);
 
         const rect = el.getBoundingClientRect();
-        tooltipEl.style.left = (rect.left + rect.width / 2 - tooltipEl.offsetWidth / 2) + 'px';
-        tooltipEl.style.top = (rect.top - tooltipEl.offsetHeight - 10) + 'px';
+        const tw = tooltipEl.offsetWidth;
+        const th = tooltipEl.offsetHeight;
+        tooltipEl.style.left = (rect.left + rect.width / 2 - tw / 2) + 'px';
+        tooltipEl.style.top = (rect.top - th - 10) + 'px';
+        tooltipEl.style.visibility = '';
 
         // 超出屏幕左边
         if (tooltipEl.offsetLeft < 8) tooltipEl.style.left = '8px';
@@ -2153,6 +2160,299 @@ const App = (() => {
         speak(text);
     }
 
+    // ── 主题库 ──
+
+    const PRESET_THEMES = [
+        {
+            id: 'default',
+            name: '朱砂红（默认）',
+            icon: '&#x1F33F;',
+            colors: {
+                primary: '#C04851',
+                primaryLight: '#D4696E',
+                accent: '#D4A853',
+                bg: '#F5F1EB',
+                card: 'rgba(255, 255, 255, 0.75)'
+            },
+            bgImage: ''
+        },
+        {
+            id: 'ocean',
+            name: '靛青海洋',
+            icon: '&#x1F30A;',
+            colors: {
+                primary: '#2B5B8A',
+                primaryLight: '#4A8BC2',
+                accent: '#5B8C6F',
+                bg: '#EDF2F7',
+                card: 'rgba(255, 255, 255, 0.8)'
+            },
+            bgImage: ''
+        },
+        {
+            id: 'forest',
+            name: '青玉森林',
+            icon: '&#x1F332;',
+            colors: {
+                primary: '#5B8C6F',
+                primaryLight: '#7BAF8F',
+                accent: '#D4A853',
+                bg: '#F0F5EE',
+                card: 'rgba(255, 255, 255, 0.8)'
+            },
+            bgImage: ''
+        },
+        {
+            id: 'sunset',
+            name: '琥珀日落',
+            icon: '&#x1F305;',
+            colors: {
+                primary: '#D4883A',
+                primaryLight: '#E8A85A',
+                accent: '#C04851',
+                bg: '#FDF6EC',
+                card: 'rgba(255, 255, 255, 0.8)'
+            },
+            bgImage: ''
+        },
+        {
+            id: 'plum',
+            name: '梅紫雅韵',
+            icon: '&#x1F338;',
+            colors: {
+                primary: '#7B4A7D',
+                primaryLight: '#9A6A9C',
+                accent: '#D4A853',
+                bg: '#F5F0F5',
+                card: 'rgba(255, 255, 255, 0.8)'
+            },
+            bgImage: ''
+        },
+        {
+            id: 'ink',
+            name: '水墨丹青',
+            icon: '&#x1F3AD;',
+            colors: {
+                primary: '#3B3B3B',
+                primaryLight: '#5A5A5A',
+                accent: '#C04851',
+                bg: '#F5F3F0',
+                card: 'rgba(255, 255, 255, 0.85)'
+            },
+            bgImage: ''
+        },
+        {
+            id: 'cherry',
+            name: '樱花粉',
+            icon: '&#x1F339;',
+            colors: {
+                primary: '#D4698A',
+                primaryLight: '#E88AA0',
+                accent: '#D4A853',
+                bg: '#FDF2F5',
+                card: 'rgba(255, 255, 255, 0.8)'
+            },
+            bgImage: ''
+        },
+        {
+            id: 'tea',
+            name: '茶道清雅',
+            icon: '&#x1F375;',
+            colors: {
+                primary: '#8B7355',
+                primaryLight: '#A89070',
+                accent: '#5B8C6F',
+                bg: '#F8F5F0',
+                card: 'rgba(255, 255, 255, 0.8)'
+            },
+            bgImage: ''
+        }
+    ];
+
+    function openThemeLibrary() {
+        const currentTheme = Storage.getCustomTheme();
+        let html = '';
+
+        // 当前主题预览
+        html += '<div class="theme-current">';
+        html += '<div class="theme-current-label">当前主题</div>';
+        html += '<div class="theme-current-preview" id="theme-preview">';
+        html += '<div class="theme-preview-bg"></div>';
+        html += '<div class="theme-preview-card"></div>';
+        html += '<div class="theme-preview-accent"></div>';
+        html += '</div>';
+        html += '</div>';
+
+        // 预设主题
+        html += '<h3 style="margin:20px 0 12px;">&#x1F3A8; 预设主题</h3>';
+        html += '<div class="theme-grid">';
+        PRESET_THEMES.forEach(theme => {
+            const isActive = currentTheme && currentTheme.id === theme.id;
+            html += '<div class="theme-card ' + (isActive ? 'active' : '') + '" onclick="App.applyPresetTheme(\'' + theme.id + '\')">';
+            html += '<div class="theme-card-preview">';
+            html += '<div class="theme-preview-strip" style="background:' + theme.colors.primary + ';"></div>';
+            html += '<div class="theme-preview-strip" style="background:' + theme.colors.accent + ';"></div>';
+            html += '<div class="theme-preview-strip" style="background:' + theme.colors.bg + ';"></div>';
+            html += '</div>';
+            html += '<div class="theme-card-name">' + theme.icon + ' ' + theme.name + '</div>';
+            if (isActive) html += '<div class="theme-card-check">&#x2713;</div>';
+            html += '</div>';
+        });
+        html += '</div>';
+
+        // 自定义颜色
+        html += '<h3 style="margin:24px 0 12px;">&#x1F308; 自定义颜色</h3>';
+        html += '<div class="theme-custom">';
+        html += '<div class="theme-color-row">';
+        html += '<label>主色调</label>';
+        html += '<input type="color" id="custom-primary" value="' + (currentTheme ? currentTheme.colors.primary : '#C04851') + '" onchange="App.previewCustomTheme()">';
+        html += '</div>';
+        html += '<div class="theme-color-row">';
+        html += '<label>辅助色</label>';
+        html += '<input type="color" id="custom-accent" value="' + (currentTheme ? currentTheme.colors.accent : '#D4A853') + '" onchange="App.previewCustomTheme()">';
+        html += '</div>';
+        html += '<div class="theme-color-row">';
+        html += '<label>背景色</label>';
+        html += '<input type="color" id="custom-bg" value="' + (currentTheme ? currentTheme.colors.bg : '#F5F1EB') + '" onchange="App.previewCustomTheme()">';
+        html += '</div>';
+        html += '<button class="btn btn-primary" style="width:100%;margin-top:12px;" onclick="App.applyCustomTheme()">应用自定义主题</button>';
+        html += '</div>';
+
+        // 背景图片
+        html += '<h3 style="margin:24px 0 12px;">&#x1F5BC; 背景图片</h3>';
+        html += '<div class="theme-bg-section">';
+        html += '<div class="theme-bg-row">';
+        html += '<input type="text" id="bg-image-url" placeholder="输入图片URL地址..." value="' + (currentTheme && currentTheme.bgImage ? currentTheme.bgImage : '') + '">';
+        html += '</div>';
+        html += '<div class="theme-bg-row">';
+        html += '<button class="btn btn-outline" style="width:100%;" onclick="App.applyBgImage()">应用背景图片</button>';
+        html += '</div>';
+        html += '<div class="theme-bg-row">';
+        html += '<button class="btn btn-ghost" style="width:100%;color:var(--danger);" onclick="App.clearBgImage()">清除背景图片</button>';
+        html += '</div>';
+        html += '<div class="theme-bg-tip">提示：输入图片URL后点击应用，支持jpg/png格式</div>';
+        html += '</div>';
+
+        // 重置按钮
+        html += '<div style="margin-top:24px;">';
+        html += '<button class="btn btn-ghost" style="width:100%;" onclick="App.resetTheme()">恢复默认主题</button>';
+        html += '</div>';
+
+        document.getElementById('theme-modal-body').innerHTML = html;
+        openModal('theme-modal');
+        updateThemePreview();
+    }
+
+    function updateThemePreview() {
+        const preview = document.getElementById('theme-preview');
+        if (!preview) return;
+        const primary = document.getElementById('custom-primary');
+        const accent = document.getElementById('custom-accent');
+        const bg = document.getElementById('custom-bg');
+        if (primary) preview.style.setProperty('--preview-primary', primary.value);
+        if (accent) preview.style.setProperty('--preview-accent', accent.value);
+        if (bg) preview.style.setProperty('--preview-bg', bg.value);
+    }
+
+    function applyPresetTheme(themeId) {
+        const theme = PRESET_THEMES.find(t => t.id === themeId);
+        if (!theme) return;
+        Storage.saveCustomTheme(theme);
+        applyThemeColors(theme.colors);
+        showToast('已应用主题：' + theme.name);
+        openThemeLibrary();
+    }
+
+    function previewCustomTheme() {
+        updateThemePreview();
+    }
+
+    function applyCustomTheme() {
+        const primary = document.getElementById('custom-primary').value;
+        const accent = document.getElementById('custom-accent').value;
+        const bg = document.getElementById('custom-bg').value;
+        const theme = {
+            id: 'custom',
+            name: '自定义主题',
+            icon: '&#x1F308;',
+            colors: { primary, accent, bg },
+            bgImage: ''
+        };
+        Storage.saveCustomTheme(theme);
+        applyThemeColors(theme.colors);
+        showToast('已应用自定义主题');
+    }
+
+    function applyBgImage() {
+        const url = document.getElementById('bg-image-url').value.trim();
+        if (!url) {
+            showToast('请输入图片URL');
+            return;
+        }
+        const currentTheme = Storage.getCustomTheme() || { id: 'custom', name: '自定义', icon: '&#x1F308;', colors: { primary: '#C04851', accent: '#D4A853', bg: '#F5F1EB' } };
+        currentTheme.bgImage = url;
+        Storage.saveCustomTheme(currentTheme);
+        document.body.style.backgroundImage = 'url(' + url + ')';
+        document.body.style.backgroundSize = 'cover';
+        document.body.style.backgroundPosition = 'center';
+        document.body.style.backgroundAttachment = 'fixed';
+        showToast('已应用背景图片');
+    }
+
+    function clearBgImage() {
+        document.body.style.backgroundImage = '';
+        const currentTheme = Storage.getCustomTheme();
+        if (currentTheme) {
+            currentTheme.bgImage = '';
+            Storage.saveCustomTheme(currentTheme);
+        }
+        showToast('已清除背景图片');
+    }
+
+    function resetTheme() {
+        Storage.clearCustomTheme();
+        document.documentElement.style.removeProperty('--primary');
+        document.documentElement.style.removeProperty('--primary-light');
+        document.documentElement.style.removeProperty('--accent');
+        document.documentElement.style.removeProperty('--bg');
+        document.body.style.backgroundImage = '';
+        showToast('已恢复默认主题');
+        openThemeLibrary();
+    }
+
+    function applyThemeColors(colors) {
+        if (colors.primary) {
+            document.documentElement.style.setProperty('--primary', colors.primary);
+            // 计算浅色版本
+            const r = parseInt(colors.primary.slice(1, 3), 16);
+            const g = parseInt(colors.primary.slice(3, 5), 16);
+            const b = parseInt(colors.primary.slice(5, 7), 16);
+            const lightR = Math.min(255, r + 30);
+            const lightG = Math.min(255, g + 30);
+            const lightB = Math.min(255, b + 30);
+            document.documentElement.style.setProperty('--primary-light', '#' + lightR.toString(16) + lightG.toString(16) + lightB.toString(16));
+        }
+        if (colors.accent) {
+            document.documentElement.style.setProperty('--accent', colors.accent);
+        }
+        if (colors.bg) {
+            document.body.style.background = colors.bg;
+        }
+    }
+
+    function loadSavedTheme() {
+        const theme = Storage.getCustomTheme();
+        if (theme && theme.colors) {
+            applyThemeColors(theme.colors);
+        }
+        if (theme && theme.bgImage) {
+            document.body.style.backgroundImage = 'url(' + theme.bgImage + ')';
+            document.body.style.backgroundSize = 'cover';
+            document.body.style.backgroundPosition = 'center';
+            document.body.style.backgroundAttachment = 'fixed';
+        }
+    }
+
     // ── 设置 ──
 
     function openSettings() {
@@ -2195,6 +2495,15 @@ const App = (() => {
             '<span class="settings-item-text">暗色模式</span>' +
             '</div>' +
             '<span style="font-size:0.8125rem;color:var(--text-muted);">' + (isDark ? '已开启' : '已关闭') + '</span>' +
+            '</div>';
+
+        // 主题库
+        html += '<div class="settings-item" onclick="App.closeThenOpen(\'settings-modal\');App.openThemeLibrary()">' +
+            '<div class="settings-item-left">' +
+            '<span class="settings-item-icon">&#x1F3A8;</span>' +
+            '<span class="settings-item-text">主题库</span>' +
+            '</div>' +
+            '<span class="settings-item-arrow">&#x203A;</span>' +
             '</div>';
 
         // 清除数据
@@ -2330,6 +2639,11 @@ const App = (() => {
     function closeModal(id) {
         const el = document.getElementById(id);
         if (el) el.classList.remove('show');
+        // 关闭挑战弹窗时停止计时器
+        if (id === 'challenge-modal' && challengeState.timer) {
+            clearInterval(challengeState.timer);
+            challengeState.timer = null;
+        }
         // 检查是否还有其他打开的modal
         const anyOpen = document.querySelector('.modal-overlay.show');
         if (!anyOpen) document.body.style.overflow = '';
@@ -2443,6 +2757,13 @@ const App = (() => {
         generateShareCard,
         openAchievements,
         exportData,
+        openThemeLibrary,
+        applyPresetTheme,
+        previewCustomTheme,
+        applyCustomTheme,
+        applyBgImage,
+        clearBgImage,
+        resetTheme,
         clearAllData,
         speak,
         openModal,

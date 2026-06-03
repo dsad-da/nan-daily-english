@@ -18,6 +18,8 @@ const Storage = (() => {
         ARTICLE_PROGRESS: 'nan_article_progress',
         MISTAKES: 'nan_mistakes',
         REVIEW_SCHEDULE: 'nan_review_schedule',
+        QUIZ_COUNT: 'nan_quiz_count',
+        CUSTOM_THEME: 'nan_custom_theme',
     };
 
     // ── 工具函数 ──
@@ -308,6 +310,8 @@ const Storage = (() => {
 
     function scheduleReview(sentenceId) {
         const schedule = _getReviewSchedule();
+        // 如果已有复习计划且未过期，保留进度不覆盖
+        if (schedule[sentenceId]) return;
         const today = new Date();
         const intervals = [1, 2, 4, 7, 15]; // 艾宾浩斯间隔（天）
         schedule[sentenceId] = {
@@ -361,6 +365,18 @@ const Storage = (() => {
         return idx;
     }
 
+    // ── 测验次数 ──
+
+    function getQuizCount() {
+        return _get(KEYS.QUIZ_COUNT, 0);
+    }
+
+    function incrementQuizCount() {
+        const count = getQuizCount() + 1;
+        _set(KEYS.QUIZ_COUNT, count);
+        return count;
+    }
+
     // ── 设置 ──
 
     function getSettings() {
@@ -374,6 +390,20 @@ const Storage = (() => {
     function updateSettings(partial) {
         const current = getSettings();
         _set(KEYS.SETTINGS, { ...current, ...partial });
+    }
+
+    // ── 自定义主题 ──
+
+    function getCustomTheme() {
+        return _get(KEYS.CUSTOM_THEME, null);
+    }
+
+    function saveCustomTheme(theme) {
+        _set(KEYS.CUSTOM_THEME, theme);
+    }
+
+    function clearCustomTheme() {
+        localStorage.removeItem(KEYS.CUSTOM_THEME);
     }
 
     // ── 初始化 ──
@@ -425,9 +455,16 @@ const Storage = (() => {
         scheduleReview,
         getDueReviews,
         markReviewDone,
+        // 测验次数
+        getQuizCount,
+        incrementQuizCount,
         // 设置
         getSettings,
         updateSettings,
+        // 主题
+        getCustomTheme,
+        saveCustomTheme,
+        clearCustomTheme,
     };
 })();
 

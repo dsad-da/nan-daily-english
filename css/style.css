@@ -2109,6 +2109,175 @@ p { line-height: 1.7; }
     opacity: 0.8;
 }
 
+/* ── 主题库 ── */
+.theme-current {
+    margin-bottom: 20px;
+}
+
+.theme-current-label {
+    font-size: 0.8125rem;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+}
+
+.theme-current-preview {
+    height: 80px;
+    border-radius: 16px;
+    overflow: hidden;
+    position: relative;
+    background: var(--bg);
+    border: 1px solid var(--border);
+}
+
+.theme-preview-bg {
+    position: absolute;
+    inset: 0;
+    background: var(--bg);
+}
+
+.theme-preview-card {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    right: 10px;
+    height: 30px;
+    background: var(--bg-card);
+    border-radius: 8px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+}
+
+.theme-preview-accent {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    width: 40px;
+    height: 20px;
+    background: var(--accent);
+    border-radius: 6px;
+}
+
+.theme-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.theme-card {
+    background: var(--bg-card);
+    border: 2px solid var(--border);
+    border-radius: 16px;
+    padding: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.theme-card:active {
+    transform: scale(0.96);
+}
+
+.theme-card.active {
+    border-color: var(--primary);
+    box-shadow: 0 4px 16px rgba(192, 72, 81, 0.2);
+}
+
+.theme-card-preview {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 8px;
+}
+
+.theme-preview-strip {
+    flex: 1;
+    height: 24px;
+    border-radius: 6px;
+}
+
+.theme-card-name {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    text-align: center;
+}
+
+.theme-card-check {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 20px;
+    height: 20px;
+    background: var(--primary);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+}
+
+.theme-custom {
+    background: var(--bg-card);
+    border-radius: 16px;
+    padding: 16px;
+    border: 1px solid var(--border);
+}
+
+.theme-color-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.theme-color-row label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.theme-color-row input[type="color"] {
+    width: 48px;
+    height: 36px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 2px;
+    cursor: pointer;
+}
+
+.theme-bg-section {
+    background: var(--bg-card);
+    border-radius: 16px;
+    padding: 16px;
+    border: 1px solid var(--border);
+}
+
+.theme-bg-row {
+    margin-bottom: 12px;
+}
+
+.theme-bg-row input[type="text"] {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    font-size: 0.875rem;
+    background: var(--bg-card);
+    color: var(--text-primary);
+}
+
+.theme-bg-row input[type="text"]:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(192, 72, 81, 0.1);
+}
+
+.theme-bg-tip {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+}
+
 /* ── 错题本 ── */
 .mistake-card {
     background: var(--bg-card);
